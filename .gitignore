@@ -1,0 +1,46 @@
+# =====================
+# COMMON
+# =====================
+.env
+.env.example
+.env.*
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# =====================
+# NODE / FRONTEND
+# =====================
+node_modules/
+.next/
+out/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =====================
+# PYTHON / BACKEND
+# =====================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env.local
+
+# =====================
+# DATABASE / SECRETS
+# =====================
+*.db
+*.sqlite
+supabase_key.txt
+secret.key
+
+# =====================
+# OS
+# =====================
+Thumbs.db
