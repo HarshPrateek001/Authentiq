@@ -1,0 +1,108 @@
+import Link from "next/link"
+import { AppLayout } from "@/components/layouts/app-layout"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { FileText, Download, Search, ExternalLink } from "lucide-react"
+
+const reports = [
+  {
+    id: "1",
+    title: "Research Paper - Climate Change",
+    date: "Dec 5, 2024",
+    similarity: 8,
+    status: "safe",
+    words: 2847,
+  },
+  {
+    id: "2",
+    title: "Blog Post - Tech Trends 2024",
+    date: "Dec 4, 2024",
+    similarity: 23,
+    status: "moderate",
+    words: 1234,
+  },
+  {
+    id: "3",
+    title: "Essay - Literature Review",
+    date: "Dec 3, 2024",
+    similarity: 5,
+    status: "safe",
+    words: 3521,
+  },
+  {
+    id: "4",
+    title: "Article - Market Analysis",
+    date: "Dec 2, 2024",
+    similarity: 45,
+    status: "high",
+    words: 2156,
+  },
+]
+
+const statusStyles = {
+  safe: "bg-success/10 text-success border-success/20",
+  moderate: "bg-warning/10 text-warning-foreground border-warning/20",
+  high: "bg-destructive/10 text-destructive border-destructive/20",
+}
+
+export default function ReportsPage() {
+  return (
+    <AppLayout>
+      <div className="space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Reports</h1>
+            <p className="text-muted-foreground">View and download your plagiarism reports.</p>
+          </div>
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search reports..." className="pl-9" />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {reports.map((report) => (
+            <div
+              key={report.id}
+              className="group rounded-xl border border-border bg-card p-5 hover:shadow-lg hover:shadow-primary/5 transition-all"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted shrink-0">
+                  <FileText className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold truncate">{report.title}</h3>
+                  <p className="text-sm text-muted-foreground">{report.date}</p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-2xl font-bold">{report.similarity}%</p>
+                  <p className="text-xs text-muted-foreground">similarity</p>
+                </div>
+                <Badge variant="outline" className={statusStyles[report.status as keyof typeof statusStyles]}>
+                  {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                </Badge>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-border flex items-center gap-2">
+                <Button variant="outline" size="sm" className="flex-1 bg-transparent" asChild>
+                  <Link href={`/dashboard/reports/${report.id}`}>
+                    <ExternalLink className="mr-2 h-3 w-3" />
+                    View
+                  </Link>
+                </Button>
+                <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                  <Download className="mr-2 h-3 w-3" />
+                  PDF
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </AppLayout>
+  )
+}
