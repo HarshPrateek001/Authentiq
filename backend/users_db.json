@@ -1,15 +1,4 @@
 {
-    "Itsharshprateek@gmail.com": {
-        "id": "1",
-        "firstName": "Harsh",
-        "lastName": "Prateek",
-        "email": "Itsharshprateek@gmail.com",
-        "userType": "student",
-        "plan": "free",
-        "created_at": "2025-07-25T16:49:05.129005",
-        "newsletter": true,
-        "hashed_password": "$2b$12$UQAgVWCETReb6Dm5wXToK.8HcqXnHTb4oNN12hnvGy6offwSmtAu2"
-    },
     "piushapatra@gmail.com": {
         "id": "2",
         "firstName": "Piusha",
@@ -64,5 +53,16 @@
         "created_at": "2025-09-09T21:48:02.505477",
         "newsletter": true,
         "hashed_password": "$2b$12$jJu8RNfwyaau3S3nGxfm8uRtuEmn5SNZeuxKywjdzBbdXNI0RFLdC"
+    },
+    "199anamikaraj@gmail.com": {
+        "id": "6",
+        "firstName": "Anamika",
+        "lastName": "Rai",
+        "email": "199anamikaraj@gmail.com",
+        "userType": "student",
+        "plan": "free",
+        "created_at": "2025-12-28T17:46:56.884597",
+        "newsletter": false,
+        "hashed_password": ""
     }
 }

@@ -61,8 +61,6 @@ app.add_middleware(
     https_only=False,  # Set to True in production with HTTPS
     same_site='lax',
 )
-
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.get_cors_settings()["allow_origins"],
@@ -72,6 +70,7 @@ app.add_middleware(
 )
 
 print("Loaded GROQ API Key:", os.getenv("GROQ_API_KEY"))
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -180,7 +179,9 @@ oauth.register(
     client_id=config.GOOGLE_CLIENT_ID,
     client_secret=config.GOOGLE_CLIENT_SECRET,
     client_kwargs={
-        'scope': 'openid email profile'
+        "scope": "openid email profile",
+        "prompt": "consent",
+        "access_type": "offline",
     }
 )
 oauth.register(
@@ -260,14 +261,6 @@ async def serve_html_pages(page: str, request: FastAPIRequest):
         return FileResponse(html_path, media_type="text/html")
     
     raise HTTPException(status_code=404, detail=f"{page}.html not found.")
-
-
-@app.get("/frontend/auth-callback.html")
-async def serve_auth_callback():
-    auth_callback_path = os.path.join(FRONTEND_DIR_ABS, "auth-callback.html")
-    if os.path.exists(auth_callback_path):
-        return FileResponse(auth_callback_path)
-    raise HTTPException(status_code=404, detail="auth-callback.html not found.")
 
 @app.get("/")
 async def serve_index():
@@ -412,7 +405,7 @@ async def social_login(user_info: dict):
         access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(data={"sub": user['email']}, expires_delta=access_token_expires)
         
-        response = RedirectResponse(url=f"/frontend/auth-callback.html?token={access_token}&user={urllib.parse.quote(json.dumps(user))}")
+        response = RedirectResponse(url=f"http://localhost:3000/auth/callback?token={access_token}&user={urllib.parse.quote(json.dumps(user))}")
         return response
 
     user_id = str(len(USERS_DB) + 1)
@@ -439,21 +432,28 @@ async def social_login(user_info: dict):
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user['email']}, expires_delta=access_token_expires)
     
-    response = RedirectResponse(url=f"/frontend/auth-callback.html?token={access_token}&user={urllib.parse.quote(json.dumps(user))}")
+    response = RedirectResponse(url=f"http://localhost:3000/auth/callback?token={access_token}&user={urllib.parse.quote(json.dumps(user))}")
     return response
 
 @app.get("/api/auth/google/login")
 async def google_login(request: FastAPIRequest):
-    redirect_uri = str(request.url_for('google_callback')).replace("127.0.0.1", "localhost")
-    redirect_uri = redirect_uri.rstrip("/")  # Just to avoid accidental trailing slash
+    # Use request.url_for to generate correct redirect_uri
+    # Do NOT mutate or replace localhost/127.0.0.1, let Google and browser handle it
+    redirect_uri = "http://localhost:8000/api/auth/google/callback"
+    # Use the request object as-is for session/state
     return await oauth.google.authorize_redirect(request, redirect_uri)
-
 
 @app.get("/api/auth/google/callback")
 async def google_callback(request: FastAPIRequest):
-    token = await oauth.google.authorize_access_token(request)
-    user_info = await oauth.google.parse_id_token(request, token)
-    return await social_login(user_info)
+    try:
+        # Use the request object as-is for session/state
+        token = await oauth.google.authorize_access_token(request)
+        resp = await oauth.google.get("https://www.googleapis.com/oauth2/v2/userinfo", token=token)
+        user_info = resp.json()
+        return await social_login(user_info)
+    except Exception as e:
+        print("Google OAuth Callback Error:", e)
+        raise HTTPException(status_code=400, detail="Google login failed")
 
 @app.get("/api/auth/github/login")
 async def github_login(request: FastAPIRequest):
@@ -461,14 +461,6 @@ async def github_login(request: FastAPIRequest):
     redirect_uri = redirect_uri.rstrip("/")  # Just to avoid accidental trailing slash
     return await oauth.github.authorize_redirect(request, redirect_uri)
 
-
-
-@app.get("/api/auth/github/callback")
-async def github_callback(request: FastAPIRequest):
-    token = await oauth.github.authorize_access_token(request)
-    resp = await oauth.github.get('user', token=token)
-    user_info = resp.json()
-    return await social_login(user_info)
 
 # --- Core API Endpoints (calling ai_model functions) ---
 @app.post("/api/check-plagiarism", response_model=PlagiarismResult)
