@@ -1,58 +1,142 @@
-# Authentiq
+# 🚀 Authentiq  
+### AI-Powered Plagiarism Detection & Content Humanization SaaS
 
-#🧠 About This Project (Detailed Explanation)
-$🚀 Authentiq – AI-Powered Content Authenticity Platform
-Authentiq is a full-stack SaaS application designed to help users detect plagiarism, identify AI-generated content, and humanize text using advanced AI models. The platform is built with scalability, security, and real-world production use in mind.
-This project simulates a real SaaS product architecture, including authentication, usage tracking, API access, and database-backed analytics.
-#✨ Key Features
-#🔍 Plagiarism Detection
-#Checks text originality and similarity score
-#Source matching with risk levels (Safe / Moderate / High)
-#🤖 AI Content Detection
-#Identifies whether content is AI-generated
-#Confidence scoring for transparency
-✍️ AI Humanizer
-Converts AI-generated text into human-like writing
-Multiple complexity levels (Normal / Moderate / Extreme)
-⚡ Live Text Analysis
-Real-time plagiarism risk detection as users type
-Sentence-level risk highlighting
-📁 File Upload Support
-PDF, DOCX, TXT document processing
-🔐 Authentication System
-Email/password login
-Google & GitHub OAuth integration
-JWT-based secure sessions
-📊 User Activity & Analytics
-Track plagiarism checks and humanizer usage
-Download reports in PDF / Word format
-🧩 API Access (SaaS-ready)
-Backend APIs designed for paid user access
-Ready for subscription & billing integration
-🏗️ Tech Stack
-Frontend
-React / Next.js (App Router)
-Tailwind CSS + ShadCN UI
-TypeScript
-Backend
-FastAPI (Python)
-JWT Authentication
-AI model integration (LLM APIs)
-Database
-Supabase (PostgreSQL)
-Row Level Security (RLS)
-Structured tables for users, documents, checks, and analytics
-Deployment
-Frontend: Vercel
-Backend: Render
-Database: Supabase Cloud
-🎯 Purpose of This Project
-This project was built to:
-Demonstrate production-level full-stack development
-Showcase AI integration in real SaaS workflows
-Practice secure backend + database design
-Create a portfolio-ready startup-style product
-Authentiq is designed in a way that it can be extended into a real commercial SaaS product with billing, team accounts, and API monetization.
-👨‍💻 Author
-Built with ❤️ by Prateek
-Full-Stack Developer | AI & SaaS Enthusiast
+Authentiq is a **production-ready full-stack SaaS application** designed to help individuals, students, creators, and businesses **verify content originality**, **detect AI-generated text**, and **humanize AI content** using advanced AI models.
+
+The platform follows **real-world SaaS architecture**, including authentication, API access, analytics, and secure database design — making it scalable, secure, and deployable in real commercial environments.
+
+---
+
+## 📌 Why Authentiq?
+
+With the rise of AI-generated content, verifying **authenticity and originality** has become critical.  
+Authentiq solves this problem by combining:
+
+- AI-powered plagiarism detection  
+- AI content detection  
+- Text humanization tools  
+- Secure backend APIs  
+- Scalable cloud database  
+
+All packed into a **single SaaS product**.
+
+---
+
+## ✨ Core Features
+
+### 🔍 Plagiarism Detection
+- Calculates **similarity percentage**
+- Identifies **potential content sources**
+- Risk classification:
+  - ✅ Safe  
+  - ⚠️ Moderate  
+  - ❌ High  
+- Word count & processing time analysis
+
+---
+
+### 🤖 AI Content Detection
+- Detects whether text is **AI-generated**
+- Confidence-based AI probability score
+- Works alongside plagiarism detection
+
+---
+
+### ✍️ AI Humanizer
+- Converts AI-generated text into **human-like writing**
+- Supports multiple complexity levels:
+  - Normal  
+  - Moderate  
+  - Extreme  
+- Improves originality and readability
+
+---
+
+### ⚡ Live Text Analysis
+- Real-time plagiarism risk detection while typing
+- Sentence-level analysis
+- Visual risk indicators for quick understanding
+
+---
+
+### 📁 File Upload Support
+- Upload and analyze:
+  - PDF  
+  - DOCX  
+  - TXT  
+- Automatic text extraction
+- File metadata & word count handling
+
+---
+
+### 🔐 Authentication & Security
+- Email & password authentication
+- OAuth login:
+  - Google  
+  - GitHub  
+- JWT-based secure sessions
+- Password hashing & token expiration
+
+---
+
+### 📊 User Activity & Analytics
+- Track:
+  - Plagiarism checks
+  - Humanizer usage
+- Action history logs
+- Downloadable reports:
+  - PDF  
+  - Word (.docx)
+
+---
+
+### 🧩 API Access (SaaS-Ready)
+- REST APIs for:
+  - Plagiarism checking
+  - Humanizer usage
+  - AI chat
+- Designed for:
+  - Paid plans
+  - API rate limits
+  - External integrations
+
+---
+
+## 🏗️ Tech Stack
+
+### 🖥️ Frontend
+- **Next.js (React – App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **ShadCN UI**
+- Modern component-based architecture
+
+---
+
+### ⚙️ Backend
+- **FastAPI (Python)**
+- RESTful API design
+- JWT authentication
+- AI model integration (LLM APIs)
+- Modular & scalable backend structure
+
+---
+
+### 🗄️ Database
+- **Supabase (PostgreSQL)**
+- Structured relational schema
+- Row Level Security (RLS)
+- Secure cloud-hosted database
+
+---
+
+### ☁️ Deployment
+- **Frontend:** Vercel  
+- **Backend:** Render  
+- **Database:** Supabase Cloud  
+
+Environment-based configuration for secrets & keys.
+
+---
+
+## 🧠 System Architecture (High Level)
