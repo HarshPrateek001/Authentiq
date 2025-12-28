@@ -1,16 +1,16 @@
 # Authentiq
 
-🧠 About This Project (Detailed Explanation)
-🚀 Authentiq – AI-Powered Content Authenticity Platform
+#🧠 About This Project (Detailed Explanation)
+$🚀 Authentiq – AI-Powered Content Authenticity Platform
 Authentiq is a full-stack SaaS application designed to help users detect plagiarism, identify AI-generated content, and humanize text using advanced AI models. The platform is built with scalability, security, and real-world production use in mind.
 This project simulates a real SaaS product architecture, including authentication, usage tracking, API access, and database-backed analytics.
-✨ Key Features
-🔍 Plagiarism Detection
-Checks text originality and similarity score
-Source matching with risk levels (Safe / Moderate / High)
-🤖 AI Content Detection
-Identifies whether content is AI-generated
-Confidence scoring for transparency
+#✨ Key Features
+#🔍 Plagiarism Detection
+#Checks text originality and similarity score
+#Source matching with risk levels (Safe / Moderate / High)
+#🤖 AI Content Detection
+#Identifies whether content is AI-generated
+#Confidence scoring for transparency
 ✍️ AI Humanizer
 Converts AI-generated text into human-like writing
 Multiple complexity levels (Normal / Moderate / Extreme)
