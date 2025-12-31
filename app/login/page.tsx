@@ -124,7 +124,8 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading}>
+        <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading} onClick={() => {window.location.href = "http://127.0.0.1:8000/api/auth/google/login"}}>
+
           <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
               fill="currentColor"
