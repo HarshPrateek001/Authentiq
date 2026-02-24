@@ -19,9 +19,8 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image src="/logo.png" alt="Authentiq Logo" width={32} height={32} className="w-8 h-8 rounded-lg group-hover:scale-105 transition-transform" />
-          <span className="text-lg font-bold tracking-tight">Authentiq<span className="text-primary">*</span></span>
+        <Link href="/" className="flex items-center group">
+          <Image src="/logo-full.png" alt="Authentiq Logo" width={160} height={40} className="h-10 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-sm" priority />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -52,12 +51,10 @@ function Footer() {
           
           {/* Brand & Newsletter Column (Takes up more space) */}
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
-            <Link href="/" className="inline-flex items-center gap-3 relative group">
-              <div className="relative flex h-10 w-10 items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                <Image src="/logo.png" alt="Authentiq Logo" width={40} height={40} className="w-10 h-10 relative z-10 rounded-xl drop-shadow-[0_0_10px_rgba(13,148,136,0.3)]" />
-                <div className="absolute inset-0 rounded-xl bg-primary animate-ping opacity-20 blur-sm" />
+            <Link href="/" className="inline-flex relative group">
+              <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.02]">
+                <Image src="/logo-full.png" alt="Authentiq Logo" width={220} height={55} className="h-14 w-auto relative z-10 drop-shadow-[0_0_15px_rgba(13,148,136,0.15)]" />
               </div>
-              <span className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">Authentiq<span className="text-primary">*</span></span>
             </Link>
             
             <p className="text-muted-foreground leading-relaxed max-w-sm">
