@@ -1,44 +1,137 @@
+"use client"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { LocalDB } from "@/lib/local-db"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { StatsCard } from "@/components/dashboard/stats-card"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { UsageChart } from "@/components/dashboard/usage-chart"
 import { SimilarityChart } from "@/components/dashboard/similarity-chart"
-import { FileCheck, BarChart3, AlertTriangle, Clock } from "lucide-react"
+import { FileCheck, BarChart3, AlertTriangle, Clock, Loader2, RefreshCcw } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function DashboardPage() {
+  const router = useRouter()
+  const [stats, setStats] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
+
+  const fetchDashboardStats = async (isRefresh = false) => {
+    if (isRefresh) setRefreshing(true)
+
+    const user = LocalDB.getUser()
+    if (!user) {
+      router.push("/login")
+      return
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/stats`, {
+        headers: { "Authorization": `Bearer ${user.token}` }
+      })
+
+      if (res.status === 401) {
+        LocalDB.clearUser()
+        router.push("/login")
+        return
+      }
+
+      if (res.ok) {
+        const data = await res.json()
+        setStats(data)
+      }
+    } catch (e) {
+      console.error("Failed to fetch stats", e)
+    } finally {
+      setLoading(false)
+      setRefreshing(false)
+    }
+  }
+
+  useEffect(() => {
+    LocalDB.logView('dashboard') // Log view
+
+    // Check demo mode
+    if (typeof window !== "undefined" && localStorage.getItem("demo_mode") === "true") {
+      setLoading(false)
+      return
+    }
+
+    fetchDashboardStats()
+
+    const onFocus = () => fetchDashboardStats(true)
+    window.addEventListener("focus", onFocus)
+    return () => window.removeEventListener("focus", onFocus)
+  }, [router])
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </AppLayout>
+    )
+  }
+
+  // Safe fallback to prevent rendering errors
+  const safeStats = stats || {
+    total_checks: 0,
+    avg_similarity: 0,
+    high_risk_count: 0,
+    remaining_quota: 15,
+    usage_chart: [],
+    recent_activity: [],
+    user_name: "User"
+  }
+
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back, John! Here&apos;s an overview of your activity.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <p className="text-muted-foreground">Welcome back, {safeStats.user_name}! Here&apos;s an overview of your activity.</p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => fetchDashboardStats(true)} disabled={refreshing}>
+            <RefreshCcw className={`mr-2 h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
+            {refreshing ? "Syncing..." : "Refresh Data"}
+          </Button>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Total Checks"
-            value="78"
-            description="This month"
+            value={safeStats.total_checks.toString()}
+            description="Lifetime checks"
             icon={FileCheck}
-            trend={{ value: 12, isPositive: true }}
           />
           <StatsCard
             title="Average Similarity"
-            value="14%"
+            value={`${safeStats.avg_similarity}%`}
             description="Across all documents"
             icon={BarChart3}
-            trend={{ value: 3, isPositive: false }}
           />
-          <StatsCard title="High-Risk Documents" value="3" description="Need attention" icon={AlertTriangle} />
-          <StatsCard title="Remaining Quota" value="22" description="Checks left this month" icon={Clock} />
+          <StatsCard
+            title="High-Risk Documents"
+            value={safeStats.high_risk_count.toString()}
+            description="> 70% Similarity"
+            icon={AlertTriangle}
+          />
+          <StatsCard
+            title="Remaining Quota"
+            value={safeStats.remaining_quota.toString()}
+            description="Checks left"
+            icon={Clock}
+          />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <UsageChart />
-          <SimilarityChart />
+          <UsageChart data={safeStats.usage_chart} />
+          <SimilarityChart data={safeStats.usage_chart} />
         </div>
 
-        <RecentActivity />
+        <RecentActivity items={safeStats.recent_activity} />
       </div>
     </AppLayout>
   )

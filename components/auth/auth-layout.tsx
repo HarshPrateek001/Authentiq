@@ -13,19 +13,19 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/20">
               <FileCheck className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold text-primary-foreground">Plag Checker</span>
+            <span className="text-xl font-semibold text-primary-foreground">Authentiq</span>
           </Link>
 
           <div className="space-y-6 max-w-md">
             <blockquote className="text-2xl font-medium text-primary-foreground leading-relaxed">
-              &ldquo;Plag Checker has been invaluable for our academic integrity program. The accuracy and speed are
+              &ldquo;Authentiq has been invaluable for our academic integrity program. The accuracy and speed are
               unmatched.&rdquo;
             </blockquote>
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-primary-foreground/20" />
               <div>
-                <p className="font-medium text-primary-foreground">Dr. Sarah Chen</p>
-                <p className="text-sm text-primary-foreground/70">Dean of Students, Stanford University</p>
+                <p className="font-medium text-primary-foreground">Dr. Mehul Dutta</p>
+                <p className="text-sm text-primary-foreground/70">Dean of Students, Amity University</p>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <FileCheck className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-lg font-semibold">Plag Checker</span>
+            <span className="text-lg font-semibold">Authentiq</span>
           </Link>
           {children}
         </div>

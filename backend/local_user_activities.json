@@ -1,0 +1,765 @@
+{
+    "activities": {
+        "acf6bd25-ffe5-4773-a335-584e545ed767": {
+            "history": {
+                "plagiarism_checks": [
+                    {
+                        "id": "7bedd6a6-abf5-4a5c-8dc1-c21ca52d721d",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-01-18T15:05:18.770647",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 86.0,
+                            "sources_found": [
+                                {
+                                    "title": "External Source: https://support.grammarly.com/hc/en\u2011us/articles/360045123332\u2011Dashboard",
+                                    "url": "https://support.grammarly.com/hc/en\u2011us/articles/360045123332\u2011Dashboard",
+                                    "type": "web_content",
+                                    "similarity": 0.58,
+                                    "matched_words": 18
+                                },
+                                {
+                                    "title": "External Source: https://www.quetext.com/blog/how\u2011to\u2011run\u2011a\u2011plagiarism\u2011check",
+                                    "url": "https://www.quetext.com/blog/how\u2011to\u2011run\u2011a\u2011plagiarism\u2011check",
+                                    "type": "web_content",
+                                    "similarity": 0.66,
+                                    "matched_words": 70
+                                },
+                                {
+                                    "title": "External Source: https://help.turnitin.com/feedback\u2011studio\u2011cross\u2011language",
+                                    "url": "https://help.turnitin.com/feedback\u2011studio\u2011cross\u2011language",
+                                    "type": "web_content",
+                                    "similarity": 0.73,
+                                    "matched_words": 93
+                                },
+                                {
+                                    "title": "External Source: https://www.copyscape.com/faq",
+                                    "url": "https://www.copyscape.com/faq",
+                                    "type": "web_content",
+                                    "similarity": 0.82,
+                                    "matched_words": 22
+                                }
+                            ],
+                            "word_count": 756,
+                            "analysis_time": 5.545771,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "\u2013 \u201cWhether you\u2019re polishing a university essay, fine\u2011tuning a manuscript, or simply making sure a blog post is 100\u202f% original, Authentiq puts a powerful plagiarism\u2011detection engine right at your fingertips.\u201d",
+                                "\u2013 \u201cThe platform\u2019s clean, intuitive dashboard makes it feel less like a tech tool and more like a helpful assistant.\u201d",
+                                "\u2013 \u201cA quick click on the Profile submenu lets you edit personal info, while the Settings, Billing, and Security sections give you full control over how the service works for you.\u201d",
+                                "\u2013 \u201cOnce your text is in place, click the button. Authentiq instantly tallies words and characters (starting at zero for a fresh entry) and launches the scan.\u201d",
+                                "\u2013 \u201cNot sure whether your document contains AI\u2011generated passages? Authentiq offers a lightweight AI Risk Prediction tool.\u201d",
+                                "\u2013 \u201cAll completed checks land in the History tab. If you\u2019re just getting started, you\u2019ll see \u2018No checks yet.\u2019\u201d",
+                                "\u2013 \u201cAim for 250+ words \u2013 Longer passages give the algorithm more material to compare, which translates to higher accuracy.\u201d",
+                                "\u2013 \u201cThe Pro Plan hands you a monthly quota of checks (for example, 100 scans per month). Your dashboard displays current usage\u2014say, 78\u202f/\u202f100 checks used\u2014so you always know how many scans you have left and when it might be time to upgrade.\u201d",
+                                "\u2013 \u201cReady to give it a spin? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!\u201d"
+                            ]
+                        },
+                        "tokens_used": 756
+                    },
+                    {
+                        "id": "0809d400-cb18-4d0b-a848-a0651fb18308",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:31:44.810702",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 78.0,
+                            "sources_found": [
+                                {
+                                    "title": "Advanced Research Methodologies",
+                                    "url": "https://academic-journal.example.com/article/123",
+                                    "type": "academic_paper",
+                                    "similarity": 0.85,
+                                    "matched_words": 45
+                                },
+                                {
+                                    "title": "Content Originality in the Digital Age",
+                                    "url": "https://research-portal.example.com/paper/456",
+                                    "type": "research_paper",
+                                    "similarity": 0.72,
+                                    "matched_words": 32
+                                }
+                            ],
+                            "word_count": 41,
+                            "analysis_time": 6.037082,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "Climate change represents one of the most pressing challenges of our time.",
+                                "The scientific consensus is clear: human activities have led to unprecedented changes in Earth's climate system.",
+                                "Global temperatures have risen by an average of 1.1\u00b0C since the pre\u2011industrial era."
+                            ]
+                        },
+                        "tokens_used": 41
+                    },
+                    {
+                        "id": "fe30dbc3-ef61-4603-8ef9-da48f5bcc6fa",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:39:19.372211",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 78.0,
+                            "sources_found": [
+                                {
+                                    "title": "Advanced Research Methodologies",
+                                    "url": "https://academic-journal.example.com/article/123",
+                                    "type": "academic_paper",
+                                    "similarity": 0.85,
+                                    "matched_words": 45
+                                }
+                            ],
+                            "word_count": 510,
+                            "analysis_time": 5.137655,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "\u0906\u091c \u0915\u093e \u0938\u092e\u092f \u0935\u0939 \u0939\u0948 \u091c\u092c \u0924\u0915\u0928\u0940\u0915 \u0915\u0940 \u0927\u093e\u0930\u093e \u092e\u0947\u0902 \u090f\u0915 \u0928\u0908 \u0932\u0939\u0930 \u0924\u0948\u0930 \u0930\u0939\u0940 \u0939\u0948\u2014\u0915\u0943\u0924\u094d\u0930\u093f\u092e \u092c\u0941\u0926\u094d\u0927\u093f\u092e\u0924\u094d\u0924\u093e (AI)\u0964",
+                                "\u092a\u0930\u093f\u0923\u093e\u092e\u0938\u094d\u0935\u0930\u0942\u092a, AI \u0935\u093f\u0936\u094d\u0935 \u092d\u0930 \u092e\u0947\u0902 \u0921\u093f\u091c\u093f\u091f\u0932 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0930\u0923\u0928\u0940\u0924\u093f\u092f\u094b\u0902 \u0915\u093e \u0905\u0928\u093f\u0935\u093e\u0930\u094d\u092f \u0918\u091f\u0915 \u092c\u0928 \u091a\u0941\u0915\u093e \u0939\u0948\u0964",
+                                "\u0915\u0939\u0924\u0947 \u0939\u0948\u0902, \u201c\u0938\u0942\u091a\u0928\u093e \u0939\u0940 \u0936\u0915\u094d\u0924\u093f \u0939\u0948,\u201d \u0914\u0930 AI \u0907\u0938 \u0936\u0915\u094d\u0924\u093f \u0915\u094b \u0924\u0947\u091c\u093c\u0940 \u0914\u0930 \u0938\u091f\u0940\u0915\u0924\u093e \u0915\u0947 \u0938\u093e\u0925 \u0909\u091c\u093e\u0917\u0930 \u0915\u0930\u0924\u093e \u0939\u0948\u0964",
+                                "AI \u0928\u0947 \u0909\u092a\u092f\u094b\u0917\u0915\u0930\u094d\u0924\u093e \u0905\u0928\u0941\u092d\u0935 \u0915\u094b \u092d\u0940 \u0935\u0948\u092f\u0915\u094d\u0924\u093f\u0915\u0930\u0923 \u0915\u0940 \u0930\u093e\u0939 \u092a\u0930 \u0932\u0947 \u091c\u093e\u092f\u093e \u0939\u0948\u0964",
+                                "\u0939\u0930 \u091a\u092e\u0915\u0924\u0947 \u0938\u094b\u0928\u0947 \u0915\u0947 \u0938\u093f\u0915\u094d\u0915\u0947 \u0915\u0940 \u0924\u0930\u0939, AI \u0915\u0947 \u0938\u093e\u0925 \u092d\u0940 \u0915\u0908 \u091a\u0941\u0928\u094c\u0924\u093f\u092f\u093e\u0901 \u0914\u0930 \u0928\u0948\u0924\u093f\u0915 \u092a\u094d\u0930\u0936\u094d\u0928 \u091c\u0941\u095c\u0947 \u0939\u0941\u090f \u0939\u0948\u0902\u0964"
+                            ]
+                        },
+                        "tokens_used": 510
+                    },
+                    {
+                        "id": "b89c79a2-3381-406e-8e4c-455af1ae023c",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:40:02.308038",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 15.0,
+                            "sources_found": [
+                                {
+                                    "title": "Content Originality in the Digital Age",
+                                    "url": "https://research-portal.example.com/paper/456",
+                                    "type": "research_paper",
+                                    "similarity": 0.72,
+                                    "matched_words": 32
+                                },
+                                {
+                                    "title": "Advanced Research Methodologies",
+                                    "url": "https://academic-journal.example.com/article/123",
+                                    "type": "academic_paper",
+                                    "similarity": 0.85,
+                                    "matched_words": 45
+                                }
+                            ],
+                            "word_count": 11,
+                            "analysis_time": 4.270084,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": []
+                        },
+                        "tokens_used": 11
+                    },
+                    {
+                        "id": "8cddf9d1-2a87-4a75-b560-28c821a621bd",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:03.781840",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 22.0,
+                            "sources_found": [
+                                {
+                                    "title": "Content Originality in the Digital Age",
+                                    "url": "https://research-portal.example.com/paper/456",
+                                    "type": "research_paper",
+                                    "similarity": 0.72,
+                                    "matched_words": 32
+                                }
+                            ],
+                            "word_count": 1176,
+                            "analysis_time": 7.820046,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "\u201cAnswer to each question should not exceed 30 words.\u201d",
+                                "\u201cAnswer to each question should not exceed 60 words.\u201d",
+                                "\u201cAnswer to each question should not exceed 120 words.\u201d",
+                                "\u201cGeneral Instructions:\u201d (followed by a list of uniformly phrased, rule\u2011like sentences)",
+                                "\u201cSection \u2013 A\u202fMCQ Type Questions (All questions are compulsory)\u201d"
+                            ],
+                            "file_name": "1ST Sem Exam Question Paper.pdf",
+                            "file_type": "application/pdf"
+                        },
+                        "tokens_used": 1176
+                    },
+                    {
+                        "id": "2cb3a167-7698-44d8-9f54-97b47bc5f554",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:18.372768",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 30.0,
+                            "sources_found": [
+                                {
+                                    "title": "Plagiarism Detection Technologies",
+                                    "url": "https://tech-review.example.com/articles/789",
+                                    "type": "article",
+                                    "similarity": 0.68,
+                                    "matched_words": 28
+                                },
+                                {
+                                    "title": "Content Originality in the Digital Age",
+                                    "url": "https://research-portal.example.com/paper/456",
+                                    "type": "research_paper",
+                                    "similarity": 0.72,
+                                    "matched_words": 32
+                                }
+                            ],
+                            "word_count": 32,
+                            "analysis_time": 6.677741,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [],
+                            "file_name": "Academic Qualifications.pdf",
+                            "file_type": "application/pdf"
+                        },
+                        "tokens_used": 32
+                    },
+                    {
+                        "id": "e3fb4960-d779-43cc-a8be-47f1057266a7",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:26.093293",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 55.0,
+                            "sources_found": [
+                                {
+                                    "title": "External Source: https://www.examplehighschool.edu/2025\u20112026\u2011class\u201112\u2011sessions.pdf>",
+                                    "url": "https://www.examplehighschool.edu/2025\u20112026\u2011class\u201112\u2011sessions.pdf>",
+                                    "type": "web_content",
+                                    "similarity": 0.62,
+                                    "matched_words": 35
+                                },
+                                {
+                                    "title": "Content Originality in the Digital Age",
+                                    "url": "https://research-portal.example.com/paper/456",
+                                    "type": "research_paper",
+                                    "similarity": 0.72,
+                                    "matched_words": 32
+                                }
+                            ],
+                            "word_count": 28,
+                            "analysis_time": 7.127954,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "\u201cClass 12 SESSIONS  (2025-2026)",
+                                "\u201cClass 12 SESSIONS  (2025-2026)",
+                                "\u201cClass 12 SESSIONS  (2025-2026)",
+                                "\u201cClass 12 SESSIONS  (2025-2026)",
+                                "\u201cClass 12 SESSIONS  (2025-2026)",
+                                "\u201cClass 12 SESSIONS  (2025-2026)"
+                            ],
+                            "file_name": "FOR AUG.docx",
+                            "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        },
+                        "tokens_used": 28
+                    },
+                    {
+                        "id": "7325ec1d-569f-4f58-9e7d-18be75b2ef53",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:34.639095",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 32.0,
+                            "sources_found": [
+                                {
+                                    "title": "External Source: https://www.example-school.edu.in/notice/final-term-examination-2024-2025.pdf`",
+                                    "url": "https://www.example-school.edu.in/notice/final-term-examination-2024-2025.pdf`",
+                                    "type": "web_content",
+                                    "similarity": 0.55,
+                                    "matched_words": 77
+                                },
+                                {
+                                    "title": "External Source: https://www.schooldirectory.in/hem-sheela-model-school-durgapur`",
+                                    "url": "https://www.schooldirectory.in/hem-sheela-model-school-durgapur`",
+                                    "type": "web_content",
+                                    "similarity": 0.61,
+                                    "matched_words": 97
+                                },
+                                {
+                                    "title": "External Source: https://www.educationboard.gov.in/academic-calendar.pdf`",
+                                    "url": "https://www.educationboard.gov.in/academic-calendar.pdf`",
+                                    "type": "web_content",
+                                    "similarity": 0.44,
+                                    "matched_words": 37
+                                }
+                            ],
+                            "word_count": 11,
+                            "analysis_time": 7.959199,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "None (the text consists only of short uppercase headings, providing insufficient evidence for AI\u2011generated patterns)."
+                            ],
+                            "file_name": "FT-GK-7-50_094251.docx",
+                            "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        },
+                        "tokens_used": 11
+                    },
+                    {
+                        "id": "5ebb9263-befd-4fcc-831c-b6a18ff4338f",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:42.548067",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 20.0,
+                            "sources_found": [
+                                {
+                                    "title": "Plagiarism Detection Technologies",
+                                    "url": "https://tech-review.example.com/articles/789",
+                                    "type": "article",
+                                    "similarity": 0.68,
+                                    "matched_words": 28
+                                }
+                            ],
+                            "word_count": 17,
+                            "analysis_time": 6.788042,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [],
+                            "file_name": "LANGUAGES KNOWN  .pdf",
+                            "file_type": "application/pdf"
+                        },
+                        "tokens_used": 17
+                    },
+                    {
+                        "id": "ea3619fa-6acc-4003-b9ad-d4f783a2e8c2",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-24T21:44:50.461578",
+                        "details": {
+                            "plagiarism_score": 0.0,
+                            "is_ai_generated": true,
+                            "ai_confidence": 84.0,
+                            "sources_found": [
+                                {
+                                    "title": "Plagiarism Detection Technologies",
+                                    "url": "https://tech-review.example.com/articles/789",
+                                    "type": "article",
+                                    "similarity": 0.68,
+                                    "matched_words": 28
+                                },
+                                {
+                                    "title": "Advanced Research Methodologies",
+                                    "url": "https://academic-journal.example.com/article/123",
+                                    "type": "academic_paper",
+                                    "similarity": 0.85,
+                                    "matched_words": 45
+                                }
+                            ],
+                            "word_count": 259,
+                            "analysis_time": 7.351132,
+                            "unique_content_percentage": 100.0,
+                            "ai_flagged_segments": [
+                                "Characteristics of an algorithm",
+                                "Types of complexity: best, average, worst case",
+                                "Concept of time & space complexity (just definitions, not solving recurrence)",
+                                "Performance measurement of algorithms",
+                                "Time\u2013space tradeoff",
+                                "What is a recursive algorithm (theory, not solving)",
+                                "What Divide & Conquer means",
+                                "Use\u2011cases & when it is used",
+                                "Working principles of:",
+                                "Maximum\u2013minimum finding",
+                                "Merge Sort (conceptual flow)",
+                                "Quick Sort (conceptual flow)",
+                                "Selection problem",
+                                "Strassen\u2019s matrix multiplication (concept only)",
+                                "What is greedy method",
+                                "When greedy works",
+                                "Greedy choice property & optimal substructure (definitions)",
+                                "Theory concepts of:",
+                                "Knapsack (greedy version vs 0/1 difference)",
+                                "Job sequencing with deadlines (concept flow)",
+                                "Optimal storage on tapes",
+                                "Tree vertex splitting (just explanation)",
+                                "What is DP?",
+                                "Optimal substructure & overlapping subproblems",
+                                "Steps of DP formulation",
+                                "Assembly line scheduling",
+                                "Matrix chain multiplication (concept only)",
+                                "0/1 Knapsack (DP table idea only)",
+                                "What is a spanning tree?",
+                                "Minimum spanning trees \u2014 concept",
+                                "Differences between Kruskal & Prim",
+                                "Applications of MST",
+                                "Edge relaxation (definition)",
+                                "What is backtracking",
+                                "State\u2011space tree",
+                                "Promising vs non\u2011promising",
+                                "Theory explanation of:",
+                                "Sum of subsets",
+                                "Graph coloring",
+                                "Hamiltonian cycles",
+                                "What is B&B",
+                                "Differences between Backtracking and B&B",
+                                "Types of bounding functions (concept)",
+                                "TSP using B&B (concept flow)",
+                                "What is a lower bound",
+                                "Comparison trees",
+                                "Oracle & adversary arguments (explanation only)",
+                                "Reductions \u2014 meaning & role",
+                                "Difference between P, NP, NP\u2011hard, NP\u2011complete (theory only)"
+                            ],
+                            "file_name": "SY_DAA.docx",
+                            "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        },
+                        "tokens_used": 259
+                    }
+                ],
+                "humanize_requests": [
+                    {
+                        "id": "b6e36770-8a71-4b05-a604-4e8a017408ca",
+                        "type": "humanize_text",
+                        "timestamp": "2026-01-18T14:40:03.556846",
+                        "details": {
+                            "original_text": "Authentiq\n\nDashboard\nNew Check\nAI Humanizer\nHistory\nBulk Upload\nReports\nAccount\n\nProfile\nSettings\nBilling\nSecurity\nPro Plan\n\n78 / 100 checks used\n\nSearch documents...\n3\n\nJohn Doe\nNew Plagiarism Check\nUpload or paste your content to check for plagiarism.\n\nText Input\nFile Upload\ne.g., Research Paper - Climate Change\n\nSelect a category\n\nEnglish\nCross-Language Detection\n\nCompare across 50+ languages\n\n\nPaste or type your content here...\n0 words\n0 characters\nRun Plagiarism Check\nAI Risk Prediction\nPre-check analysis before full scan\nEnter at least 50 words to see risk prediction\n\nPrevious Checks\nNo checks yet.\n\nTips for best results\nInclude at least 250 words for accurate analysis\nRemove headers and footers from documents\nEnable cross-language for translated content\nCheck one document at a time for detailed results\n\n5",
+                            "humanized_text": "# Authentiq: A Friendly Guide to Your All\u2011In\u2011One Plagiarism\u2011Detection Hub  \n\nWhether you\u2019re a student polishing a research paper, a writer vetting a manuscript, or a professional ensuring content originality, Authentiq offers a sleek, user\u2011friendly dashboard that brings powerful plagiarism\u2011checking tools right to your fingertips. Below is a walkthrough of the platform\u2019s main sections, how to run a check, and some handy tips to get the most accurate results.\n\n---\n\n## 1. Inside the Dashboard  \n\nWhen you log into Authentiq, the main navigation bar runs across the top of the screen:\n\n| Section | What It Does |\n|---------|--------------|\n| Dashboard | Your home base \u2013 a quick snapshot of usage and recent activity. |\n| New Check | Start a fresh plagiarism scan or AI\u2011risk assessment. |\n| AI Humanizer | Tools for making AI\u2011generated text sound more natural. |\n| History | A log of all past checks (once you\u2019ve run a few). |\n| Bulk Upload | Upload multiple files at once for batch processing. |\n| Reports | Export detailed findings in PDF or CSV format. |\n| Account | Manage your profile, settings, billing, and security. |\n| Pro Plan | Upgrade options and usage limits (e.g., \u201c78\u202f/\u202f100 checks used\u201d). |\n\nThe Profile submenu lets you tweak personal details, while Settings, Billing, and Security give you full control over your account preferences.\n\n---\n\n## 2. Starting a New Plagiarism Check  \n\n### 2.1 Choose Your Input Method  \n- Text Input \u2013 Paste or type directly into the large text box.  \n- File Upload \u2013 Drag\u2011and\u2011drop a document (e.g., a research paper on climate change).  \n\n### 2.2 Set the Context  \n- Select a Category \u2013 Choose the document type that best matches your work (academic paper, blog post, etc.).  \n- Language Options \u2013  \n  - English \u2013 Standard check for English\u2011only content.  \n  - Cross\u2011Language Detection \u2013 Scan against more than 50 languages, perfect for translated material.  \n\n### 2.3 Run the Scan  \nAfter pasting or uploading, click \u201cRun Plagiarism Check.\u201d The platform will instantly count words and characters (starting at 0 for a fresh entry) and begin scanning.\n\n---\n\n## 3. AI Risk Prediction \u2013 A Quick Pre\u2011Check  \n\nBefore committing to a full plagiarism scan, Authentiq offers a lightweight AI Risk Prediction. Simply type at least 50 words and the system will estimate how likely the text is to contain AI\u2011generated content. This helps you decide whether a deeper analysis is necessary.\n\n---\n\n## 4. Reviewing Past Checks  \n\nThe Previous Checks tab stores every completed scan. Since this is a brand\u2011new account, you\u2019ll see \u201cNo checks yet.\u201d As you run more checks, each entry will appear here, complete with timestamps and result summaries.\n\n---\n\n## 5. Getting the Best Results \u2013 Pro Tips  \n\n1. Aim for 250+ Words \u2013 Longer passages give the algorithm more material to compare, boosting accuracy.  \n2. Strip Headers & Footers \u2013 Remove page numbers, titles, and other repetitive elements that can skew the similarity score.  \n3. Enable Cross\u2011Language Mode \u2013 If your document is a translation, turn on the 50+ language comparison to catch hidden matches.  \n4. One Document at a Time \u2013 Running a single file per check yields more detailed, actionable reports.  \n\n---\n\n## 6. Managing Your Plan  \n\nAuthentiq\u2019s Pro Plan provides a quota of checks (e.g., 100 per month). Your current usage\u201478\u202f/\u202f100 checks used\u2014is displayed prominently on the dashboard, so you can keep an eye on remaining scans and decide when to upgrade.\n\n---\n\n## 7. Wrapping Up  \n\nAuthentiq blends a clean, intuitive interface with robust plagiarism\u2011detection and AI\u2011risk tools. By following the steps above and applying the best\u2011practice tips, you\u2019ll be able to verify the originality of your work quickly and confidently\u2014whether you\u2019re tackling a climate\u2011change research paper or polishing a marketing blog post.\n\nReady to give it a try? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!",
+                            "improvement_score": 0.0,
+                            "changes_made": [
+                                "Translated to English",
+                                "Enhanced natural flow",
+                                "Improved readability"
+                            ],
+                            "word_count": 647,
+                            "processing_time": 3.544027,
+                            "original_ai_score": 0.0,
+                            "humanized_ai_score": 0.0
+                        },
+                        "tokens_used": 647
+                    },
+                    {
+                        "id": "1925d375-477a-4826-96ad-2f60ae1b3f5b",
+                        "type": "humanize_text",
+                        "timestamp": "2026-01-18T14:58:03.057182",
+                        "details": {
+                            "original_text": "# Authentiq: A Friendly Guide to Your All\u2011In\u2011One Plagiarism\u2011Detection Hub  \n\nWhether you\u2019re a student polishing a research paper, a writer vetting a manuscript, or a professional ensuring content originality, Authentiq offers a sleek, user\u2011friendly dashboard that brings powerful plagiarism\u2011checking tools right to your fingertips. Below is a walkthrough of the platform\u2019s main sections, how to run a check, and some handy tips to get the most accurate results.\n\n---\n\n## 1. Inside the Dashboard  \n\nWhen you log into Authentiq, the main navigation bar runs across the top of the screen:\n\n| Section | What It Does |\n|---------|--------------|\n| Dashboard | Your home base \u2013 a quick snapshot of usage and recent activity. |\n| New Check | Start a fresh plagiarism scan or AI\u2011risk assessment. |\n| AI Humanizer | Tools for making AI\u2011generated text sound more natural. |\n| History | A log of all past checks (once you\u2019ve run a few). |\n| Bulk Upload | Upload multiple files at once for batch processing. |\n| Reports | Export detailed findings in PDF or CSV format. |\n| Account | Manage your profile, settings, billing, and security. |\n| Pro Plan | Upgrade options and usage limits (e.g., \u201c78\u202f/\u202f100 checks used\u201d). |\n\nThe Profile submenu lets you tweak personal details, while Settings, Billing, and Security give you full control over your account preferences.\n\n---\n\n## 2. Starting a New Plagiarism Check  \n\n### 2.1 Choose Your Input Method  \n- Text Input \u2013 Paste or type directly into the large text box.  \n- File Upload \u2013 Drag\u2011and\u2011drop a document (e.g., a research paper on climate change).  \n\n### 2.2 Set the Context  \n- Select a Category \u2013 Choose the document type that best matches your work (academic paper, blog post, etc.).  \n- Language Options \u2013  \n  - English \u2013 Standard check for English\u2011only content.  \n  - Cross\u2011Language Detection \u2013 Scan against more than 50 languages, perfect for translated material.  \n\n### 2.3 Run the Scan  \nAfter pasting or uploading, click \u201cRun Plagiarism Check.\u201d The platform will instantly count words and characters (starting at 0 for a fresh entry) and begin scanning.\n\n---\n\n## 3. AI Risk Prediction \u2013 A Quick Pre\u2011Check  \n\nBefore committing to a full plagiarism scan, Authentiq offers a lightweight AI Risk Prediction. Simply type at least 50 words and the system will estimate how likely the text is to contain AI\u2011generated content. This helps you decide whether a deeper analysis is necessary.\n\n---\n\n## 4. Reviewing Past Checks  \n\nThe Previous Checks tab stores every completed scan. Since this is a brand\u2011new account, you\u2019ll see \u201cNo checks yet.\u201d As you run more checks, each entry will appear here, complete with timestamps and result summaries.\n\n---\n\n## 5. Getting the Best Results \u2013 Pro Tips  \n\n1. Aim for 250+ Words \u2013 Longer passages give the algorithm more material to compare, boosting accuracy.  \n2. Strip Headers & Footers \u2013 Remove page numbers, titles, and other repetitive elements that can skew the similarity score.  \n3. Enable Cross\u2011Language Mode \u2013 If your document is a translation, turn on the 50+ language comparison to catch hidden matches.  \n4. One Document at a Time \u2013 Running a single file per check yields more detailed, actionable reports.  \n\n---\n\n## 6. Managing Your Plan  \n\nAuthentiq\u2019s Pro Plan provides a quota of checks (e.g., 100 per month). Your current usage\u201478\u202f/\u202f100 checks used\u2014is displayed prominently on the dashboard, so you can keep an eye on remaining scans and decide when to upgrade.\n\n---\n\n## 7. Wrapping Up  \n\nAuthentiq blends a clean, intuitive interface with robust plagiarism\u2011detection and AI\u2011risk tools. By following the steps above and applying the best\u2011practice tips, you\u2019ll be able to verify the originality of your work quickly and confidently\u2014whether you\u2019re tackling a climate\u2011change research paper or polishing a marketing blog post.\n\nReady to give it a try? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!",
+                            "humanized_text": "# Authentiq Made Easy: Your All\u2011In\u2011One Hub for Plagiarism Checks and AI\u2011Generated\u2011Text Tweaks  \n\nWhether you\u2019re polishing a university essay, polishing a manuscript, or just making sure a client\u2019s blog post is 100\u202f% original, you need a tool that\u2019s both powerful and painless to use. That\u2019s where Authentiq comes in. Its clean, intuitive dashboard puts everything you need\u2014plagiarism scans, AI\u2011risk checks, bulk uploads, and export\u2011ready reports\u2014right at your fingertips. Below is a friendly walk\u2011through of the platform, step\u2011by\u2011step instructions for running a check, and a handful of insider tips to squeeze the most accuracy out of every scan.\n\n---\n\n## 1. What You\u2019ll See on the Dashboard  \n\nLog in and you\u2019re greeted by a top\u2011level navigation bar that\u2019s laid out like a well\u2011organized toolbox:\n\n| Tab | What It Does |\n|-----|--------------|\n| Dashboard | Your home base \u2013 quick stats on usage, recent scans, and remaining quota. |\n| New Check | Launch a fresh plagiarism scan or an AI\u2011risk assessment. |\n| AI Humanizer | Turn stiff, AI\u2011generated prose into something that sounds more natural. |\n| History | A chronological log of every scan you\u2019ve run (once you have a few). |\n| Bulk Upload | Drop in multiple files for batch processing. |\n| Reports | Export detailed findings as PDFs or CSVs. |\n| Account | Manage profile, preferences, billing, and security. |\n| Pro Plan | Upgrade options and a glance at your check limits (e.g., \u201c78\u202f/\u202f100 checks used\u201d). |\n\nA quick click on Profile lets you edit personal details, while the sub\u2011menus under Settings, Billing, and Security give you full control over how Authentiq works for you.\n\n---\n\n## 2. Running Your First Plagiarism Check  \n\n### 2.1 Choose How to Feed the Text  \n\n| Option | How It Works |\n|--------|--------------|\n| Text Input | Paste or type directly into the large text box. |\n| File Upload | Drag\u2011and\u2011drop a document (Word, PDF, etc.) \u2013 perfect for a research paper on climate change, a marketing brief, or anything in between. |\n\n### 2.2 Tell Authentiq What You\u2019re Scanning  \n\n1. Pick a Category \u2013 Select the document type that best matches your work (academic paper, blog post, marketing copy, etc.).  \n2. Set the Language  \n   - English only \u2013 Fast, focused scan for English\u2011only content.  \n   - Cross\u2011Language Detection \u2013 Compare against more than 50 languages, ideal for translated material or multilingual projects.  \n\n### 2.3 Hit \u201cRun Plagiarism Check\u201d  \n\nOnce your text is in place, click the button. Authentiq instantly counts words and characters (starting at zero for a fresh entry) and launches the scan. Within moments you\u2019ll have a similarity score, highlighted matches, and a downloadable report.\n\n---\n\n## 3. Quick AI\u2011Risk Prediction (The \u201cPre\u2011Check\u201d)  \n\nNot sure whether a passage was generated by an AI model? Authentiq offers a lightweight AI\u2011risk predictor. Type in at least 50 words, and the tool will give you a probability that the snippet is AI\u2011generated. It\u2019s a handy way to decide if a deeper, full\u2011scale analysis is worth the quota.\n\n---\n\n## 4. Looking Back: Your History Tab  \n\nAll completed scans land in the History (or Previous Checks) tab. New accounts will naturally show \u201cNo checks yet.\u201d As you run more scans, each entry appears with a timestamp, document title, and a brief result summary\u2014making it easy to revisit old reports or compare revisions.\n\n---\n\n## 5. Pro Tips for Spot\u2011On Results  \n\n1. Shoot for 250+ words \u2013 Longer passages give the algorithm more material to match, which translates into higher accuracy.  \n2. Trim the fluff \u2013 Strip out page numbers, headers, footers, and repetitive boilerplate; they can inflate the similarity score unnecessarily.  \n3. Turn on Cross\u2011Language Mode when needed \u2013 If you\u2019re checking a translation, enabling the 50\u2011plus language comparison catches hidden matches that a monolingual scan would miss.  \n4. One file per scan \u2013 Running a single document at a time yields clearer, more actionable reports than lumping several files together.  \n\n---\n\n## 6. Keeping an Eye on Your Plan  \n\nAuthentiq\u2019s Pro Plan works on a monthly quota (e.g., 100 checks per month). The dashboard prominently displays your current usage\u2014say, 78\u202f/\u202f100 checks used\u2014so you always know how many scans you have left and when it might be time to upgrade.\n\n---\n\n## 7. Bottom Line  \n\nAuthentiq marries a sleek, user\u2011friendly interface with heavyweight plagiarism detection and AI\u2011risk tools. By following the simple steps above and applying the best\u2011practice tips, you can verify the originality of anything from a dense climate\u2011change dissertation to a breezy marketing blog post\u2014quickly, confidently, and without the usual headaches.\n\nReady to give it a spin? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!",
+                            "improvement_score": 0.0,
+                            "changes_made": [
+                                "Translated to English",
+                                "Enhanced natural flow",
+                                "Improved readability"
+                            ],
+                            "word_count": 781,
+                            "processing_time": 3.836235,
+                            "original_ai_score": 0.0,
+                            "humanized_ai_score": 0.0
+                        },
+                        "tokens_used": 781
+                    },
+                    {
+                        "id": "f4859017-7586-4969-9453-6af26bc90628",
+                        "type": "humanize_text",
+                        "timestamp": "2026-01-18T15:01:40.953656",
+                        "details": {
+                            "original_text": "# Authentiq: A Friendly Guide to Your All\u2011In\u2011One Plagiarism\u2011Detection Hub  \n\nWhether you\u2019re a student polishing a research paper, a writer vetting a manuscript, or a professional ensuring content originality, Authentiq offers a sleek, user\u2011friendly dashboard that brings powerful plagiarism\u2011checking tools right to your fingertips. Below is a walkthrough of the platform\u2019s main sections, how to run a check, and some handy tips to get the most accurate results.\n\n---\n\n## 1. Inside the Dashboard  \n\nWhen you log into Authentiq, the main navigation bar runs across the top of the screen:\n\n| Section | What It Does |\n|---------|--------------|\n| Dashboard | Your home base \u2013 a quick snapshot of usage and recent activity. |\n| New Check | Start a fresh plagiarism scan or AI\u2011risk assessment. |\n| AI Humanizer | Tools for making AI\u2011generated text sound more natural. |\n| History | A log of all past checks (once you\u2019ve run a few). |\n| Bulk Upload | Upload multiple files at once for batch processing. |\n| Reports | Export detailed findings in PDF or CSV format. |\n| Account | Manage your profile, settings, billing, and security. |\n| Pro Plan | Upgrade options and usage limits (e.g., \u201c78\u202f/\u202f100 checks used\u201d). |\n\nThe Profile submenu lets you tweak personal details, while Settings, Billing, and Security give you full control over your account preferences.\n\n---\n\n## 2. Starting a New Plagiarism Check  \n\n### 2.1 Choose Your Input Method  \n- Text Input \u2013 Paste or type directly into the large text box.  \n- File Upload \u2013 Drag\u2011and\u2011drop a document (e.g., a research paper on climate change).  \n\n### 2.2 Set the Context  \n- Select a Category \u2013 Choose the document type that best matches your work (academic paper, blog post, etc.).  \n- Language Options \u2013  \n  - English \u2013 Standard check for English\u2011only content.  \n  - Cross\u2011Language Detection \u2013 Scan against more than 50 languages, perfect for translated material.  \n\n### 2.3 Run the Scan  \nAfter pasting or uploading, click \u201cRun Plagiarism Check.\u201d The platform will instantly count words and characters (starting at 0 for a fresh entry) and begin scanning.\n\n---\n\n## 3. AI Risk Prediction \u2013 A Quick Pre\u2011Check  \n\nBefore committing to a full plagiarism scan, Authentiq offers a lightweight AI Risk Prediction. Simply type at least 50 words and the system will estimate how likely the text is to contain AI\u2011generated content. This helps you decide whether a deeper analysis is necessary.\n\n---\n\n## 4. Reviewing Past Checks  \n\nThe Previous Checks tab stores every completed scan. Since this is a brand\u2011new account, you\u2019ll see \u201cNo checks yet.\u201d As you run more checks, each entry will appear here, complete with timestamps and result summaries.\n\n---\n\n## 5. Getting the Best Results \u2013 Pro Tips  \n\n1. Aim for 250+ Words \u2013 Longer passages give the algorithm more material to compare, boosting accuracy.  \n2. Strip Headers & Footers \u2013 Remove page numbers, titles, and other repetitive elements that can skew the similarity score.  \n3. Enable Cross\u2011Language Mode \u2013 If your document is a translation, turn on the 50+ language comparison to catch hidden matches.  \n4. One Document at a Time \u2013 Running a single file per check yields more detailed, actionable reports.  \n\n---\n\n## 6. Managing Your Plan  \n\nAuthentiq\u2019s Pro Plan provides a quota of checks (e.g., 100 per month). Your current usage\u201478\u202f/\u202f100 checks used\u2014is displayed prominently on the dashboard, so you can keep an eye on remaining scans and decide when to upgrade.\n\n---\n\n## 7. Wrapping Up  \n\nAuthentiq blends a clean, intuitive interface with robust plagiarism\u2011detection and AI\u2011risk tools. By following the steps above and applying the best\u2011practice tips, you\u2019ll be able to verify the originality of your work quickly and confidently\u2014whether you\u2019re tackling a climate\u2011change research paper or polishing a marketing blog post.\n\nReady to give it a try? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!",
+                            "humanized_text": "# Authentiq Made Easy: Your All\u2011In\u2011One Hub for Plagiarism Checks and AI\u2011Risk Alerts  \n\nWhether you\u2019re polishing a university essay, fine\u2011tuning a manuscript, or simply making sure a blog post is 100\u202f% original, Authentiq puts a powerful plagiarism\u2011detection engine right at your fingertips. The platform\u2019s clean, intuitive dashboard makes it feel less like a tech tool and more like a helpful assistant. Below is a friendly walk\u2011through of the main sections, how to launch a scan, and a few insider tips to squeeze the most accuracy out of every check.\n\n---\n\n## 1. Getting Your Bearings \u2013 The Dashboard Overview  \n\nLog in and you\u2019ll be greeted by a horizontal navigation bar that runs across the top of the screen. Each tab does exactly what its name suggests:\n\n| Tab | What You\u2019ll Find |\n|-----|------------------|\n| Dashboard | Your home base \u2013 quick stats on usage, recent scans, and remaining quota. |\n| New Check | Start a fresh plagiarism or AI\u2011risk assessment in seconds. |\n| AI Humanizer | Tools that smooth out robotic\u2011sounding text. |\n| History | A chronological log of every scan you\u2019ve run. |\n| Bulk Upload | Drop several files at once for batch processing. |\n| Reports | Export findings as PDF or CSV for easy sharing. |\n| Account | Manage profile details, billing, security, and preferences. |\n| Pro Plan | Upgrade options and a clear view of your check limits (e.g., \u201c78\u202f/\u202f100 checks used\u201d). |\n\nA quick click on the Profile submenu lets you edit personal info, while the Settings, Billing, and Security sections give you full control over how the service works for you.\n\n---\n\n## 2. Running Your First Plagiarism Scan  \n\n### 2.1 Pick How You\u2019ll Feed the Text  \n\n- Text Input \u2013 Paste or type directly into the spacious text box.  \n- File Upload \u2013 Drag\u2011and\u2011drop a document (Word, PDF, etc.)\u2014perfect for a full research paper or a marketing brief.\n\n### 2.2 Set the Context  \n\n1. Choose a Category \u2013 Tell Authentiq what you\u2019re checking (academic paper, blog post, marketing copy, etc.).  \n2. Select Language Options  \n   - English only \u2013 Fast, focused scan for monolingual content.  \n   - Cross\u2011Language Detection \u2013 Compare against more than 50 languages, ideal for translated work.\n\n### 2.3 Hit \u201cRun Plagiarism Check\u201d  \n\nOnce your text is in place, click the button. Authentiq instantly tallies words and characters (starting at zero for a fresh entry) and launches the scan. Within moments you\u2019ll see a similarity score, highlighted matches, and a downloadable report.\n\n---\n\n## 3. Quick AI\u2011Risk Prediction \u2013 A Light\u2011Touch Pre\u2011Check  \n\nNot sure whether your document contains AI\u2011generated passages? Authentiq offers a lightweight AI Risk Prediction tool. Type in at least 50 words, and the system will give you a probability estimate of AI\u2011authorship. It\u2019s a handy way to decide if a deeper, full\u2011scale analysis is worth the check quota.\n\n---\n\n## 4. Digging Into Past Scans  \n\nAll completed checks land in the History tab. If you\u2019re just getting started, you\u2019ll see \u201cNo checks yet.\u201d As you run more scans, each entry appears with a timestamp, a brief result summary, and a link to the full report\u2014making it easy to revisit past work or track improvements over time.\n\n---\n\n## 5. Pro Tips for Spot\u2011On Results  \n\n1. Aim for 250+ words \u2013 Longer passages give the algorithm more material to compare, which translates to higher accuracy.  \n2. Strip out headers & footers \u2013 Page numbers, titles, and repeated boilerplate can artificially inflate similarity scores.  \n3. Turn on Cross\u2011Language Mode for translations \u2013 If you\u2019re checking a document that started life in another language, enable the 50\u2011plus language comparison to catch hidden matches.  \n4. One file per check \u2013 Running a single document at a time yields clearer, more actionable reports than bulk\u2011checking a mixed bag.\n\n---\n\n## 6. Keeping an Eye on Your Plan  \n\nThe Pro Plan hands you a monthly quota of checks (for example, 100 scans per month). Your dashboard displays current usage\u2014say, 78\u202f/\u202f100 checks used\u2014so you always know how many scans you have left and when it might be time to upgrade.\n\n---\n\n## 7. Bottom Line  \n\nAuthentiq marries a sleek, user\u2011friendly interface with robust plagiarism\u2011detection and AI\u2011risk capabilities. By following the steps above and applying the quick\u2011win tips, you can verify the originality of anything from a climate\u2011change dissertation to a snappy marketing blog post\u2014fast, confidently, and with peace of mind.\n\nReady to give it a spin? Log in, upload your document, and let Authentiq do the heavy lifting. Happy writing!",
+                            "improvement_score": 0.0,
+                            "changes_made": [
+                                "Translated to English",
+                                "Enhanced natural flow",
+                                "Improved readability"
+                            ],
+                            "word_count": 756,
+                            "processing_time": 3.645502,
+                            "original_ai_score": 0.0,
+                            "humanized_ai_score": 0.0
+                        },
+                        "tokens_used": 756
+                    },
+                    {
+                        "id": "c5e42520-5ecb-4f05-80db-b1b0a6d0d101",
+                        "type": "humanize_text",
+                        "timestamp": "2026-02-24T21:35:17.013511",
+                        "details": {
+                            "original_text": "Artificial intelligence is transforming the way modern technology operates across multiple industries. It is being used to automate processes, improve efficiency, and reduce human effort in repetitive tasks. Many companies are adopting artificial intelligence solutions to gain a competitive advantage and enhance productivity. As a result, AI has become an essential component of digital transformation strategies worldwide.\nOne of the most significant benefits of artificial intelligence is its ability to analyze large amounts of data quickly and accurately. Traditional methods of data analysis often require extensive time and human resources, whereas AI systems can process information in real time. This capability allows organizations to make data-driven decisions more effectively. Consequently, artificial intelligence is widely applied in sectors such as healthcare, finance, education, and marketing.\nArtificial intelligence also plays an important role in improving user experiences through personalization. Recommendation systems, chatbots, and virtual assistants are examples of AI-powered tools that interact with users intelligently. These systems are designed to learn from user behavior and adapt accordingly. Therefore, businesses can deliver more relevant and customized services to their customers.\nDespite its advantages, artificial intelligence presents certain challenges and ethical concerns. Issues such as data privacy, algorithmic bias, and job displacement are frequently discussed. It is important for organizations and policymakers to address these concerns responsibly. By implementing ethical guidelines and transparent practices, artificial intelligence can be developed and used in a manner that benefits society as a whole.",
+                            "humanized_text": "# Inteligencia Artificial y su Impacto en la Transformaci\u00f3n Digital de la Industria  \n\n## Resumen  \nLa inteligencia artificial (IA) est\u00e1 redefiniendo la forma en que la tecnolog\u00eda moderna funciona en m\u00faltiples sectores. Su capacidad para automatizar procesos, aumentar la eficiencia y reducir el esfuerzo humano en tareas repetitivas la ha convertido en un elemento esencial de las estrategias de transformaci\u00f3n digital a nivel global. Este trabajo revisa los principales beneficios de la IA \u2014especialmente su rapidez y precisi\u00f3n en el an\u00e1lisis de datos\u2014, su aplicaci\u00f3n en la personalizaci\u00f3n de la experiencia del usuario y los retos \u00e9ticos que plantea, como la privacidad de los datos, el sesgo algor\u00edtmico y la posible p\u00e9rdida de empleos. Se discuten recomendaciones para que empresas y reguladores adopten pr\u00e1cticas responsables que maximicen el valor social de la IA.\n\n## 1. Introducci\u00f3n  \nEn los \u00faltimos a\u00f1os, la IA ha pasado de ser una curiosidad acad\u00e9mica a un motor clave de la competitividad empresarial. Cada vez m\u00e1s organizaciones la incorporan para obtener ventajas estrat\u00e9gicas y mejorar su productividad. Esta tendencia se refleja en la inclusi\u00f3n de la IA dentro de los planes de transformaci\u00f3n digital de compa\u00f1\u00edas de todo el mundo.\n\n## 2. Beneficios clave de la IA  \n\n### 2.1 An\u00e1lisis de datos a gran escala  \nUna de las virtudes m\u00e1s destacadas de la IA es su habilidad para procesar vol\u00famenes masivos de informaci\u00f3n de forma r\u00e1pida y exacta. Mientras que los m\u00e9todos tradicionales de an\u00e1lisis pueden requerir semanas de trabajo y un gran n\u00famero de analistas, los sistemas basados en IA pueden extraer patrones y generar insights en tiempo real. Esta agilidad permite a las organizaciones tomar decisiones fundamentadas en datos de manera m\u00e1s eficaz.\n\n### 2.2 Aplicaciones en sectores estrat\u00e9gicos  \nGracias a esta capacidad, la IA se ha extendido a \u00e1reas como la salud (diagn\u00f3stico asistido), finanzas (detecci\u00f3n de fraudes), educaci\u00f3n (plataformas adaptativas) y marketing (segmentaci\u00f3n de audiencias). En cada caso, la IA ayuda a optimizar procesos y a ofrecer soluciones m\u00e1s precisas.\n\n## 3. Mejora de la experiencia del usuario  \n\n### 3.1 Personalizaci\u00f3n mediante sistemas de recomendaci\u00f3n  \nLos sistemas de recomendaci\u00f3n, los chatbots y los asistentes virtuales son ejemplos claros de c\u00f3mo la IA puede interactuar de forma inteligente con los usuarios. Estos instrumentos aprenden del comportamiento del cliente y ajustan sus respuestas o sugerencias en consecuencia, lo que se traduce en servicios m\u00e1s relevantes y personalizados.\n\n### 3.2 Impacto en la relaci\u00f3n empresa\u2011cliente  \nAl ofrecer experiencias adaptadas a las necesidades individuales, las empresas pueden fortalecer la lealtad del cliente y diferenciarse de la competencia.\n\n## 4. Desaf\u00edos y consideraciones \u00e9ticas  \n\n### 4.1 Privacidad y protecci\u00f3n de datos  \nEl manejo de grandes cantidades de informaci\u00f3n personal plantea riesgos de privacidad. Es fundamental que las organizaciones implementen pol\u00edticas claras de gesti\u00f3n de datos y cumplan con la normativa vigente.\n\n### 4.2 Sesgo algor\u00edtmico  \nLos algoritmos pueden reproducir o amplificar sesgos presentes en los datos de entrenamiento, lo que lleva a decisiones injustas. La auditor\u00eda continua y la inclusi\u00f3n de equipos multidisciplinarios son pasos necesarios para mitigar este problema.\n\n### 4.3 Impacto laboral  \nLa automatizaci\u00f3n de tareas repetitivas puede generar desplazamiento de puestos de trabajo. Sin embargo, tambi\u00e9n abre oportunidades para roles m\u00e1s creativos y estrat\u00e9gicos, siempre que se acompa\u00f1e de programas de capacitaci\u00f3n y reconversi\u00f3n profesional.\n\n## 5. Recomendaciones para una IA responsable  \n\n1. Establecer gu\u00edas \u00e9ticas claras que definan principios de transparencia, equidad y responsabilidad.  \n2. Fomentar la transparencia algor\u00edtmica, permitiendo a los usuarios comprender c\u00f3mo se toman las decisiones automatizadas.  \n3. Implementar mecanismos de supervisi\u00f3n que detecten y corrijan sesgos o errores en tiempo real.  \n4. Promover la educaci\u00f3n y la capacitaci\u00f3n de la fuerza laboral para adaptarse a los nuevos roles que surgen con la IA.  \n\n## 6. Conclusiones  \nLa inteligencia artificial se ha consolidado como un pilar indispensable de la transformaci\u00f3n digital, ofreciendo ventajas competitivas al acelerar el an\u00e1lisis de datos y personalizar la interacci\u00f3n con los usuarios. No obstante, su adopci\u00f3n debe acompa\u00f1arse de una gesti\u00f3n \u00e9tica y responsable que aborde los riesgos asociados a la privacidad, el sesgo y el empleo. Al seguir las recomendaciones propuestas, empresas y reguladores pueden asegurar que la IA genere beneficios sostenibles para la sociedad.\n\n## Referencias (selecci\u00f3n)  \n- Russell, S. & Norvig, P. (2020). Artificial Intelligence: A Modern Approach. Pearson.  \n- European Commission. (2021). Ethics Guidelines for Trustworthy AI.  \n- McKinsey & Company. (2022). The State of AI in 2022.  \n\n---  \n\nNota: Este documento est\u00e1 pensado como una versi\u00f3n simplificada y accesible de un art\u00edculo acad\u00e9mico, orientado a lectores que buscan una visi\u00f3n clara y pr\u00e1ctica del papel de la IA en la transformaci\u00f3n digital.",
+                            "improvement_score": 100.0,
+                            "changes_made": [
+                                "Translated to Spanish",
+                                "Enhanced natural flow",
+                                "Improved readability"
+                            ],
+                            "word_count": 762,
+                            "processing_time": 3.692626,
+                            "original_ai_score": 40.0,
+                            "humanized_ai_score": 0.0
+                        },
+                        "tokens_used": 762
+                    },
+                    {
+                        "id": "918d0bbe-2594-4c19-9e01-8095bfaa22d6",
+                        "type": "humanize_text",
+                        "timestamp": "2026-02-24T21:37:52.920603",
+                        "details": {
+                            "original_text": "Artificial intelligence is transforming the way modern technology operates across multiple industries. It is being used to automate processes, improve efficiency, and reduce human effort in repetitive tasks. Many companies are adopting artificial intelligence solutions to gain a competitive advantage and enhance productivity. As a result, AI has become an essential component of digital transformation strategies worldwide.\nOne of the most significant benefits of artificial intelligence is its ability to analyze large amounts of data quickly and accurately. Traditional methods of data analysis often require extensive time and human resources, whereas AI systems can process information in real time. This capability allows organizations to make data-driven decisions more effectively. Consequently, artificial intelligence is widely applied in sectors such as healthcare, finance, education, and marketing.\nArtificial intelligence also plays an important role in improving user experiences through personalization. Recommendation systems, chatbots, and virtual assistants are examples of AI-powered tools that interact with users intelligently. These systems are designed to learn from user behavior and adapt accordingly. Therefore, businesses can deliver more relevant and customized services to their customers.\nDespite its advantages, artificial intelligence presents certain challenges and ethical concerns. Issues such as data privacy, algorithmic bias, and job displacement are frequently discussed. It is important for organizations and policymakers to address these concerns responsibly. By implementing ethical guidelines and transparent practices, artificial intelligence can be developed and used in a manner that benefits society as a whole.",
+                            "humanized_text": "# \u0915\u0943\u0924\u094d\u0930\u093f\u092e \u092c\u0941\u0926\u094d\u0927\u093f\u092e\u0924\u094d\u0924\u093e: \u0921\u093f\u091c\u093f\u091f\u0932 \u092f\u0941\u0917 \u0915\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928\u0915\u093e\u0930\u0940 \u0936\u0915\u094d\u0924\u093f\n\n## \u092a\u0930\u093f\u091a\u092f  \n\u0906\u091c \u0915\u093e \u0938\u092e\u092f \u0935\u0939 \u0939\u0948 \u091c\u092c \u0924\u0915\u0928\u0940\u0915 \u0915\u0940 \u0927\u093e\u0930\u093e \u092e\u0947\u0902 \u090f\u0915 \u0928\u0908 \u0932\u0939\u0930 \u0924\u0948\u0930 \u0930\u0939\u0940 \u0939\u0948\u2014\u0915\u0943\u0924\u094d\u0930\u093f\u092e \u092c\u0941\u0926\u094d\u0927\u093f\u092e\u0924\u094d\u0924\u093e (AI)\u0964 \u092f\u0939 \u0915\u0947\u0935\u0932 \u090f\u0915 \u0924\u0915\u0928\u0940\u0915\u0940 \u0909\u0928\u094d\u0928\u0924\u093f \u0928\u0939\u0940\u0902, \u092c\u0932\u094d\u0915\u093f \u0935\u0939 \u092a\u094d\u0930\u0947\u0930\u0915 \u0936\u0915\u094d\u0924\u093f \u0939\u0948 \u091c\u094b \u0935\u093f\u092d\u093f\u0928\u094d\u0928 \u0909\u0926\u094d\u092f\u094b\u0917\u094b\u0902 \u0915\u094b \u092a\u0941\u0928\u0903 \u092a\u0930\u093f\u092d\u093e\u0937\u093f\u0924 \u0915\u0930 \u0930\u0939\u0940 \u0939\u0948\u0964 \u092a\u094d\u0930\u0915\u094d\u0930\u093f\u092f\u093e\u2011\u0938\u094d\u0935\u091a\u093e\u0932\u0928, \u0915\u093e\u0930\u094d\u092f\u2011\u0915\u0941\u0936\u0932\u0924\u093e \u092e\u0947\u0902 \u0938\u0941\u0927\u093e\u0930 \u0914\u0930 \u0926\u094b\u0939\u0930\u093e\u0935 \u0935\u093e\u0932\u0947 \u0915\u093e\u0930\u094d\u092f\u094b\u0902 \u092e\u0947\u0902 \u092e\u093e\u0928\u0935\u0940\u092f \u092a\u094d\u0930\u092f\u093e\u0938 \u0915\u094b \u0918\u091f\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f AI \u0928\u0947 \u0905\u092a\u0928\u0947 \u092a\u0902\u0916 \u092b\u0948\u0932\u093e \u0926\u093f\u090f \u0939\u0948\u0902\u0964 \u0907\u0938 \u0915\u093e\u0930\u0923, \u0915\u0902\u092a\u0928\u093f\u092f\u093e\u0902 \u0905\u092c \u092a\u094d\u0930\u0924\u093f\u0938\u094d\u092a\u0930\u094d\u0927\u093e\u0924\u094d\u092e\u0915 \u092c\u0922\u093c\u0924 \u0939\u093e\u0938\u093f\u0932 \u0915\u0930\u0928\u0947 \u0914\u0930 \u0909\u0924\u094d\u092a\u093e\u0926\u0928\u0936\u0940\u0932\u0924\u093e \u0915\u094b \u0928\u0908 \u090a\u0901\u091a\u093e\u0907\u092f\u094b\u0902 \u092a\u0930 \u0932\u0947 \u091c\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f AI\u2011\u0906\u0927\u093e\u0930\u093f\u0924 \u0938\u092e\u093e\u0927\u093e\u0928 \u0905\u092a\u0928\u093e\u0928\u0947 \u092e\u0947\u0902 \u0915\u094b\u0908 \u0915\u0938\u0930 \u0928\u0939\u0940\u0902 \u091b\u094b\u0921\u093c \u0930\u0939\u0940 \u0939\u0948\u0902\u0964 \u092a\u0930\u093f\u0923\u093e\u092e\u0938\u094d\u0935\u0930\u0942\u092a, AI \u0935\u093f\u0936\u094d\u0935 \u092d\u0930 \u092e\u0947\u0902 \u0921\u093f\u091c\u093f\u091f\u0932 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0930\u0923\u0928\u0940\u0924\u093f\u092f\u094b\u0902 \u0915\u093e \u0905\u0928\u093f\u0935\u093e\u0930\u094d\u092f \u0918\u091f\u0915 \u092c\u0928 \u091a\u0941\u0915\u093e \u0939\u0948\u0964\n\n## \u0921\u0947\u091f\u093e\u2011\u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923 \u092e\u0947\u0902 AI \u0915\u093e \u0915\u094d\u0930\u093e\u0902\u0924\u093f\u0915\u093e\u0930\u0940 \u092a\u094d\u0930\u092d\u093e\u0935  \n\u0915\u0939\u0924\u0947 \u0939\u0948\u0902, \u201c\u0938\u0942\u091a\u0928\u093e \u0939\u0940 \u0936\u0915\u094d\u0924\u093f \u0939\u0948,\u201d \u0914\u0930 AI \u0907\u0938 \u0936\u0915\u094d\u0924\u093f \u0915\u094b \u0924\u0947\u091c\u093c\u0940 \u0914\u0930 \u0938\u091f\u0940\u0915\u0924\u093e \u0915\u0947 \u0938\u093e\u0925 \u0909\u091c\u093e\u0917\u0930 \u0915\u0930\u0924\u093e \u0939\u0948\u0964 \u092a\u093e\u0930\u092e\u094d\u092a\u0930\u093f\u0915 \u0921\u0947\u091f\u093e\u2011\u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923 \u0905\u0915\u094d\u0938\u0930 \u092e\u0939\u0940\u0928\u094b\u0902\u2011\u0938\u092a\u094d\u0924\u093e\u0939\u094b\u0902 \u0924\u0915 \u0915\u093e \u0938\u092e\u092f \u0914\u0930 \u092c\u0921\u093c\u0947 \u092e\u093e\u0928\u0935 \u0938\u0902\u0938\u093e\u0927\u0928 \u0915\u0940 \u092e\u093e\u0902\u0917 \u0915\u0930\u0924\u093e \u0925\u093e\u0964 \u0935\u0939\u0940\u0902, AI \u0938\u093f\u0938\u094d\u091f\u092e \u0935\u093e\u0938\u094d\u0924\u0935\u093f\u0915\u2011\u0938\u092e\u092f \u092e\u0947\u0902 \u0935\u093f\u0936\u093e\u0932 \u092e\u093e\u0924\u094d\u0930\u093e \u092e\u0947\u0902 \u0921\u0947\u091f\u093e \u0915\u094b \u092a\u094d\u0930\u094b\u0938\u0947\u0938 \u0915\u0930, \u0938\u0942\u0915\u094d\u0937\u094d\u092e\u0924\u092e \u092a\u0948\u091f\u0930\u094d\u0928 \u0915\u094b \u092d\u0940 \u092a\u0915\u0921\u093c \u0932\u0947\u0924\u0947 \u0939\u0948\u0902\u0964 \u0907\u0938 \u0924\u0947\u091c\u093c\u0940 \u0915\u0947 \u0915\u093e\u0930\u0923, \u0938\u0902\u0917\u0920\u0928\u094b\u0902 \u0915\u094b \u0905\u092c \u0921\u0947\u091f\u093e\u2011\u0906\u0927\u093e\u0930\u093f\u0924 \u0928\u093f\u0930\u094d\u0923\u092f \u0932\u0947\u0928\u0947 \u092e\u0947\u0902 \u092a\u0939\u0932\u0947 \u0938\u0947 \u0905\u0927\u093f\u0915 \u0906\u0924\u094d\u092e\u0935\u093f\u0936\u094d\u0935\u093e\u0938 \u092e\u093f\u0932\u0924\u093e \u0939\u0948\u0964 \u0938\u094d\u0935\u093e\u0938\u094d\u0925\u094d\u092f\u2011\u0938\u0947\u0935\u093e, \u0935\u093f\u0924\u094d\u0924, \u0936\u093f\u0915\u094d\u0937\u093e \u0914\u0930 \u0935\u093f\u092a\u0923\u0928 \u091c\u0948\u0938\u0947 \u0915\u094d\u0937\u0947\u0924\u094d\u0930\u094b\u0902 \u092e\u0947\u0902 AI \u0915\u093e \u0909\u092a\u092f\u094b\u0917 \u0907\u0938 \u092c\u093e\u0924 \u0915\u093e \u092a\u094d\u0930\u092e\u093e\u0923 \u0939\u0948 \u0915\u093f \u0915\u0948\u0938\u0947 \u201c\u092c\u0921\u093c\u0947 \u0921\u0947\u091f\u093e\u201d \u0915\u094b \u201c\u092c\u0941\u0926\u094d\u0927\u093f\u092e\u093e\u0928 \u0928\u093f\u0930\u094d\u0923\u092f\u201d \u092e\u0947\u0902 \u092c\u0926\u0932\u093e \u091c\u093e \u0930\u0939\u093e \u0939\u0948\u0964\n\n## \u0935\u094d\u092f\u0915\u094d\u0924\u093f\u0917\u0924 \u0905\u0928\u0941\u092d\u0935 \u0915\u0940 \u0928\u0908 \u092a\u0930\u093f\u092d\u093e\u0937\u093e  \nAI \u0928\u0947 \u0909\u092a\u092f\u094b\u0917\u0915\u0930\u094d\u0924\u093e \u0905\u0928\u0941\u092d\u0935 \u0915\u094b \u092d\u0940 \u0935\u0948\u092f\u0915\u094d\u0924\u093f\u0915\u0930\u0923 \u0915\u0940 \u0930\u093e\u0939 \u092a\u0930 \u0932\u0947 \u091c\u093e\u092f\u093e \u0939\u0948\u0964 \u0938\u093f\u092b\u093c\u093e\u0930\u093f\u0936 \u092a\u094d\u0930\u0923\u093e\u0932\u0940, \u091a\u0948\u091f\u092c\u0949\u091f, \u0935\u0930\u094d\u091a\u0941\u0905\u0932 \u0905\u0938\u093f\u0938\u094d\u091f\u0947\u0902\u091f\u2014\u0907\u0928 \u0938\u092d\u0940 \u0909\u092a\u0915\u0930\u0923\u094b\u0902 \u092e\u0947\u0902 \u0935\u0939 \u201c\u0938\u094d\u092e\u093e\u0930\u094d\u091f\u201d \u092a\u0930\u0924 \u0939\u0948, \u091c\u094b \u0909\u092a\u092f\u094b\u0917\u0915\u0930\u094d\u0924\u093e \u0915\u0947 \u0935\u094d\u092f\u0935\u0939\u093e\u0930 \u0915\u094b \u0938\u0940\u0916\u0915\u0930 \u0909\u0938\u0947 \u0905\u0928\u0941\u0915\u0942\u0932\u093f\u0924 \u0915\u0930\u0924\u093e \u0939\u0948\u0964 \u0909\u0926\u093e\u0939\u0930\u0923 \u0938\u094d\u0935\u0930\u0942\u092a, \u090f\u0915 \u0911\u0928\u0932\u093e\u0907\u0928 \u0936\u0949\u092a\u093f\u0902\u0917 \u0938\u093e\u0907\u091f \u092a\u0930 \u0906\u092a\u0915\u0947 \u092a\u093f\u091b\u0932\u0947 \u0916\u0930\u0940\u0926\u093e\u0930\u0940 \u0907\u0924\u093f\u0939\u093e\u0938 \u0915\u0947 \u0906\u0927\u093e\u0930 \u092a\u0930 \u0938\u0941\u091d\u093e\u090f \u0917\u090f \u0909\u0924\u094d\u092a\u093e\u0926, \u092f\u093e \u090f\u0915 \u092c\u0948\u0902\u0915\u093f\u0902\u0917 \u0910\u092a \u092e\u0947\u0902 \u0906\u092a\u0915\u0947 \u0916\u0930\u094d\u091a \u0915\u0947 \u092a\u0948\u091f\u0930\u094d\u0928 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930 \u0924\u0948\u092f\u093e\u0930 \u0915\u093f\u090f \u0917\u090f \u092c\u091c\u091f \u0938\u0941\u091d\u093e\u0935\u2014\u092f\u0947 \u0938\u092c AI \u0915\u0940 \u0938\u0942\u0915\u094d\u0937\u094d\u092e \u0938\u092e\u091d \u0915\u093e \u0928\u0924\u0940\u091c\u093e \u0939\u0948\u0902\u0964 \u0907\u0938 \u092a\u094d\u0930\u0915\u093e\u0930, \u0935\u094d\u092f\u0935\u0938\u093e\u092f \u0905\u092c \u0905\u092a\u0928\u0947 \u0917\u094d\u0930\u093e\u0939\u0915\u094b\u0902 \u0915\u094b \u0928 \u0915\u0947\u0935\u0932 \u0905\u0927\u093f\u0915 \u092a\u094d\u0930\u093e\u0938\u0902\u0917\u093f\u0915, \u092c\u0932\u094d\u0915\u093f \u0935\u094d\u092f\u0915\u094d\u0924\u093f\u0917\u0924 \u0930\u0942\u092a \u0938\u0947 \u0924\u0948\u092f\u093e\u0930 \u0938\u0947\u0935\u093e\u090f\u0901 \u092a\u094d\u0930\u0926\u093e\u0928 \u0915\u0930 \u092a\u093e \u0930\u0939\u0947 \u0939\u0948\u0902\u0964\n\n## \u091a\u0941\u0928\u094c\u0924\u093f\u092f\u093e\u0901 \u0914\u0930 \u0928\u0948\u0924\u093f\u0915 \u0926\u0941\u0935\u093f\u0927\u093e\u090f\u0901  \n\u0939\u0930 \u091a\u092e\u0915\u0924\u0947 \u0938\u094b\u0928\u0947 \u0915\u0947 \u0938\u093f\u0915\u094d\u0915\u0947 \u0915\u0940 \u0924\u0930\u0939, AI \u0915\u0947 \u0938\u093e\u0925 \u092d\u0940 \u0915\u0908 \u091a\u0941\u0928\u094c\u0924\u093f\u092f\u093e\u0901 \u0914\u0930 \u0928\u0948\u0924\u093f\u0915 \u092a\u094d\u0930\u0936\u094d\u0928 \u091c\u0941\u095c\u0947 \u0939\u0941\u090f \u0939\u0948\u0902\u0964 \u0921\u0947\u091f\u093e \u0915\u0940 \u0917\u094b\u092a\u0928\u0940\u092f\u0924\u093e, \u090f\u0932\u094d\u0917\u094b\u0930\u093f\u0926\u092e\u093f\u0915 \u092a\u0915\u094d\u0937\u092a\u093e\u0924, \u0914\u0930 \u0930\u094b\u091c\u0917\u093e\u0930 \u092e\u0947\u0902 \u0938\u0902\u092d\u093e\u0935\u093f\u0924 \u0935\u093f\u0938\u094d\u0925\u093e\u092a\u0928\u2014\u0907\u0928 \u092e\u0941\u0926\u094d\u0926\u094b\u0902 \u092a\u0930 \u0932\u0917\u093e\u0924\u093e\u0930 \u092c\u0939\u0938 \u0939\u094b\u0924\u0940 \u0930\u0939\u0924\u0940 \u0939\u0948\u0964 \u0907\u0938\u0932\u093f\u090f, \u0928 \u0915\u0947\u0935\u0932 \u0915\u0902\u092a\u0928\u093f\u092f\u094b\u0902 \u0915\u094b \u092c\u0932\u094d\u0915\u093f \u0928\u0940\u0924\u093f \u0928\u093f\u0930\u094d\u092e\u093e\u0924\u093e\u0913\u0902 \u0915\u094b \u092d\u0940 \u0907\u0928 \u091a\u093f\u0902\u0924\u093e\u0913\u0902 \u0915\u094b \u0917\u0902\u092d\u0940\u0930\u0924\u093e \u0938\u0947 \u0932\u0947\u0928\u093e \u091a\u093e\u0939\u093f\u090f\u0964 \u0928\u0948\u0924\u093f\u0915 \u0926\u093f\u0936\u093e\u0928\u093f\u0930\u094d\u0926\u0947\u0936, \u092a\u093e\u0930\u0926\u0930\u094d\u0936\u0940 \u0915\u093e\u0930\u094d\u092f\u092a\u094d\u0930\u0923\u093e\u0932\u0940 \u0914\u0930 \u091c\u0935\u093e\u092c\u0926\u0947\u0939 AI \u0935\u093f\u0915\u093e\u0938 \u0915\u0947 \u092e\u0942\u0932\u092d\u0942\u0924 \u0938\u094d\u0924\u0902\u092d \u092c\u0928\u0924\u0947 \u0939\u0948\u0902\u0964 \u091c\u092c \u0907\u0928 \u0938\u093f\u0926\u094d\u0927\u093e\u0902\u0924\u094b\u0902 \u0915\u094b \u0905\u092a\u0928\u093e\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948, \u0924\u094b AI \u0938\u092e\u093e\u091c \u0915\u0947 \u0932\u093f\u090f \u090f\u0915 \u0938\u0936\u0915\u094d\u0924 \u0938\u0939\u092f\u094b\u0917\u0940 \u092c\u0928 \u0938\u0915\u0924\u093e \u0939\u0948, \u0928 \u0915\u093f \u090f\u0915 \u0905\u0938\u0939\u091c \u092c\u094b\u091d\u0964\n\n## \u0928\u093f\u0937\u094d\u0915\u0930\u094d\u0937  \n\u0915\u0943\u0924\u094d\u0930\u093f\u092e \u092c\u0941\u0926\u094d\u0927\u093f\u092e\u0924\u094d\u0924\u093e \u0928\u0947 \u0921\u093f\u091c\u093f\u091f\u0932 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u0940 \u0930\u093e\u0939 \u092e\u0947\u0902 \u090f\u0915 \u0928\u0908 \u0926\u093f\u0936\u093e \u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0940 \u0939\u0948\u2014\u091c\u0939\u093e\u0901 \u0921\u0947\u091f\u093e \u0915\u094b \u0924\u0947\u091c\u093c\u0940 \u0938\u0947 \u0938\u092e\u091d\u093e \u091c\u093e\u0924\u093e \u0939\u0948, \u0909\u092a\u092f\u094b\u0917\u0915\u0930\u094d\u0924\u093e \u0905\u0928\u0941\u092d\u0935 \u0915\u094b \u0935\u094d\u092f\u0915\u094d\u0924\u093f\u0917\u0924 \u092c\u0928\u093e\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948, \u0914\u0930 \u0935\u094d\u092f\u0935\u0938\u093e\u092f\u094b\u0902 \u0915\u094b \u092a\u094d\u0930\u0924\u093f\u0938\u094d\u092a\u0930\u094d\u0927\u093e\u0924\u094d\u092e\u0915 \u0932\u093e\u092d \u092e\u093f\u0932\u0924\u093e \u0939\u0948\u0964 \u0932\u0947\u0915\u093f\u0928 \u0907\u0938 \u0936\u0915\u094d\u0924\u093f \u0915\u094b \u0938\u0902\u0924\u0941\u0932\u093f\u0924 \u0930\u0942\u092a \u0938\u0947 \u0909\u092a\u092f\u094b\u0917 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0928\u0948\u0924\u093f\u0915 \u091c\u093f\u092e\u094d\u092e\u0947\u0926\u093e\u0930\u0940 \u0914\u0930 \u0938\u093e\u092e\u093e\u091c\u093f\u0915 \u0938\u092e\u091d \u0915\u0940 \u0906\u0935\u0936\u094d\u092f\u0915\u0924\u093e \u0939\u0948\u0964 \u091c\u092c \u0939\u092e AI \u0915\u094b \u092e\u093e\u0928\u0935\u0924\u093e \u0915\u0947 \u0939\u093f\u0924 \u092e\u0947\u0902, \u092a\u093e\u0930\u0926\u0930\u094d\u0936\u093f\u0924\u093e \u0914\u0930 \u0928\u094d\u092f\u093e\u092f \u0915\u0947 \u0938\u093e\u0925 \u0935\u093f\u0915\u0938\u093f\u0924 \u0915\u0930\u0947\u0902\u0917\u0947, \u0924\u092d\u0940 \u092f\u0939 \u0924\u0915\u0928\u0940\u0915 \u0935\u093e\u0938\u094d\u0924\u0935 \u092e\u0947\u0902 \u090f\u0915 \u201c\u0938\u0939\u093e\u092f\u0915\u201d \u092c\u0928 \u092a\u093e\u090f\u0917\u0940, \u091c\u094b \u0928 \u0915\u0947\u0935\u0932 \u0909\u0926\u094d\u092f\u094b\u0917\u094b\u0902 \u0915\u094b, \u092c\u0932\u094d\u0915\u093f \u0938\u092e\u094d\u092a\u0942\u0930\u094d\u0923 \u0938\u092e\u093e\u091c \u0915\u094b \u0938\u092e\u0943\u0926\u094d\u0927\u093f \u0915\u0940 \u0913\u0930 \u0932\u0947 \u091c\u093e\u090f\u0917\u0940\u0964",
+                            "improvement_score": 100.0,
+                            "changes_made": [
+                                "Translated to Hindi",
+                                "Enhanced natural flow",
+                                "Improved readability"
+                            ],
+                            "word_count": 510,
+                            "processing_time": 3.303866,
+                            "original_ai_score": 40.0,
+                            "humanized_ai_score": 0.0
+                        },
+                        "tokens_used": 510
+                    }
+                ],
+                "transactions": [],
+                "downloads": [
+                    {
+                        "id": "3c01aeb3-4f7d-4d2f-ba3a-b5c4a6ed88cf",
+                        "type": "file_download",
+                        "timestamp": "2026-02-24T21:35:29.390016",
+                        "details": {
+                            "format": "pdf",
+                            "word_count": 762
+                        },
+                        "tokens_used": 762
+                    }
+                ],
+                "user_activity": [
+                    {
+                        "id": "de021985-52ce-4b5e-a31d-70dd6c015024",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T14:59:11.620202",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "ef616213-95e3-4021-afad-b8b5e5a2a241",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:01:45.412348",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "1c34fe2f-250b-48ea-bb69-6d6b3fbe269c",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:01:45.456136",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "4eee152c-d7d5-43f1-948a-9b7df0a8d744",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:05:04.505593",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "a13cfd7e-8301-41c9-9f37-1d892acb9939",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:05:25.325860",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "45b6d783-a112-4cfa-bab1-f23666f3f720",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:05:25.368051",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "d19658bb-9230-46e1-9f4b-05908fd66b9a",
+                        "type": "page_view",
+                        "timestamp": "2026-01-18T15:08:54.137310",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "3ab22803-a906-40f1-b0bc-aaad8fd74fce",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T21:32:10.102133",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "e8b74a38-4278-439b-a380-9aaf3adbd63e",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T21:32:10.137432",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "4dafbd37-c60c-4409-b6ba-f1a13fcf54c2",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T21:32:19.804044",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "b8ca3ac9-aea0-4be1-a872-4aa4a177a3f2",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T21:32:19.840167",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "8056e843-fd8e-434a-93f0-3e3f95339e86",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T23:31:02.518195",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "d5302eb4-b479-4696-b420-d9b6d6b7c30b",
+                        "type": "page_view",
+                        "timestamp": "2026-02-24T23:31:02.609775",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "7631804c-a0f0-4840-bdd4-bdc9d371a42e",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:31:51.460990",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "f81827a4-90bd-4b11-bacc-0492f278aa5c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:31:51.700790",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "3b0441cd-a7cf-4986-8eac-58ca1fb4d02c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:33:16.513621",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "16d34028-a6a0-4a76-ade3-dd0774eabab0",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:33:16.804294",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "476f1599-cfa3-46fe-a120-b965d0daaa59",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:37.142752",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "8d5d94d4-f582-41a9-965d-09f9bc458847",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:37.573329",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "c4711886-64e9-492d-931c-e40051dd698c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:45.433555",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "6a094aa5-fc53-430e-97e1-69dd0dad514c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:45.731953",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "ff486671-6d8e-480b-bd6c-3a92ac1d3607",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:50.573435",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "f0d47ad7-2e35-4d06-96f0-4e10efe01ee6",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:34:50.692084",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "71adefcb-6bc3-4033-86d4-b25b5a802c16",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:38:55.124788",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "705150bc-1146-4417-ad49-ddfa4c0ef04f",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T00:38:55.380115",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    }
+                ]
+            },
+            "usage_today": {
+                "date": "2026-02-24",
+                "plagiarism_count": 9,
+                "humanize_count": 2,
+                "bulk_count": 0
+            }
+        }
+    }
+}

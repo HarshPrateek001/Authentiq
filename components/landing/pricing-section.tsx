@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Check } from "lucide-react"
+import { SmartAction } from "@/components/ui/smart-action"
 
 const plans = {
   student: [
@@ -31,7 +32,7 @@ const plans = {
         "AI rewriting suggestions",
         "Export to PDF",
       ],
-      cta: "Start Free Trial",
+      cta: "Start Trial",
       popular: true,
     },
     {
@@ -47,7 +48,7 @@ const plans = {
         "Live typing detection",
         "Priority support",
       ],
-      cta: "Start Free Trial",
+      cta: "Start Trial",
       popular: false,
     },
   ],
@@ -75,7 +76,7 @@ const plans = {
         "API access (1000 calls)",
         "Export to PDF/DOCX",
       ],
-      cta: "Start Free Trial",
+      cta: "Start Trial",
       popular: true,
     },
     {
@@ -119,17 +120,15 @@ export function PricingSection() {
           {/* User Type Toggle */}
           <div className="flex items-center gap-2 p-1 rounded-full bg-muted">
             <button
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                userType === "student" ? "bg-background shadow-sm" : "text-muted-foreground"
-              }`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${userType === "student" ? "bg-background shadow-sm" : "text-muted-foreground"
+                }`}
               onClick={() => setUserType("student")}
             >
               Student
             </button>
             <button
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                userType === "professional" ? "bg-background shadow-sm" : "text-muted-foreground"
-              }`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${userType === "professional" ? "bg-background shadow-sm" : "text-muted-foreground"
+                }`}
               onClick={() => setUserType("professional")}
             >
               Professional
@@ -153,11 +152,10 @@ export function PricingSection() {
             return (
               <div
                 key={index}
-                className={`relative rounded-2xl border p-6 transition-all duration-300 ${
-                  plan.popular
-                    ? "border-primary bg-primary/5 shadow-lg shadow-primary/10 scale-105"
-                    : "border-border bg-card hover:border-primary/50 hover:shadow-md"
-                }`}
+                className={`relative rounded-2xl border p-6 transition-all duration-300 ${plan.popular
+                  ? "border-primary bg-primary/5 shadow-lg shadow-primary/10 scale-105"
+                  : "border-border bg-card hover:border-primary/50 hover:shadow-md"
+                  }`}
               >
                 {plan.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
@@ -186,9 +184,14 @@ export function PricingSection() {
                   ))}
                 </ul>
 
-                <Button className="w-full" variant={plan.popular ? "default" : "outline"} asChild>
-                  <Link href="/signup">{plan.cta}</Link>
-                </Button>
+                <SmartAction
+                  variant={plan.popular ? "default" : "outline"}
+                  className="w-full"
+                  href={`/signup?redirect=${encodeURIComponent(`/purchase?plan=${plan.name.toLowerCase().replace(/\s+/g, '-')}&billing=${isYearly ? 'yearly' : 'monthly'}&userType=${userType}`)}`}
+                  loggedInHref={`/purchase?plan=${plan.name.toLowerCase().replace(/\s+/g, '-')}&billing=${isYearly ? 'yearly' : 'monthly'}&userType=${userType}`}
+                >
+                  {plan.cta}
+                </SmartAction>
               </div>
             )
           })}

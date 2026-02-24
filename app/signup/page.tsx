@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { AuthLayout } from "@/components/auth/auth-layout"
 import { PasswordStrength } from "@/components/auth/password-strength"
 import { Button } from "@/components/ui/button"
@@ -15,6 +15,9 @@ import { Eye, EyeOff, Loader2 } from "lucide-react"
 
 export default function SignupPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get("redirect") || "/dashboard"
+
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +30,8 @@ export default function SignupPage() {
     role: "",
     agreeToTerms: false,
   })
+
+  // ... (handleSubmit and form logic remains until router.push)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,12 +49,31 @@ export default function SignupPage() {
 
     setIsLoading(true)
 
-    // TODO: Connect to /api/auth/register
-    // Simulating API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.fullName.split(" ")[0] || "",
+          lastName: formData.fullName.split(" ").slice(1).join(" ") || "",
+          email: formData.email,
+          password: formData.password,
+          userType: formData.role,
+        }),
+      })
 
-    // Simulated success - redirect to dashboard
-    router.push("/dashboard")
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.detail || "Registration failed")
+      }
+
+      // On success, redirect to login with the original redirect intent
+      router.push(`/login?redirect=${redirectUrl}`)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -200,9 +224,8 @@ export default function SignupPage() {
           </div>
         </div>
 
-          <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading} onClick={() =>
-             {window.location.href = "http://localhost:8000/api/auth/google/login"}}>
-        
+        <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading} onClick={() => { window.location.href = `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/auth/google/login` }}>
+
           <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -226,7 +249,7 @@ export default function SignupPage() {
 
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-primary hover:underline">
+          <Link href={`/login?redirect=${redirectUrl}`} className="font-medium text-primary hover:underline">
             Sign in
           </Link>
         </p>

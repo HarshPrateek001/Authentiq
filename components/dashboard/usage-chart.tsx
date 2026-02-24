@@ -3,17 +3,7 @@
 import { useMemo } from "react"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
 
-const data = [
-  { name: "Mon", checks: 12 },
-  { name: "Tue", checks: 19 },
-  { name: "Wed", checks: 8 },
-  { name: "Thu", checks: 25 },
-  { name: "Fri", checks: 15 },
-  { name: "Sat", checks: 6 },
-  { name: "Sun", checks: 4 },
-]
-
-export function UsageChart() {
+export function UsageChart({ data = [] }: { data?: any[] }) {
   const chartConfig = useMemo(
     () => ({
       checks: {

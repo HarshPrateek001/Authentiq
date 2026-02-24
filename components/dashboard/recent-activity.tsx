@@ -7,25 +7,26 @@ interface ActivityItem {
   id: string
   title: string
   date: string
-  similarity: number
-  status: "safe" | "moderate" | "high"
+  score: number | null
+  status: string
+  type: string
 }
 
-const mockActivity: ActivityItem[] = [
-  { id: "1", title: "Research Paper - Climate Change", date: "2 hours ago", similarity: 8, status: "safe" },
-  { id: "2", title: "Blog Post - Tech Trends 2024", date: "5 hours ago", similarity: 23, status: "moderate" },
-  { id: "3", title: "Essay - Literature Review", date: "Yesterday", similarity: 5, status: "safe" },
-  { id: "4", title: "Article - Market Analysis", date: "2 days ago", similarity: 45, status: "high" },
-  { id: "5", title: "Report - Q4 Summary", date: "3 days ago", similarity: 12, status: "safe" },
-]
-
-const statusStyles = {
+const statusStyles: any = {
   safe: "bg-success/10 text-success border-success/20",
   moderate: "bg-warning/10 text-warning-foreground border-warning/20",
   high: "bg-destructive/10 text-destructive border-destructive/20",
 }
 
-export function RecentActivity() {
+export function RecentActivity({ items = [] }: { items?: any[] }) {
+  if (!items || items.length === 0) {
+    return (
+      <div className="rounded-xl border border-border bg-card p-6 text-center text-muted-foreground">
+        No recent activity
+      </div>
+    )
+  }
+
   return (
     <div className="rounded-xl border border-border bg-card">
       <div className="flex items-center justify-between border-b border-border p-4">
@@ -38,18 +39,18 @@ export function RecentActivity() {
         </Button>
       </div>
       <div className="divide-y divide-border">
-        {mockActivity.map((item) => (
+        {items.map((item) => (
           <div key={item.id} className="flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
               <FileText className="h-5 w-5 text-muted-foreground" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium truncate">{item.title}</p>
-              <p className="text-sm text-muted-foreground">{item.date}</p>
+              <p className="text-sm text-muted-foreground">{new Date(item.date).toLocaleDateString()}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-sm font-medium">{item.similarity}%</span>
-              <Badge variant="outline" className={statusStyles[item.status]}>
+              {item.score !== null && <span className="text-sm font-medium">{item.score}%</span>}
+              <Badge variant="outline" className={statusStyles[item.status] || statusStyles.safe}>
                 {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
               </Badge>
             </div>

@@ -1,0 +1,61 @@
+{
+    "users": [
+        {
+            "id": "19281c36-38ed-4e7d-82d8-16487dbde417",
+            "first_name": "Harsh",
+            "last_name": "Prateek",
+            "email": "Itsharshprateek@gmail.com",
+            "password_hash": "99e631f54d915de7bd12c8b5b631293ddbce719254f5aacd55331de17e2242b4",
+            "user_type": "writer",
+            "created_at": "2026-01-18T13:23:20.886403",
+            "subscription": {
+                "plan": "free",
+                "status": "active"
+            },
+            "history": {
+                "plagiarism_checks": [],
+                "humanize_requests": [],
+                "user_activity": []
+            },
+            "usage_today": {
+                "date": "2026-01-18",
+                "plagiarism_count": 0,
+                "humanize_count": 0,
+                "bulk_count": 0
+            }
+        },
+        {
+            "id": "acf6bd25-ffe5-4773-a335-584e545ed767",
+            "first_name": "Piusha",
+            "last_name": "Patra",
+            "email": "piushapatra@gmail.com",
+            "password_hash": "99e631f54d915de7bd12c8b5b631293ddbce719254f5aacd55331de17e2242b4",
+            "user_type": "student",
+            "created_at": "2026-01-18T14:38:17.099460",
+            "subscription": {
+                "plan": "free",
+                "status": "active"
+            }
+        }
+    ],
+    "sessions": [
+        {
+            "token": "e405a848-9c48-4d9e-83cd-f41dc0fe13ba",
+            "user_id": "19281c36-38ed-4e7d-82d8-16487dbde417",
+            "email": "Itsharshprateek@gmail.com",
+            "created_at": "2026-01-18T13:23:29.349290"
+        },
+        {
+            "token": "2011c056-a901-42d7-8eb2-09952e70afc7",
+            "user_id": "19281c36-38ed-4e7d-82d8-16487dbde417",
+            "email": "Itsharshprateek@gmail.com",
+            "created_at": "2026-01-18T13:50:09.936324"
+        },
+        {
+            "token": "54ee4b1c-77ef-46c0-a40f-71a3976053c0",
+            "user_id": "acf6bd25-ffe5-4773-a335-584e545ed767",
+            "email": "piushapatra@gmail.com",
+            "created_at": "2026-01-18T14:38:27.836767"
+        }
+    ]
+}

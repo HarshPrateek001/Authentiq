@@ -130,6 +130,29 @@ export default function LiveCheckPage() {
     // Mock tool actions
     console.log(`Tool action: ${action}`)
   }
+  const runBackendCheck = async (text: string) => {
+  setIsAnalyzing(true)
+
+  const res = await fetch("http://localhost:8000/api/check-plagiarism", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      text,
+      check_ai_content: true,
+    }),
+  })
+
+  if (!res.ok) {
+    setIsAnalyzing(false)
+    throw new Error("Plagiarism check failed")
+  }
+
+  const data = await res.json()
+  setIsAnalyzing(false)
+  return data
+}
 
   const highRiskCount = sentenceAnalysis.filter((s) => s.risk === "high").length
   const mediumRiskCount = sentenceAnalysis.filter((s) => s.risk === "medium").length

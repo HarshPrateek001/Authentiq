@@ -12,21 +12,25 @@ import { TestimonialsSection } from "@/components/landing/testimonials-section"
 import { PricingSection } from "@/components/landing/pricing-section"
 import { FaqSection } from "@/components/landing/faq-section"
 import { CtaSection } from "@/components/landing/cta-section"
+import { ParticleBackground } from "@/components/ui/particle-background"
 
 export default function HomePage() {
   return (
-    <MainLayout>
-      <HeroSection />
-      <InteractiveDemo />
-      <FeaturesSection />
-      <FeatureShowcase />
-      <HowItWorksSection />
-      <ComparisonTable />
-      <UseCasesSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <FaqSection />
-      <CtaSection />
-    </MainLayout>
+    <>
+      <ParticleBackground />
+      <MainLayout>
+        <HeroSection />
+        <InteractiveDemo />
+        <FeaturesSection />
+        <FeatureShowcase />
+        <HowItWorksSection />
+        <ComparisonTable />
+        <UseCasesSection />
+        <TestimonialsSection />
+        <PricingSection />
+        <FaqSection />
+        <CtaSection />
+      </MainLayout>
+    </>
   )
 }

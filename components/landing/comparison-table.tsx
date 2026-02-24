@@ -43,7 +43,7 @@ export function ComparisonTable() {
                 <th className="text-left p-4 font-medium text-muted-foreground">Feature</th>
                 <th className="p-4 text-center">
                   <div className="inline-flex flex-col items-center">
-                    <span className="font-bold text-primary">Plag Checker</span>
+                    <span className="font-bold text-primary">Authentiq</span>
                     <Badge className="mt-1">Recommended</Badge>
                   </div>
                 </th>

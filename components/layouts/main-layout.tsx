@@ -1,7 +1,6 @@
 import type React from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { FileCheck, Menu } from "lucide-react"
+import { FileCheck } from "lucide-react"
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -11,6 +10,10 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   )
 }
 
+import { UserNav } from "@/components/auth/user-nav"
+
+import { MobileNav } from "@/components/layouts/mobile-nav"
+
 function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -19,7 +22,7 @@ function Header() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <FileCheck className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold">Plag Checker</span>
+          <span className="text-lg font-semibold">Authentiq*</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -29,18 +32,8 @@ function Header() {
           <NavLink href="/#faq">FAQ</NavLink>
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" asChild>
-            <Link href="/login">Log in</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/signup">Get Started</Link>
-          </Button>
-        </div>
-
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-5 w-5" />
-        </Button>
+        <UserNav />
+        <MobileNav />
       </div>
     </header>
   )
@@ -56,7 +49,7 @@ function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <FileCheck className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="text-lg font-semibold">Plag Checker</span>
+              <span className="text-lg font-semibold">Authentiq</span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
               AI-powered plagiarism detection for students, teachers, and content writers.

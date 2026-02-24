@@ -8,6 +8,18 @@ class PlagiarismRequest(BaseModel):
     text: str = Field(..., min_length=1, description="Text content to check for plagiarism.")
     check_ai_content: Optional[bool] = Field(True, description="Whether to also check if content is AI-generated.")
     language: Optional[str] = Field("en", description="Language of the text (e.g., 'en', 'es').")
+    title: Optional[str] = Field(None, description="Title of the document.")
+    category: Optional[str] = Field(None, description="Category of the content (e.g., 'academic', 'blog').")
+    cross_language: Optional[bool] = Field(False, description="Enable cross-language plagiarism detection.")
+
+class RiskPredictionRequest(BaseModel):
+    text: str = Field(..., min_length=50, description="Text to analyze for risk prediction (min 50 words).")
+
+class RiskPredictionResult(BaseModel):
+    vocabulary_score: int
+    structure_score: int
+    risk_level: str
+    overall_risk: int
 
 class PlagiarismResult(BaseModel):
     plagiarism_score: float = Field(..., ge=0, le=100, description="Percentage of plagiarism detected.")
@@ -17,12 +29,15 @@ class PlagiarismResult(BaseModel):
     word_count: int = Field(..., ge=0, description="Word count of the analyzed text.")
     analysis_time: float = Field(..., ge=0, description="Time taken for analysis in seconds.")
     unique_content_percentage: float = Field(..., ge=0, le=100, description="Percentage of unique content.")
+    ai_flagged_segments: List[str] = Field(default_factory=list, description="List of text segments flagged as AI-generated.")
 
 class HumanizeRequest(BaseModel):
     text: str = Field(..., min_length=1, description="AI-generated text to humanize.")
     writing_style: Optional[str] = Field("natural", description="Desired writing style (e.g., 'natural', 'academic', 'creative', 'professional').")
     complexity_level: Optional[str] = Field("moderate", description="Desired complexity level (e.g., 'simple', 'moderate', 'advanced').")
     preserve_meaning: Optional[bool] = Field(True, description="Attempt to preserve original meaning during humanization.")
+    target_language: Optional[str] = Field("English", description="Target language for the humanized output.")
+    content_type: Optional[str] = Field("article", description="Type of content (e.g., article, blog, research_paper, email).")
 
 class HumanizeResult(BaseModel):
     original_text: str = Field(..., description="The original AI-generated text.")
@@ -31,6 +46,8 @@ class HumanizeResult(BaseModel):
     changes_made: List[str] = Field(default_factory=list, description="Descriptions of changes applied during humanization.")
     word_count: int = Field(..., ge=0, description="Word count of the humanized text.")
     processing_time: float = Field(..., ge=0, description="Time taken for processing in seconds.")
+    original_ai_score: float = Field(..., ge=0, le=100, description="AI confidence score of original text.")
+    humanized_ai_score: float = Field(..., ge=0, le=100, description="AI confidence score of humanized text.")
 
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, description="User's message to the AI chatbot.")
@@ -63,3 +80,20 @@ class Token(BaseModel):
 
 class PasswordReset(BaseModel):
     email: str
+
+class SubscriptionRequest(BaseModel):
+    plan_id: str
+    billing_cycle: str
+    amount: float
+    payment_method: str
+    order_id: str
+
+class RefundRequestModel(BaseModel):
+    email: str
+    order_id: str
+    reason: str
+    description: str
+
+class LogActivityRequest(BaseModel):
+    action: str = Field(..., description="Type of action, e.g., 'page_view', 'button_click'")
+    details: Dict[str, Any] = Field(default_factory=dict, description="Additional details about the action")

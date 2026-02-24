@@ -1,10 +1,12 @@
 "use client"
 
 import type React from "react"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import Link from "next/link"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { Button } from "@/components/ui/button"
+import { LocalDB } from "@/lib/local-db"
+import { useToast } from "@/components/ui/use-toast"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -57,6 +59,31 @@ export default function NewCheckPage() {
   const [crossLanguageEnabled, setCrossLanguageEnabled] = useState(false)
   const [riskPrediction, setRiskPrediction] = useState<RiskPrediction | null>(null)
   const [isPredicting, setIsPredicting] = useState(false)
+  const [historyItems, setHistoryItems] = useState<any[]>([])
+
+  // Fetch History on Mount
+  useEffect(() => {
+    const fetchHistory = async () => {
+      const user = LocalDB.getUser()
+      if (!user?.token) return
+
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/user/me`, {
+          headers: { "Authorization": `Bearer ${user.token}` }
+        })
+        if (res.ok) {
+          const userData = await res.json()
+          // Extract plagiarism checks, sort by newness
+          const checks = userData.history?.plagiarism_checks || []
+          const sorted = checks.slice().reverse().slice(0, 5) // Last 5
+          setHistoryItems(sorted)
+        }
+      } catch (e) {
+        console.error("Failed to sync history", e)
+      }
+    }
+    fetchHistory()
+  }, [])
 
   const wordCount = textContent.trim().split(/\s+/).filter(Boolean).length
   const charCount = textContent.length
@@ -81,17 +108,92 @@ export default function NewCheckPage() {
     setIsPredicting(false)
   }, [wordCount])
 
+  const [statusMessage, setStatusMessage] = useState("Analyzing content...")
+  const { toast } = useToast()
+
   const handleCheck = async () => {
+    if (!LocalDB.checkLimit('plagiarism')) {
+      toast({
+        title: "Limit Reached",
+        description: "You have reached your daily limit of 5 plagiarism checks.",
+        variant: "destructive"
+      })
+      return
+    }
+
     setIsChecking(true)
     setResult(null)
-    await new Promise((resolve) => setTimeout(resolve, 2500))
-    setResult({
-      similarity: 15,
-      status: "safe",
-      sources: 3,
-      words: wordCount || 2847,
-    })
-    setIsChecking(false)
+    setStatusMessage("Initializing...")
+
+    try {
+      let textToAnalyze = textContent
+
+      if (activeTab === "file" && uploadedFile) {
+        setStatusMessage("Uploading and extracting text...")
+        const formData = new FormData()
+        formData.append("file", uploadedFile)
+
+        const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/upload-file`, {
+          method: "POST",
+          body: formData,
+        })
+
+        if (!uploadResponse.ok) {
+          const errData = await uploadResponse.json()
+          throw new Error(errData.detail || "File upload failed")
+        }
+
+        const uploadData = await uploadResponse.json()
+        textToAnalyze = uploadData.text_content
+
+        if (!textToAnalyze || textToAnalyze.trim().length < 50) {
+          throw new Error("Extracted text is too short or empty. Please ensure the document contains readable text.")
+        }
+      }
+
+      setStatusMessage("Scanning for plagiarism...")
+
+      const user = LocalDB.getUser()
+      const headers: HeadersInit = {
+        "Content-Type": "application/json",
+      }
+      if (user?.token) {
+        headers["Authorization"] = `Bearer ${user.token}`
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/check-plagiarism`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          text: textToAnalyze,
+          check_ai_content: true,
+          title: title || (uploadedFile ? uploadedFile.name : "Untitled Check"),
+          category: category || "other",
+          language: originalLanguage,
+          cross_language: crossLanguageEnabled
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Analysis failed")
+      }
+
+      const data = await response.json()
+
+      LocalDB.incrementLimit('plagiarism')
+
+      setResult({
+        similarity: data.plagiarism_score,
+        status: data.plagiarism_score < 30 ? "safe" : data.plagiarism_score < 70 ? "moderate" : "high",
+        sources: data.sources_found.length,
+        words: data.word_count,
+      })
+    } catch (error: any) {
+      console.error("Plagiarism check error:", error)
+      alert(error.message || "An error occurred during verification.")
+    } finally {
+      setIsChecking(false)
+    }
   }
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -274,6 +376,7 @@ export default function NewCheckPage() {
                         className="absolute inset-0 cursor-pointer opacity-0"
                         accept=".pdf,.docx,.txt"
                         onChange={handleFileSelect}
+                        aria-label="Upload document"
                       />
                     </div>
                   )}
@@ -290,7 +393,7 @@ export default function NewCheckPage() {
               {isChecking ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analyzing content...
+                  {statusMessage}
                 </>
               ) : (
                 "Run Plagiarism Check"
@@ -463,24 +566,30 @@ export default function NewCheckPage() {
             <div className="rounded-xl border border-border bg-card p-4">
               <h3 className="font-semibold mb-4">Previous Checks</h3>
               <div className="space-y-3">
-                {[
-                  { title: "Essay - Literature Review", similarity: 5, time: "2 hours ago" },
-                  { title: "Blog Post - Tech Trends", similarity: 23, time: "Yesterday" },
-                  { title: "Research Paper", similarity: 8, time: "2 days ago" },
-                ].map((item, index) => (
-                  <Link
-                    key={index}
-                    href="/dashboard/reports/1"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                  >
-                    <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{item.title}</p>
-                      <p className="text-xs text-muted-foreground">{item.time}</p>
-                    </div>
-                    <span className="text-sm font-medium">{item.similarity}%</span>
-                  </Link>
-                ))}
+                {historyItems.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No checks yet.</p>
+                ) : (
+                  historyItems.map((item, index) => {
+                    const details = item.details || {}
+                    const title = details.file_name || "Text Content Check"
+                    const similarity = Math.round(details.plagiarism_score || 0)
+                    const time = new Date(item.timestamp).toLocaleDateString()
+
+                    return (
+                      <Link
+                        key={index}
+                        href={`/dashboard/reports/${item.id}`} // Assuming ID links to report
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                      >
+                        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{title}</p>
+                          <p className="text-xs text-muted-foreground">{time}</p>
+                        </div>
+                        <span className="text-sm font-medium">{similarity}%</span>
+                      </Link>
+                    )
+                  }))}
               </div>
             </div>
 

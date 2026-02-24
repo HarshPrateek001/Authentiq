@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { Button } from "@/components/ui/button"
@@ -36,133 +36,7 @@ import {
   BarChart3,
 } from "lucide-react"
 
-const mockReport = {
-  id: "1",
-  title: "Research Paper - Climate Change",
-  date: "December 5, 2024",
-  similarity: 15,
-  status: "safe" as const,
-  words: 2847,
-  // Document Integrity Score breakdown
-  integrityScore: {
-    overall: 87,
-    originality: 85,
-    vocabularyDiversity: 92,
-    rewritingScore: 88,
-    aiDetectionProbability: 18,
-  },
-  sources: [
-    {
-      id: 1,
-      url: "https://example.com/climate-study",
-      title: "Climate Change Study 2024",
-      similarity: 8,
-      snippet: "Global temperatures have risen by an average of 1.1°C since the pre-industrial era...",
-      category: "academic" as const,
-    },
-    {
-      id: 2,
-      url: "https://example.com/environment",
-      title: "Environmental Impact Report",
-      similarity: 4,
-      snippet: "The effects of greenhouse gas emissions on ocean acidification have been well documented...",
-      category: "journal" as const,
-    },
-    {
-      id: 3,
-      url: "https://example.com/research",
-      title: "Research Methodology Guide",
-      similarity: 3,
-      snippet: "When conducting environmental research, it is important to consider multiple variables...",
-      category: "blog" as const,
-    },
-  ],
-  // Sentence-level heatmap data
-  sentences: [
-    {
-      text: "Climate change represents one of the most pressing challenges of our time.",
-      similarity: 0,
-      level: "safe" as const,
-    },
-    {
-      text: "The scientific consensus is clear: human activities, particularly the burning of fossil fuels, have led to unprecedented changes in Earth's climate system.",
-      similarity: 5,
-      level: "safe" as const,
-    },
-    {
-      text: "Global temperatures have risen by an average of 1.1°C since the pre-industrial era, and this trend is accelerating.",
-      similarity: 85,
-      level: "high" as const,
-      sourceId: 1,
-    },
-    {
-      text: "The Intergovernmental Panel on Climate Change (IPCC) has warned that without significant reductions in greenhouse gas emissions, we could see temperature increases of 2°C or more by the end of this century.",
-      similarity: 12,
-      level: "safe" as const,
-    },
-    {
-      text: "The impacts of climate change are already visible around the world.",
-      similarity: 3,
-      level: "safe" as const,
-    },
-    {
-      text: "From more frequent and intense extreme weather events to rising sea levels threatening coastal communities, the evidence is mounting.",
-      similarity: 25,
-      level: "medium" as const,
-    },
-    {
-      text: "The effects of greenhouse gas emissions on ocean acidification have been well documented, with significant implications for marine ecosystems.",
-      similarity: 78,
-      level: "high" as const,
-      sourceId: 2,
-    },
-    { text: "Addressing climate change requires a multi-faceted approach.", similarity: 8, level: "safe" as const },
-    {
-      text: "This includes transitioning to renewable energy sources, improving energy efficiency, protecting and restoring natural carbon sinks like forests and wetlands, and adapting to the changes that are already underway.",
-      similarity: 15,
-      level: "safe" as const,
-    },
-    {
-      text: "When conducting environmental research, it is important to consider multiple variables and use robust methodologies to ensure reliable results.",
-      similarity: 65,
-      level: "high" as const,
-      sourceId: 3,
-    },
-    {
-      text: "This paper examines the latest findings in climate science and proposes actionable recommendations for policymakers.",
-      similarity: 2,
-      level: "safe" as const,
-    },
-  ],
-  suggestions: [
-    {
-      original: "Global temperatures have risen by an average of 1.1°C since the pre-industrial era",
-      rewrites: {
-        minimal: "Global temperatures have increased by approximately 1.1°C since the pre-industrial period",
-        moderate:
-          "Earth's average temperature has climbed roughly 1.1 degrees Celsius compared to pre-industrial baseline measurements",
-        full: "Scientific measurements indicate our planet has experienced a temperature elevation of about 1.1°C when contrasted with conditions before widespread industrialization",
-      },
-    },
-    {
-      original: "The effects of greenhouse gas emissions on ocean acidification have been well documented",
-      rewrites: {
-        minimal: "The impact of greenhouse gas emissions on ocean acidification is well documented",
-        moderate:
-          "Extensive research has demonstrated the significant impact of carbon dioxide emissions on decreasing ocean pH levels",
-        full: "Comprehensive scientific literature confirms that atmospheric CO2 absorption is causing measurable increases in seawater acidity across global marine environments",
-      },
-    },
-    {
-      original: "When conducting environmental research, it is important to consider multiple variables",
-      rewrites: {
-        minimal: "When performing environmental research, considering multiple variables is important",
-        moderate: "Environmental research necessitates the examination of numerous interconnected factors",
-        full: "Rigorous investigation of ecological systems demands careful analysis of diverse interacting parameters to ensure methodological validity",
-      },
-    },
-  ],
-}
+
 
 const categoryIcons = {
   academic: BookOpen,
@@ -187,6 +61,52 @@ const heatmapColors = {
 }
 
 export default function ReportDetailPage() {
+  // State for report data
+  const [report, setReport] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch report data on mount
+  useEffect(() => {
+    // Extract ID from URL (using window location as simple fallback since retrieving params in client component can be tricky without props)
+    const pathParts = window.location.pathname.split('/')
+    const id = pathParts[pathParts.length - 1]
+
+    const fetchReport = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/reports/${id}`)
+        if (response.ok) {
+          const data = await response.json()
+          setReport(data)
+        } else {
+          // Fallback to mock if API fails or ID not found (for demo)
+          console.log("Report not found, using fallback.")
+          setReport({
+            id: "1",
+            title: "Research Paper - Climate Change",
+            date: "December 5, 2024",
+            similarity: 15,
+            status: "safe",
+            words: 2847,
+            integrityScore: { overall: 87, originality: 85, vocabularyDiversity: 92, rewritingScore: 88, aiDetectionProbability: 18 },
+            sources: [
+              { id: 1, url: "https://example.com/climate", title: "Climate Change Study 2024", similarity: 8, category: "academic" },
+              { id: 2, url: "https://example.com/env", title: "Environmental Impact", similarity: 4, category: "journal" }
+            ],
+            sentences: [
+              { text: "Climate change represents one of the most pressing challenges of our time.", similarity: 0, level: "safe" },
+              { text: "Global temperatures have risen by an average of 1.1°C since the pre-industrial era.", similarity: 85, level: "high", sourceId: 1 }
+            ],
+            suggestions: []
+          })
+        }
+      } catch (error) {
+        console.error("Error fetching report:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchReport()
+  }, [])
   const [activeTab, setActiveTab] = useState("content")
   const [rewriteStrength, setRewriteStrength] = useState<"minimal" | "moderate" | "full">("moderate")
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
@@ -235,6 +155,27 @@ export default function ReportDetailPage() {
     return "text-destructive"
   }
 
+  if (isLoading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </AppLayout>
+    )
+  }
+
+  if (!report) {
+    return (
+      <AppLayout>
+        <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
+          <h2 className="text-xl font-semibold">Report not found</h2>
+          <Link href="/dashboard" className="text-primary hover:underline">Return to Dashboard</Link>
+        </div>
+      </AppLayout>
+    )
+  }
+
   return (
     <AppLayout>
       <div className="space-y-6">
@@ -246,8 +187,8 @@ export default function ReportDetailPage() {
               </Link>
             </Button>
             <div>
-              <h1 className="text-2xl font-bold">{mockReport.title}</h1>
-              <p className="text-muted-foreground">Checked on {mockReport.date}</p>
+              <h1 className="text-2xl font-bold">{report.title}</h1>
+              <p className="text-muted-foreground">Checked on {report.date}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -291,31 +232,31 @@ export default function ReportDetailPage() {
                         cx="50"
                         cy="50"
                         strokeDasharray={264}
-                        strokeDashoffset={264 * (mockReport.similarity / 100)}
+                        strokeDashoffset={264 * (report.similarity / 100)}
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-3xl font-bold">{100 - mockReport.similarity}%</span>
+                      <span className="text-3xl font-bold">{100 - report.similarity}%</span>
                       <span className="text-xs text-muted-foreground">Original</span>
                     </div>
                   </div>
-                  <Badge variant="outline" className={getStatusColor(mockReport.status)}>
-                    {mockReport.status.charAt(0).toUpperCase() + mockReport.status.slice(1)} Risk
+                  <Badge variant="outline" className={getStatusColor(report.status)}>
+                    {report.status.charAt(0).toUpperCase() + report.status.slice(1)} Risk
                   </Badge>
                 </div>
 
                 <div className="mt-6 space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Similarity</span>
-                    <span className="font-medium">{mockReport.similarity}%</span>
+                    <span className="font-medium">{report.similarity}%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Sources</span>
-                    <span className="font-medium">{mockReport.sources.length}</span>
+                    <span className="font-medium">{report.sources ? report.sources.length : 0}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Words</span>
-                    <span className="font-medium">{mockReport.words.toLocaleString()}</span>
+                    <span className="font-medium">{report.words.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -329,8 +270,8 @@ export default function ReportDetailPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-center">
-                    <div className={`text-4xl font-bold ${getIntegrityColor(mockReport.integrityScore.overall)}`}>
-                      {mockReport.integrityScore.overall}
+                    <div className={`text-4xl font-bold ${getIntegrityColor(report.integrityScore.overall)}`}>
+                      {report.integrityScore.overall}
                     </div>
                     <p className="text-xs text-muted-foreground">out of 100</p>
                   </div>
@@ -338,30 +279,30 @@ export default function ReportDetailPage() {
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span className="text-muted-foreground">Originality</span>
-                        <span>{mockReport.integrityScore.originality}%</span>
+                        <span>{report.integrityScore.originality}%</span>
                       </div>
-                      <Progress value={mockReport.integrityScore.originality} className="h-1.5" />
+                      <Progress value={report.integrityScore.originality} className="h-1.5" />
                     </div>
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span className="text-muted-foreground">Vocabulary Diversity</span>
-                        <span>{mockReport.integrityScore.vocabularyDiversity}%</span>
+                        <span>{report.integrityScore.vocabularyDiversity}%</span>
                       </div>
-                      <Progress value={mockReport.integrityScore.vocabularyDiversity} className="h-1.5" />
+                      <Progress value={report.integrityScore.vocabularyDiversity} className="h-1.5" />
                     </div>
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span className="text-muted-foreground">Rewriting Score</span>
-                        <span>{mockReport.integrityScore.rewritingScore}%</span>
+                        <span>{report.integrityScore.rewritingScore}%</span>
                       </div>
-                      <Progress value={mockReport.integrityScore.rewritingScore} className="h-1.5" />
+                      <Progress value={report.integrityScore.rewritingScore} className="h-1.5" />
                     </div>
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span className="text-muted-foreground">AI Detection Prob.</span>
-                        <span>{mockReport.integrityScore.aiDetectionProbability}%</span>
+                        <span>{report.integrityScore.aiDetectionProbability}%</span>
                       </div>
-                      <Progress value={mockReport.integrityScore.aiDetectionProbability} className="h-1.5" />
+                      <Progress value={report.integrityScore.aiDetectionProbability} className="h-1.5" />
                     </div>
                   </div>
                 </CardContent>
@@ -392,11 +333,11 @@ export default function ReportDetailPage() {
               <div className="rounded-xl border border-border bg-card p-4">
                 <h3 className="font-semibold mb-3">Matched Sources</h3>
                 <div className="space-y-3">
-                  {mockReport.sources.map((source) => {
-                    const CategoryIcon = categoryIcons[source.category] || Globe
+                  {report.sources && report.sources.map((source: any, i: number) => {
+                    const CategoryIcon = categoryIcons[source.category as keyof typeof categoryIcons] || Globe
                     return (
                       <a
-                        key={source.id}
+                        key={i}
                         href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -407,13 +348,15 @@ export default function ReportDetailPage() {
                           <ExternalLink className="h-3 w-3 shrink-0 text-muted-foreground" />
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge
-                            variant="outline"
-                            className={`text-[10px] px-1.5 py-0 ${categoryColors[source.category]}`}
-                          >
-                            <CategoryIcon className="h-3 w-3 mr-1" />
-                            {source.category}
-                          </Badge>
+                          {source.category && (
+                            <Badge
+                              variant="outline"
+                              className={`text-[10px] px-1.5 py-0 ${categoryColors[source.category as keyof typeof categoryColors] || ""}`}
+                            >
+                              <CategoryIcon className="h-3 w-3 mr-1" />
+                              {source.category}
+                            </Badge>
+                          )}
                           <span className="text-xs text-muted-foreground">{source.similarity}% match</span>
                         </div>
                       </a>
@@ -438,9 +381,9 @@ export default function ReportDetailPage() {
                 <div className="rounded-xl border border-border bg-card p-6">
                   <TooltipProvider>
                     <div className="prose prose-sm max-w-none dark:prose-invert space-y-4">
-                      {mockReport.sentences.map((sentence, index) => {
+                      {report.sentences && report.sentences.map((sentence: any, index: number) => {
                         const source = sentence.sourceId
-                          ? mockReport.sources.find((s) => s.id === sentence.sourceId)
+                          ? report.sources.find((s: any) => s.id === sentence.sourceId)
                           : null
                         return (
                           <span key={index}>
@@ -479,8 +422,8 @@ export default function ReportDetailPage() {
                     <CardDescription>Each sentence is color-coded based on similarity percentage</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    {mockReport.sentences.map((sentence, index) => (
-                      <div key={index} className={`p-3 rounded-lg ${heatmapColors[sentence.level]} transition-colors`}>
+                    {report.sentences && report.sentences.map((sentence: any, index: number) => (
+                      <div key={index} className={`p-3 rounded-lg ${heatmapColors[sentence.level as keyof typeof heatmapColors]} transition-colors`}>
                         <div className="flex items-start justify-between gap-4">
                           <p className="text-sm flex-1">{sentence.text}</p>
                           <div className="flex items-center gap-2 shrink-0">
@@ -491,7 +434,7 @@ export default function ReportDetailPage() {
                         </div>
                         {sentence.sourceId && (
                           <p className="text-xs text-muted-foreground mt-2">
-                            Source: {mockReport.sources.find((s) => s.id === sentence.sourceId)?.title}
+                            Source: {report.sources.find((s: any) => s.id === sentence.sourceId)?.title}
                           </p>
                         )}
                       </div>
@@ -544,7 +487,7 @@ export default function ReportDetailPage() {
                     </CardContent>
                   </Card>
 
-                  {mockReport.suggestions.map((suggestion, index) => (
+                  {report.suggestions && report.suggestions.map((suggestion: any, index: number) => (
                     <Card key={index}>
                       <CardContent className="p-4 space-y-4">
                         <div>
@@ -628,9 +571,9 @@ export default function ReportDetailPage() {
                             <div>
                               <p className="text-xs font-medium text-muted-foreground mb-2">BEFORE</p>
                               <p className="text-sm p-4 rounded-lg bg-muted/50">
-                                {mockReport.sentences
+                                {report.sentences && report.sentences
                                   .slice(0, 2)
-                                  .map((s) => s.text)
+                                  .map((s: any) => s.text)
                                   .join(" ")}
                               </p>
                             </div>

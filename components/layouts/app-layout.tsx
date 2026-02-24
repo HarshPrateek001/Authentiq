@@ -50,7 +50,7 @@ const settingsLinks = [
   { href: "/dashboard/security", label: "Security", icon: Shield },
 ]
 
-function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+function Sidebar({ collapsed, onToggle, onLinkClick }: { collapsed: boolean; onToggle: () => void; onLinkClick?: () => void }) {
   const pathname = usePathname()
 
   return (
@@ -66,7 +66,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
               <FileCheck className="h-4 w-4 text-primary-foreground" />
             </div>
-            {!collapsed && <span className="text-lg font-semibold">Plag Checker</span>}
+            {!collapsed && <span className="text-lg font-semibold">Authentiq</span>}
           </Link>
           <Button
             variant="ghost"
@@ -86,6 +86,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={onLinkClick}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
@@ -115,6 +116,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={onLinkClick}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
@@ -230,7 +232,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <Sidebar collapsed={false} onToggle={() => setMobileMenuOpen(false)} />
+          <Sidebar collapsed={false} onToggle={() => setMobileMenuOpen(false)} onLinkClick={() => setMobileMenuOpen(false)} />
         </div>
       )}
 

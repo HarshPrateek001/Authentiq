@@ -3,14 +3,7 @@
 import { useMemo } from "react"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
 
-const data = [
-  { name: "Week 1", similarity: 15 },
-  { name: "Week 2", similarity: 12 },
-  { name: "Week 3", similarity: 18 },
-  { name: "Week 4", similarity: 10 },
-]
-
-export function SimilarityChart() {
+export function SimilarityChart({ data = [] }: { data?: any[] }) {
   const chartConfig = useMemo(
     () => ({
       similarity: {

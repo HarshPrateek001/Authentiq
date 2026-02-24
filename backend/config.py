@@ -57,6 +57,14 @@ class Config:
     # --- Frontend Paths ---
     # Relative path to the frontend directory from the backend directory
     FRONTEND_DIR_REL: str = os.path.join("..", "frontend")
+    
+    # URL of the frontend application (for redirects)
+    # Detect if incorrectly set to backend port and correct it
+    _env_frontend_url = os.getenv("FRONTEND_URL")
+    if _env_frontend_url and "8000" in _env_frontend_url:
+        FRONTEND_URL: str = "http://localhost:3000"
+    else:
+        FRONTEND_URL: str = _env_frontend_url or "http://localhost:3000"
 
     @classmethod
     def get(cls, key: str, default: Any = None) -> Any:

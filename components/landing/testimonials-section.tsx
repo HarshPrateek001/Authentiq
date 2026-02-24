@@ -9,7 +9,7 @@ const testimonials = [
     institution: "Stanford University",
     avatar: "/professional-woman-professor.png",
     content:
-      "Plag Checker has transformed how I handle student submissions. The internal matching feature caught several cases of collaboration that would have gone unnoticed before.",
+      "Authentiq has transformed how I handle student submissions. The internal matching feature caught several cases of collaboration that would have gone unnoticed before.",
     rating: 5,
   },
   {
@@ -45,7 +45,7 @@ const testimonials = [
     institution: "Independent",
     avatar: "/creative-woman-writer.jpg",
     content:
-      "The live detection feature is perfect for my workflow. I can see potential issues as I write and fix them immediately. No more surprises at the end!",
+      "The live detection feature in this software is perfect for my workflow. I can see potential issues as I write and fix them immediately. No more surprises at the end!",
     rating: 5,
   },
   {

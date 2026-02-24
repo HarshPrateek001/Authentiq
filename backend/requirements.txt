@@ -23,3 +23,5 @@ python-dotenv==1.0.0
 Authlib==1.2.0
 itsdangerous==2.1.2
 supabase
+fpdf
+unidecode

@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { AuthLayout } from "@/components/auth/auth-layout"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,8 +11,13 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 
+import { LocalDB } from "@/lib/local-db"
+
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get("redirect") || "/dashboard"
+
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
@@ -20,19 +25,52 @@ export default function LoginPage() {
     email: "",
     password: "",
     rememberMe: false,
+    agreeTerms: false,
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+
+    if (!formData.agreeTerms) {
+      setError("You must agree to the Terms & Conditions to log in.")
+      return
+    }
+
     setIsLoading(true)
 
-    // TODO: Connect to /api/auth/login
-    // Simulating API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      })
 
-    // Simulated success - redirect to dashboard
-    router.push("/dashboard")
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.detail || "Login failed")
+      }
+
+      const data = await res.json()
+      // Store token (in localStorage for simplicity, or cookie)
+      localStorage.setItem("access_token", data.access_token)
+      localStorage.setItem("user", JSON.stringify(data.user))
+
+      // Save to Local DB for UI consistency
+      LocalDB.saveUser({
+        id: data.user.id || '1',
+        email: data.user.email,
+        fullName: `${data.user.first_name || 'User'} ${data.user.last_name || ''}`.trim(),
+        token: data.access_token
+      })
+      window.dispatchEvent(new Event('local-user-update'))
+
+      router.push(redirectUrl)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -103,6 +141,26 @@ export default function LoginPage() {
             </Label>
           </div>
 
+          <div className="flex items-start gap-2">
+            <Checkbox
+              id="terms"
+              checked={formData.agreeTerms}
+              onCheckedChange={(checked) => setFormData({ ...formData, agreeTerms: checked as boolean })}
+              disabled={isLoading}
+              className="mt-0.5"
+            />
+            <Label htmlFor="terms" className="text-sm font-normal cursor-pointer leading-relaxed">
+              I agree to the{" "}
+              <Link href="/terms" className="text-primary hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </Link>
+            </Label>
+          </div>
+
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
@@ -112,6 +170,19 @@ export default function LoginPage() {
             ) : (
               "Sign in"
             )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="secondary"
+            className="w-full mt-2"
+            onClick={() => {
+              localStorage.setItem("demo_mode", "true")
+              localStorage.setItem("user", JSON.stringify({ email: "demo@example.com", first_name: "Demo", last_name: "User" }))
+              router.push(redirectUrl)
+            }}
+          >
+            Demo Login (Skip Auth)
           </Button>
         </form>
 
@@ -124,7 +195,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading} onClick={() => {window.location.href = "http://127.0.0.1:8000/api/auth/google/login"}}>
+        <Button variant="outline" className="w-full gap-2 bg-transparent" disabled={isLoading} onClick={() => { window.location.href = `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/auth/google/login` }}>
 
           <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
@@ -149,7 +220,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-medium text-primary hover:underline">
+          <Link href={`/signup?redirect=${redirectUrl}`} className="font-medium text-primary hover:underline">
             Sign up
           </Link>
         </p>

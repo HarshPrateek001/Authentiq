@@ -2,9 +2,11 @@
 
 import type React from "react"
 import { useState, useCallback } from "react"
+import { checkFilePlagiarism } from "@/lib/api"
 import Link from "next/link"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { Button } from "@/components/ui/button"
+import { LocalDB } from "@/lib/local-db"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -36,9 +38,13 @@ interface UploadedFile {
   riskLevel?: "safe" | "moderate" | "high"
   author?: string
   group?: string
+  originalFile: File
 }
 
+import { useToast } from "@/components/ui/use-toast"
+
 export default function BulkUploadPage() {
+  const { toast } = useToast()
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -64,6 +70,7 @@ export default function BulkUploadPage() {
         progress: 0,
         author: `Student ${index + 1}`,
         group: groupName || selectedGroup !== "none" ? selectedGroup : undefined,
+        originalFile: file
       }))
     setFiles((prev) => [...prev, ...uploadedFiles])
   }
@@ -79,34 +86,67 @@ export default function BulkUploadPage() {
   }
 
   const startBulkCheck = async () => {
+    if (!LocalDB.checkLimit('bulk')) {
+      toast({
+        title: "Limit Reached",
+        description: "You have reached your daily limit of 1 bulk check for today.",
+        variant: "destructive"
+      })
+      return
+    }
+
     setIsProcessing(true)
+    let anySuccess = false
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
       if (file.status !== "queued") continue
 
-      setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, status: "processing" as const } : f)))
+      setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, status: "processing" as const, progress: 10 } : f)))
 
-      for (let progress = 0; progress <= 100; progress += 20) {
-        await new Promise((resolve) => setTimeout(resolve, 200))
-        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, progress } : f)))
-      }
+      try {
+        await new Promise(r => setTimeout(r, 500))
+        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, progress: 30 } : f)))
 
-      const similarity = Math.floor(Math.random() * 40)
-      const riskLevel = similarity < 15 ? "safe" : similarity < 30 ? "moderate" : "high"
-      setFiles((prev) =>
-        prev.map((f) =>
-          f.id === file.id
-            ? {
+        const result = await checkFilePlagiarism(file.originalFile, "en", "other")
+
+        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, progress: 100 } : f)))
+
+        const similarity = Math.round(result.plagiarism_score)
+        const riskLevel = similarity < 30 ? "safe" : similarity < 70 ? "moderate" : "high"
+
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === file.id
+              ? {
                 ...f,
                 status: "completed" as const,
                 progress: 100,
                 similarity,
                 riskLevel: riskLevel as "safe" | "moderate" | "high",
               }
-            : f,
-        ),
-      )
+              : f,
+          ),
+        )
+        anySuccess = true
+      } catch (error) {
+        console.error("Error checking file:", error)
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === file.id
+              ? {
+                ...f,
+                status: "error" as const,
+                progress: 0,
+              }
+              : f,
+          ),
+        )
+      }
+    }
+
+    if (anySuccess) {
+      LocalDB.incrementLimit('bulk')
     }
 
     setIsProcessing(false)
@@ -204,9 +244,8 @@ export default function BulkUploadPage() {
         </Card>
 
         <div
-          className={`relative rounded-xl border-2 border-dashed p-12 text-center transition-colors ${
-            isDragging ? "border-primary bg-primary/5" : "border-border"
-          }`}
+          className={`relative rounded-xl border-2 border-dashed p-12 text-center transition-colors ${isDragging ? "border-primary bg-primary/5" : "border-border"
+            }`}
           onDragOver={(e) => {
             e.preventDefault()
             setIsDragging(true)
@@ -228,6 +267,7 @@ export default function BulkUploadPage() {
               accept=".pdf,.docx,.txt"
               multiple
               onChange={handleFileSelect}
+              aria-label="Upload files"
             />
           </div>
         </div>
