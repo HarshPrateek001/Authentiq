@@ -2,6 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { LocalDB, LocalUser } from "@/lib/local-db"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -57,11 +58,9 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="right" className="w-[85vw] max-w-sm flex flex-col">
         <SheetHeader className="mb-8 mt-2 space-y-4">
-          <SheetTitle className="text-left flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <FileCheck className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">Authentiq*</span>
+          <SheetTitle className="text-left flex items-center gap-2 group">
+            <Image src="/logo.png" alt="Authentiq Logo" width={32} height={32} className="w-8 h-8 rounded-lg group-hover:scale-105 transition-transform" />
+            <span className="text-xl font-bold tracking-tight">Authentiq<span className="text-primary">*</span></span>
           </SheetTitle>
         </SheetHeader>
 
