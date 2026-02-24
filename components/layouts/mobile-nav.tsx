@@ -58,8 +58,8 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="right" className="w-[85vw] max-w-sm flex flex-col">
         <SheetHeader className="mb-8 mt-2 flex justify-start">
-          <SheetTitle className="text-left flex items-center group">
-            <Image src="/logo-full.png" alt="Authentiq Logo" width={140} height={35} className="h-9 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-sm" />
+          <SheetTitle className="text-left flex items-center group bg-white self-start px-2 py-1 rounded-xl">
+            <Image src="/logo-full.png" alt="Authentiq Logo" width={220} height={55} className="h-12 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-none" />
           </SheetTitle>
         </SheetHeader>
 

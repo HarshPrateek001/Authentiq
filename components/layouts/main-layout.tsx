@@ -19,8 +19,8 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center group">
-          <Image src="/logo-full.png" alt="Authentiq Logo" width={200} height={45} className="h-12 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-sm" priority />
+        <Link href="/" className="flex items-center group bg-white px-2 py-1 rounded-xl">
+          <Image src="/logo-full.png" alt="Authentiq Logo" width={280} height={70} className="h-14 md:h-16 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-sm" priority />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -52,8 +52,8 @@ function Footer() {
           {/* Brand & Newsletter Column (Takes up more space) */}
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
             <Link href="/" className="inline-flex relative group">
-              <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.02]">
-                <Image src="/logo-full.png" alt="Authentiq Logo" width={220} height={55} className="h-14 w-auto relative z-10 drop-shadow-[0_0_15px_rgba(13,148,136,0.15)]" />
+              <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.02] bg-white px-4 py-2 rounded-2xl">
+                <Image src="/logo-full.png" alt="Authentiq Logo" width={320} height={80} className="h-16 md:h-20 w-auto relative z-10 drop-shadow-none" />
               </div>
             </Link>
             
