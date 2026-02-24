@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageSquare, Send, Sparkles, Wand2, Search, FileText, Lightbulb, Loader2, Bot, User } from "lucide-react"
 
 interface Message {
@@ -80,7 +77,7 @@ export function AIAssistant() {
     setInputValue("")
     setIsTyping(true)
 
-    // Simulate AI response
+    // Simulate AI response delay
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     let response = aiResponses.default
@@ -113,102 +110,131 @@ export function AIAssistant() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Action Button */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon">
-            <MessageSquare className="h-6 w-6" />
+          <Button 
+            className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-[0_0_25px_rgba(13,148,136,0.3)] hover:shadow-[0_0_35px_rgba(13,148,136,0.5)] z-50 bg-primary hover:bg-primary/90 transition-all duration-300 hover:scale-105" 
+            size="icon"
+          >
+            <Sparkles className="h-7 w-7 text-primary-foreground absolute -top-1 -right-1 animate-pulse opacity-80" />
+            <MessageSquare className="h-7 w-7 text-primary-foreground" />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[440px] h-[600px] flex flex-col p-0">
-          <DialogHeader className="p-4 pb-2 border-b">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                <Sparkles className="h-5 w-5 text-primary" />
+        
+        {/* Chat Dialog Content - Fixed overflow and structure for proper mobile/desktop rendering */}
+        <DialogContent className="sm:max-w-[440px] w-[95vw] h-[85vh] sm:h-[650px] flex flex-col p-0 gap-0 overflow-hidden bg-background border border-primary/20 shadow-2xl rounded-3xl">
+          
+          {/* Header - Fixed Height */}
+          <DialogHeader className="p-4 md:p-5 border-b border-border/50 bg-muted/30 shrink-0">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20">
+                <Bot className="h-6 w-6 text-primary" />
               </div>
-              <div>
-                <DialogTitle>AI Assistant</DialogTitle>
-                <DialogDescription>Your writing helper</DialogDescription>
+              <div className="text-left">
+                <DialogTitle className="text-lg font-bold">Authentiq AI</DialogTitle>
+                <DialogDescription className="text-xs font-medium text-muted-foreground mt-1">
+                  Intelligent writing companion
+                </DialogDescription>
               </div>
             </div>
           </DialogHeader>
 
-          {/* Messages */}
-          <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-            <div className="space-y-4">
+          {/* Messages Area - Flexible expanding height, independent scrolling */}
+          <div 
+            className="flex-1 overflow-y-auto p-4 md:p-5 scroll-smooth"
+            ref={scrollRef}
+          >
+            <div className="space-y-6">
               {messages.map((message) => (
-                <div key={message.id} className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}>
+                <div key={message.id} className={`flex gap-3 max-w-[90%] ${message.role === "user" ? "ml-auto flex-row-reverse" : "mr-auto"}`}>
+                  
+                  {/* Chat Avatar */}
                   <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                      message.role === "assistant" ? "bg-primary/10" : "bg-muted"
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm border ${
+                      message.role === "assistant" ? "bg-primary/10 border-primary/20" : "bg-muted border-border/50"
                     }`}
                   >
                     {message.role === "assistant" ? (
                       <Bot className="h-4 w-4 text-primary" />
                     ) : (
-                      <User className="h-4 w-4" />
+                      <User className="h-4 w-4 text-muted-foreground" />
                     )}
                   </div>
+                  
+                  {/* Chat Bubble */}
                   <div
-                    className={`rounded-2xl px-4 py-2 max-w-[80%] ${
-                      message.role === "assistant" ? "bg-muted" : "bg-primary text-primary-foreground"
+                    className={`rounded-2xl px-4 py-3 shadow-sm ${
+                      message.role === "assistant" 
+                        ? "bg-muted/50 border border-border/50 text-foreground rounded-tl-sm" 
+                        : "bg-primary text-primary-foreground rounded-tr-sm"
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-[14px] leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
                 </div>
               ))}
+              
+              {/* Typing Indicator */}
               {isTyping && (
-                <div className="flex gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <div className="flex gap-3 max-w-[90%] mr-auto">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
                     <Bot className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="rounded-2xl px-4 py-2 bg-muted">
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                  <div className="rounded-2xl px-4 py-3 bg-muted/50 border border-border/50 rounded-tl-sm flex items-center gap-1.5 shadow-sm">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               )}
             </div>
-          </ScrollArea>
+          </div>
 
-          {/* Quick Actions */}
-          <div className="px-4 py-2 border-t">
-            <div className="flex gap-2 overflow-x-auto pb-2">
+          {/* Quick Actions Bar - Fixed Height at bottom */}
+          <div className="px-4 py-3 border-t border-border/50 bg-muted/10 shrink-0">
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-2 px-2">
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="shrink-0 gap-1.5 text-xs bg-transparent"
+                  className="shrink-0 gap-1.5 text-xs bg-background hover:bg-primary/5 hover:text-primary border-border/50 transition-colors rounded-full"
                   onClick={() => handleQuickAction(action.prompt)}
                 >
-                  <action.icon className="h-3 w-3" />
+                  <action.icon className="h-3.5 w-3.5" />
                   {action.label}
                 </Button>
               ))}
             </div>
           </div>
 
-          {/* Input */}
-          <div className="p-4 pt-2 border-t">
+          {/* Input Form Area - Fixed Height at bottom */}
+          <div className="p-4 border-t border-border/50 bg-background shrink-0 rounded-b-3xl">
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 handleSend(inputValue)
               }}
-              className="flex gap-2"
+              className="flex items-center gap-2 relative"
             >
               <Input
-                placeholder="Ask me anything..."
+                placeholder="Message Authentiq AI..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1"
+                className="flex-1 h-12 pr-12 rounded-xl bg-muted/30 border-border/50 text-[14px] focus-visible:ring-primary/30"
               />
-              <Button type="submit" size="icon" disabled={!inputValue.trim() || isTyping}>
-                <Send className="h-4 w-4" />
+              <Button 
+                type="submit" 
+                size="icon" 
+                disabled={!inputValue.trim() || isTyping}
+                className="absolute right-1 top-1 h-10 w-10 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all shadow-sm"
+              >
+                {isTyping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4 ml-0.5" />}
               </Button>
             </form>
           </div>
+          
         </DialogContent>
       </Dialog>
     </>
