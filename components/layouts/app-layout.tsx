@@ -3,7 +3,6 @@
 import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -63,16 +62,11 @@ function Sidebar({ collapsed, onToggle, onLinkClick }: { collapsed: boolean; onT
     >
       <div className="flex h-full flex-col">
         <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
-          <Link href="/dashboard" className="flex items-center group">
-            {collapsed ? (
-              <div className="bg-white p-1 rounded-lg shrink-0">
-                <Image src="/logo.png" alt="Authentiq Logo" width={32} height={32} className="w-8 h-8 group-hover:scale-105 transition-transform" />
-              </div>
-            ) : (
-              <div className="bg-white px-2 py-1 rounded-xl shrink-0">
-                <Image src="/logo-full.png" alt="Authentiq Logo" width={180} height={42} className="h-10 w-auto group-hover:scale-[1.02] transition-transform drop-shadow-sm" priority />
-              </div>
-            )}
+          <Link href="/dashboard" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
+              <FileCheck className="h-4 w-4 text-primary-foreground" />
+            </div>
+            {!collapsed && <span className="text-lg font-semibold">Authentiq</span>}
           </Link>
           <Button
             variant="ghost"
