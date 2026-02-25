@@ -11,13 +11,32 @@ const WORDS = ["documents", "content", "essays", "code", "reports"]
 
 export function HeroSection() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [displayText, setDisplayText] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % WORDS.length)
-    }, 2500)
-    return () => clearInterval(interval)
-  }, [])
+    const currentWord = WORDS[currentWordIndex]
+    
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < currentWord.length) {
+          setDisplayText(currentWord.slice(0, displayText.length + 1))
+        } else {
+          // Pause at the end of typing before starting to delete
+          setTimeout(() => setIsDeleting(true), 2000)
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(currentWord.slice(0, displayText.length - 1))
+        } else {
+          setIsDeleting(false)
+          setCurrentWordIndex((prev) => (prev + 1) % WORDS.length)
+        }
+      }
+    }, isDeleting ? 40 : 100) // Delete faster than type
+
+    return () => clearTimeout(timeout)
+  }, [displayText, isDeleting, currentWordIndex])
 
   return (
     <section className="relative overflow-hidden border-b border-border/40 bg-background text-foreground">
@@ -41,11 +60,11 @@ export function HeroSection() {
             <h1 className="text-5xl font-extrabold tracking-tighter sm:text-6xl md:text-[5.5rem] text-balance leading-[1.05] text-foreground transition-all duration-300">
               Your fastest path <br className="hidden lg:block" />
               to originality for <br className="hidden lg:block" />
-              <div className="flex items-center mt-2 flex-wrap">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 pr-1 transition-all duration-300 min-w-[200px] inline-flex">
-                  {WORDS[currentWordIndex]}
+              <div className="flex items-center mt-2 flex-wrap min-h-[1.2em]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 pr-1 inline-flex">
+                  {displayText}
                 </span>
-                <span className="inline-block w-[0.4em] h-[1em] bg-primary animate-pulse ml-1 opacity-80" />
+                <span className="inline-block w-[0.4em] h-[1em] bg-primary animate-[pulse_1s_ease-in-out_infinite] opacity-80" />
               </div>
             </h1>
 
