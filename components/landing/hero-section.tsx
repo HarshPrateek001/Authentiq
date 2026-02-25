@@ -64,7 +64,7 @@ export function HeroSection() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 pr-1 inline-flex">
                   {displayText}
                 </span>
-                <span className="inline-block w-[0.4em] h-[1em] bg-primary animate-[pulse_1s_ease-in-out_infinite] opacity-80" />
+                <span className="inline-block w-[3px] md:w-[4px] h-[1em] bg-primary animate-[pulse_1s_ease-in-out_infinite] opacity-80" />
               </div>
             </h1>
 
