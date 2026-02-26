@@ -178,12 +178,22 @@ export default function LoginPage() {
             variant="secondary"
             className="w-full mt-2"
             onClick={() => {
-              localStorage.setItem("demo_mode", "true")
-              localStorage.setItem("user", JSON.stringify({ email: "demo@example.com", first_name: "Demo", last_name: "User" }))
-              router.push(redirectUrl)
+              const demoUser = { id: "demo_ui_test", email: "ui_tester@example.com", first_name: "UI", last_name: "Tester" };
+              const demoToken = "demo_token_for_ui_testing";
+              localStorage.setItem("demo_mode", "true");
+              localStorage.setItem("access_token", demoToken);
+              localStorage.setItem("user", JSON.stringify(demoUser));
+              LocalDB.saveUser({
+                id: demoUser.id,
+                email: demoUser.email,
+                fullName: `${demoUser.first_name} ${demoUser.last_name}`,
+                token: demoToken
+              });
+              window.dispatchEvent(new Event('local-user-update'));
+              router.push(redirectUrl);
             }}
           >
-            Demo Login (Skip Auth)
+            Auto Login (UI Testing)
           </Button>
         </form>
 
