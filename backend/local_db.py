@@ -2,8 +2,17 @@ import json
 import os
 import uuid
 import hashlib
+import tempfile
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
+
+PLAN_LIMITS = {
+    "free": {"plagiarism": 5000, "humanizer": 0, "bulk": 0},
+    "student_pro": {"plagiarism": 300000, "humanizer": 50000, "bulk": 0},
+    "student_plus": {"plagiarism": 800000, "humanizer": 200000, "bulk": 10},
+    "professional": {"plagiarism": 2000000, "humanizer": 1000000, "bulk": 99999},
+    "enterprise": {"plagiarism": 99999999, "humanizer": 99999999, "bulk": 99999}
+}
 
 class LocalDB:
     def __init__(self, users_file="local_users.json", activity_file="local_user_activities.json"):
@@ -28,8 +37,14 @@ class LocalDB:
             return {}
 
     def _save_json(self, filepath: str, data: Dict[str, Any]):
-        with open(filepath, 'w') as f:
-            json.dump(data, f, indent=4)
+        temp_fd, temp_path = tempfile.mkstemp(dir=os.path.dirname(os.path.abspath(filepath)))
+        try:
+            with os.fdopen(temp_fd, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=4)
+            os.replace(temp_path, filepath)
+        except Exception as e:
+            os.remove(temp_path)
+            raise e
 
     def _hash_password(self, password: str) -> str:
         return hashlib.sha256(password.encode()).hexdigest()
@@ -81,6 +96,12 @@ class LocalDB:
                 "transactions": [],
                 "downloads": [],
                 "user_activity": []
+            },
+            "usage_monthly": {
+                "month": datetime.now().strftime("%Y-%m"),
+                "plagiarism_words": 0,
+                "humanize_words": 0,
+                "bulk_uploads": 0
             },
             "usage_today": {
                 "date": datetime.now().strftime("%Y-%m-%d"),
@@ -234,10 +255,12 @@ class LocalDB:
         if activity_type == "plagiarism_check":
             user_record["history"]["plagiarism_checks"].append(log_entry)
             self._increment_usage(user_record, "plagiarism_count")
+            self._increment_monthly_usage(user_record, "plagiarism_words", details.get("word_count", 0))
         
         elif activity_type == "humanize_text":
             user_record["history"]["humanize_requests"].append(log_entry)
             self._increment_usage(user_record, "humanize_count")
+            self._increment_monthly_usage(user_record, "humanize_words", details.get("word_count", 0))
             
         elif activity_type == "file_download":
             user_record["history"]["downloads"].append(log_entry)
@@ -246,6 +269,16 @@ class LocalDB:
             user_record["history"]["user_activity"].append(log_entry)
             
         self._save_json(self.activity_file, activity_db)
+        return log_entry["id"]
+
+    def get_report_by_id(self, report_id: str) -> Optional[Dict[str, Any]]:
+        activity_db = self._read_json(self.activity_file)
+        for user_id, user_data in activity_db.get("activities", {}).items():
+            checks = user_data.get("history", {}).get("plagiarism_checks", [])
+            for check in checks:
+                if check.get("id") == report_id:
+                    return check
+        return None
 
     def get_dashboard_stats(self, email: str) -> Dict[str, Any]:
         users_db = self._read_json(self.users_file)
@@ -344,5 +377,42 @@ class LocalDB:
         
         usage[count_key] = usage.get(count_key, 0) + 1
         user_record["usage_today"] = usage
+
+    def _increment_monthly_usage(self, user_record: Dict[str, Any], count_key: str, amount: int):
+        current_month = datetime.now().strftime("%Y-%m")
+        usage = user_record.get("usage_monthly", {})
+        
+        if usage.get("month") != current_month:
+            usage = {
+                "month": current_month,
+                "plagiarism_words": 0,
+                "humanize_words": 0,
+                "bulk_uploads": 0
+            }
+            
+        usage[count_key] = usage.get(count_key, 0) + amount
+        user_record["usage_monthly"] = usage
+
+    def get_user_limits(self, email: str) -> Dict[str, Any]:
+        users_db = self._read_json(self.users_file)
+        user = next((u for u in users_db.get("users", []) if u["email"] == email), None)
+        if not user: return {}
+        
+        plan_id = user.get("subscription", {}).get("plan", "free")
+        limits = PLAN_LIMITS.get(plan_id, PLAN_LIMITS["free"])
+        
+        activity_db = self._read_json(self.activity_file)
+        user_activity = activity_db.get("activities", {}).get(user["id"], {})
+        
+        current_month = datetime.now().strftime("%Y-%m")
+        usage = user_activity.get("usage_monthly", {})
+        if usage.get("month") != current_month:
+            usage = {"plagiarism_words": 0, "humanize_words": 0, "bulk_uploads": 0}
+            
+        return {
+            "plan": plan_id,
+            "limits": limits,
+            "usage": usage
+        }
 
 local_db = LocalDB()

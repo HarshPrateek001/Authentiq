@@ -760,6 +760,387 @@
                 "humanize_count": 2,
                 "bulk_count": 0
             }
+        },
+        "19281c36-38ed-4e7d-82d8-16487dbde417": {
+            "history": {
+                "plagiarism_checks": [
+                    {
+                        "id": "b54bf9fa-b41e-4f18-b544-3080c9f1e752",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T22:16:47.002586",
+                        "details": {
+                            "plagiarism_score": 14.649999999999999,
+                            "is_ai_generated": true,
+                            "ai_confidence": 92.0,
+                            "sources_found": [],
+                            "word_count": 472,
+                            "analysis_time": 2.997134,
+                            "unique_content_percentage": 85.35,
+                            "ai_flagged_segments": [
+                                "\"Your task: Refactor and enhance the plagiarism checking pipeline step-by-step WITHOUT breaking existing APIs or frontend contracts.\"",
+                                "\"Create a utility function that: - Converts text to lowercase - Removes extra whitespace - Removes punctuation - Normalizes unicode characters\"",
+                                "\"Implement fast local plagiarism heuristics: - Sentence tokenization - N-gram (3\u20135) shingles - Jaccard similarity - TF\u2011IDF cosine similarity\"",
+                                "\"If similarity score < 30%, immediately return: { \\\"plagiarism_level\\\": \\\"Low\\\", \\\"confidence\\\": \\\"High\\\", \\\"source\\\": \\\"Local analysis\\\", \\\"api_used\\\": false }\"",
+                                "\"Generate SHA256 hash of normalized text - Check local storage/database for an existing result - If found, return cached result immediately\"",
+                                "\"Only if local similarity \u2265 30% AND cache miss: - Split text into logical chunks (max 400\u2013600 tokens) - Send ONLY suspicious chunks to the external LLM API - Never send the full document blindly\"",
+                                "\"DO NOT ask the LLM for an exact plagiarism percentage. Instead, prompt the AI to return: - originality_level: High / Medium / Low - similarity_range: (e.g., 40\u201360%) - reasoning (short explanation) - suspected patterns (academic, SEO, paraphrased, copied)\"",
+                                "\"Standardize API output as: { \\\"originality_level\\\": \\\"...\\\", \\\"similarity_range\\\": \\\"...\\\", \\\"confidence\\\": \\\"...\\\", \\\"analysis_summary\\\": \\\"...\\\", \\\"matched_patterns\\\": [...], \\\"api_used\\\": true/false }\"",
+                                "\"Before API calls: - Check user plan limits (daily tokens / words) - If exceeded, block request with HTTP 402 and message: \\\"Daily plagiarism limit reached. Upgrade plan.\\\"\"",
+                                "\"Log every check: - user_id - text_length - hash - api_used - result_summary - timestamp - Ensure this logging is non\u2011blocking.\"",
+                                "\"Do NOT remove existing endpoints - Do NOT introduce breaking changes - Code must be clean, modular, and production\u2011ready - Avoid circular imports - Prefer async\u2011safe operations\""
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Passed local heuristic checks. Content seems highly original.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false
+                        },
+                        "tokens_used": 472
+                    },
+                    {
+                        "id": "91387293-e99e-4a59-a4bf-734ea1f2c8ab",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T22:17:59.228234",
+                        "details": {
+                            "plagiarism_score": 14.649999999999999,
+                            "is_ai_generated": true,
+                            "ai_confidence": 87.0,
+                            "sources_found": [],
+                            "word_count": 472,
+                            "analysis_time": 3.046829,
+                            "unique_content_percentage": 85.35,
+                            "ai_flagged_segments": [
+                                "You are a senior backend engineer and SaaS product architect.",
+                                "Context: I am building an AI\u2011powered SaaS platform (FastAPI backend + Next.js frontend) that performs plagiarism checking, AI\u2011content detection, and AI text humanization.",
+                                "Currently, plagiarism detection is weak and overly dependent on an external LLM API.",
+                                "Your task: Refactor and enhance the plagiarism checking pipeline step\u2011by\u2011step WITHOUT breaking existing APIs or frontend contracts.",
+                                "Follow the instructions below EXACTLY and implement them sequentially.",
+                                "Create a utility function that: \u2013 Converts text to lowercase \u2013 Removes extra whitespace \u2013 Removes punctuation \u2013 Normalizes unicode characters.",
+                                "Implement fast local plagiarism heuristics: \u2013 Sentence tokenization \u2013 N\u2011gram (3\u20135) shingles \u2013 Jaccard similarity \u2013 TF\u2011IDF cosine similarity."
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Result retrieved from local cache.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false
+                        },
+                        "tokens_used": 472
+                    },
+                    {
+                        "id": "157e0bff-3c3b-44b4-a539-92be646409fa",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T22:25:55.485735",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 14.649999999999999,
+                            "is_ai_generated": true,
+                            "ai_confidence": 85.0,
+                            "sources_found": [],
+                            "word_count": 472,
+                            "analysis_time": 2.832672,
+                            "unique_content_percentage": 85.35,
+                            "ai_flagged_segments": [
+                                "Your task: Refactor and enhance the plagiarism checking pipeline step\u2011by\u2011step WITHOUT breaking existing APIs or frontend contracts.",
+                                "Follow the instructions below EXACTLY and implement them sequentially.",
+                                "Create a utility function that:",
+                                "Converts text to lowercase",
+                                "Removes extra whitespace",
+                                "Removes punctuation",
+                                "Normalizes unicode characters",
+                                "Implement fast local plagiarism heuristics:",
+                                "Sentence tokenization",
+                                "N\u2011gram (3\u20135) shingles",
+                                "Jaccard similarity",
+                                "TF\u2011IDF cosine similarity",
+                                "Only if local similarity \u2265 30% AND cache miss:",
+                                "Split text into logical chunks (max 400\u2013600 tokens)",
+                                "Send ONLY suspicious chunks to the external LLM API",
+                                "Never send the full document blindly",
+                                "DO NOT ask the LLM for an exact plagiarism percentage.",
+                                "Standardize API output as:",
+                                "Before API calls:",
+                                "Check user plan limits (daily tokens / words)",
+                                "If exceeded, block request with HTTP\u202f402 and message: \"Daily plagiarism limit reached. Upgrade plan.\""
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Result retrieved from local cache.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false
+                        },
+                        "tokens_used": 472
+                    },
+                    {
+                        "id": "df79a675-8fee-44a1-a911-55770544193e",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T22:33:59.105569",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 30.273418863053614,
+                            "is_ai_generated": true,
+                            "ai_confidence": 88.0,
+                            "sources_found": [],
+                            "word_count": 1694,
+                            "analysis_time": 3.655427,
+                            "unique_content_percentage": 69.72658113694638,
+                            "ai_flagged_segments": [
+                                "\u201cAuthentiq is an AI\u2011powered SaaS platform that specializes in content authenticity and modification.\u201d",
+                                "\u201cIt lets users check text or documents for plagiarism, detect if content was generated by AI, and \u201chumanize\u201d AI text to bypass detectors.\u201d",
+                                "\u201cFree: Basic plagiarism heuristic checks, low word count limits, limited AI chat.\u201d",
+                                "\u201cPaid (Pro/Enterprise): Deep web\u2011scraping plagiarism checks, access to the premium \u201cHumanizer\u201d API, document uploads (PDF/Docx), and significantly higher token/word limits.\u201d",
+                                "\u201cA new user signs up with email/password: Frontend (Sign up form) \u2192 Backend API (/api/auth/register) \u2192 Logic (Validates fields) \u2192 Storage (Writes to local_users.json) \u2192 Response (Success/Error) \u2192 Frontend (Redirects to login).\u201d",
+                                "\u201cUser runs plagiarism check: Frontend (Pastes text/uploads) \u2192 Backend API (/api/check-plagiarism) \u2192 Logic (Sends text & strict prompts to Groq API) \u2192 Response (Groq returns % score) \u2192 Storage (Logs activity to local_user_activities.json) \u2192 Frontend (Displays % and sources).\u201d",
+                                "\u201cData Validation: Handled effortlessly by FastAPI through Pydantic models (e.g., PlagiarismRequest). If the frontend sends bad data, FastAPI intercepts it with a 422 Error before code execution.\u201d",
+                                "\u201cRace conditions in local_db.py: Writing to a single JSON file synchronously will cause file corruption under moderate traffic.\u201d",
+                                "\u201cBlocking I/O: Reading .json files inside async endpoints without asyncio file adapters can block the event loop.\u201d",
+                                "\u201cScalability Risks: In\u2011memory logic: Python holding massive documents in memory to parse them will spike RAM on small Vercel/Render instances.\u201d"
+                            ],
+                            "originality_level": "Medium",
+                            "similarity_range": "30-45%",
+                            "confidence": "Medium",
+                            "analysis_summary": "The text follows a common template for SaaS product briefs and includes generic sections (overview, user personas, problem statement, workflow steps) that appear in many similar tool descriptions, indicating moderate overlap but also original specifics about Authentiq.",
+                            "matched_patterns": [
+                                "Repeated section headings like 'What this software does' and 'Who the users are'",
+                                "Standard workflow enumeration with API endpoint patterns",
+                                "Common phrasing about free vs paid limits and AI detection features"
+                            ],
+                            "api_used": true,
+                            "original_text": "\ud83d\udd39 PART 1: HIGH-LEVEL PRODUCT OVERVIEW\nWhat this software does: Authentiq is an AI-powered SaaS platform that specializes in content authenticity and modification. It lets users check text or documents for plagiarism, detect if content was generated by AI, and \"humanize\" AI text to bypass detectors. It also offers a built-in AI chat assistant.\n\nWho the users are:\n\nStudents & Academics: Checking papers before submission to ensure originality.\nContent Creators & Writers: Testing SEO articles to ensure they won't be penalized by Google's AI spam updates.\nProfessionals/Enterprise: Verifying the authenticity of reports, legal documents, or candidate assignments.\nWhat problems it solves: It solves the modern problem of trusting digital content. With LLMs (like ChatGPT) everywhere, it's difficult to know if a human wrote something. If it was AI-generated, Authentiq provides a tool to restructure it to sound naturally human.\n\nFree vs. Paid Limits (Conceptualized System):\n\nFree: Basic plagiarism heuristic checks, low word count limits, limited AI chat.\nPaid (Pro/Enterprise): Deep web-scraping plagiarism checks, access to the premium \"Humanizer\" API, document uploads (PDF/Docx), and significantly higher token/word limits.\n\ud83d\udd39 PART 2: COMPLETE WORKFLOW (END-TO-END)\n1. A new user signs up with email/password: Frontend (Sign up form) \u2192 Backend API (/api/auth/register) \u2192 Logic (Validates fields) \u2192 Storage (Writes to local_users.json) \u2192 Response (Success/Error) \u2192 Frontend (Redirects to login).\n\n2. A user signs in with Google OAuth: (Currently mocked/failing in local mode due to Supabase removal) Frontend (Clicks Google) \u2192 Backend API (/api/auth/google/login - currently returns 501) \u2192 Future: Triggers Supabase OAuth flow \u2192 Storage (Supabase syncs to users table) \u2192 Frontend (Receives session JWT).\n\n3. User lands on dashboard: Frontend (/dashboard) \u2192 Backend API (/api/dashboard/stats & /api/user/me) \u2192 Logic (Verifies Bearer token against local_users.json) \u2192 Storage (Reads user_stats.json) \u2192 Response (Delivers stats) \u2192 Frontend (Renders charts/UI).\n\n4. User runs plagiarism check: Frontend (Pastes text/uploads) \u2192 Backend API (/api/check-plagiarism) \u2192 Logic (Sends text & strict prompts to Groq API) \u2192 Response (Groq returns % score) \u2192 Storage (Logs activity to local_user_activities.json) \u2192 Frontend (Displays % and sources).\n\n5. User runs AI detection: Frontend (Included in plagiarism payload) \u2192 Backend API (Calls Groq with AI-detection prompt) \u2192 Logic (Parses output for sentences and confidence %) \u2192 Response \u2192 Frontend (Highlights AI sentences).\n\n6. User runs humanizer: Frontend (Selects tone/complexity) \u2192 Backend API (/api/humanizer) \u2192 Logic (Calls Groq to rewrite text using instructions) \u2192 Logic (Calculates improvement score) \u2192 Storage (Logs activity) \u2192 Response (Returns new text) \u2192 Frontend (Displays diff).\n\n7. User uses chat / AI tools: Frontend (Chat widget) \u2192 Backend API (/api/ai-chat) \u2192 Logic (Checks moderation keywords, calls Groq API) \u2192 Response (Returns AI text) \u2192 Frontend (Shows chat bubble).\n\n\ud83d\udd39 PART 3: BACKEND ARCHITECTURE (Python / FastAPI)\nYour backend is currently a monolithic FastAPI application.\n\n\nmain.py\n functionality: This is the entry point. It initializes FastAPI, configures CORS, and registers all API endpoints directly (@app.get, @app.post).\nAuthentication: Handled manually in /api/auth/login and /me. It extracts the Authorization: Bearer <token> header, then passes it to \n\nlocal_db.py\n to check against the JSON file.\nOAuth: Temporarily stubbed with a 501 Not Implemented error since the local JSON database cannot independently handle external OAuth redirects.\nAI Processing: Endpoints like /api/check-plagiarism don't do the heavy lifting. They import asynchronous functions from \n\nai_model.py\n and await the results.\nActivity logging: Executed linearly inside the endpoint blocks just before returning the HTTP response (e.g., local_db.log_activity).\nData Validation: Handled effortlessly by FastAPI through Pydantic models (e.g., PlagiarismRequest). If the frontend sends bad data, FastAPI intercepts it with a 422 Error before code execution.\nError Locations: Network timeouts with Groq, file parsing errors (e.g., corrupted PDFs in /api/upload-file), or JSON read/write locking issues.\n\ud83d\udd39 PART 4: FILE & MODULE CONNECTION MAP\n\nmain.py\n \u2192 The controller. Defines routes and connects HTTP requests to Python functions.\n\nai_model.py\n \u2192 The engine. Contains all the prompts, httpx logic to talk to Groq, and heuristic fallback logic (regex/math) if API keys fail.\n\nmodels.py\n \u2192 the schematics. Contains Pydantic classes (like UserCreate, PlagiarismResult). Depends on nothing. Imported by \n\nmain.py\n and \n\nai_model.py\n.\n\nconfig.py\n \u2192 The settings. Reads \n\n.env\n and exports constants.\n\nlocal_db.py\n \u2192 The current database driver. Contains logic to read, append, and rewrite the JSON files.\n\nsupabase_client.py\n \u2192 The future database driver. (Currently minimized/disabled).\nJSON DB files (\n\nlocal_users.json\n, \n\nlocal_user_activities.json\n) \u2192 Flat text files acting as tables.\nDependencies: \n\nmain.py\n depends on practically everything (models, config, local_db, ai_model). ai_model depends on config and models. Note: You are currently avoiding circular imports, which is great.\n\n\ud83d\udd39 PART 5: DATABASE DESIGN (CURRENT + FUTURE)\nCurrent (Local JSON DB)\nData stored: Users (email, hashed password, raw token), Activities (type of check, results, timestamp), Stats (total checks).\nPersistence: Relies on Python's native open(file, 'w') to overwrite the JSON files every time a new action occurs.\nRestart behavior: Data survives server restarts because it is written to disk.\nLimitations (CRITICAL): This will break under concurrent load. If two users sign up at the exact same millisecond, Python might corrupt the JSON file via race conditions.\nFuture (Supabase)\nTables Needed:\nusers (managed by Supabase Auth)\nprofiles (links to auth.users, stores name, active plan ID)\nsubscriptions (tracks Stripe/payment limits)\nactivity_logs (stores check_type, tokens_used, timestamp)\ndocuments (stores past checks so users can view history)\nOAuth Sync: Supabase handles Google login perfectly. You will set a Postgres Trigger on the auth.users table to automatically insert a row into your public profiles table upon creation.\n\ud83d\udd39 PART 6: AUTHENTICATION SYSTEM CLARITY\nEmail/Password: You collect credentials, hash the password (hopefully/should be doing this), and store it. When they log in, you generate a string (Token) and hand it to the client.\nGoogle OAuth: A completely different flow. The user trusts Google, Google verifies their identity, and Google hands you (the Server) an identity token.\nJWT & Sessions: Currently, you are using \"dumb tokens\" (random strings saved in JSON). In the future (Supabase), the token will be a JWT. A JWT contains user data cryptographically signed. You won't \"look it up\" in the database; you will verify its mathematical signature.\nFrontend Storage: The frontend stores this token (likely in localStorage or cookies) and attaches it to the Authorization header on every request.\nProtected Routes: The frontend checks if the token exists. If not, it forces a redirect to /login. The backend checks the header on secure endpoints; if missing/invalid, it throws a 401 Unauthorized.\n\ud83d\udd39 PART 7: FRONTEND \u2194 BACKEND CONNECTION\nPage logic: Next.js pages (like /dashboard/humanizer) render the UI and fire API fetches to your FastAPI server running on http://localhost:8000/api/....\nFetch execution: A user clicking \"Check\" triggers a React asynchronous function that POSTs the text to FastAPI.\nCORS: FastAPI is properly configured (CORSMiddleware) to accept requests originating from the Next.js port (e.g., localhost:3000).\nError Handling: If FastAPI returns 500 (e.g., Groq is down), the frontend catch block captures it and likely triggers a UI Toast notification (via sonner or toaster) so the user isn't left hanging.\n\ud83d\udd39 PART 8: AI COST & TOKEN OPTIMIZATION\nWhy tokens exhaust: Groq charges (or rate-limits) based on input and output tokens. Sending a whole essay to check for plagiarism consumes a massive amount of input tokens.\n\nOptimization Strategies:\n\nCaching (Hash Matching): Before sending text to Groq, hash the text (MD5/SHA256). Look it up in your database. If someone previously checked this exact text, return the cached result instantly for $0.\nChunking / Pre-filtering: Don't send 5,000 words. Split it, or use a cheap local Python library (nltk/spacy) to filter out generic sentences before querying the LLM.\nUsage Limits: Enforce daily token limits in the database. Subtract tokens per request, intercepting with a 402 Payment Required if they hit zero.\n\ud83d\udd39 PART 9: FUTURE DESKTOP APP (THE BIG PLAY)\nTo bring this to Windows and run AI locally (saving API costs and improving privacy):\n\nArchitecture: Use Tauri (Rust + React) or Electron. Tauri is recommended as it's incredibly lightweight for Windows.\nThe Backend: You can package your existing FastAPI server using PyInstaller. The desktop app launches this hidden server on a local port (e.g., 127.0.0.1:8000) and the React UI speaks to it exactly as it does now!\nLocal Models: Integrate Ollama or Llama.cpp into the Python backend. Add logic to \n\nai_model.py\n: If running locally, route the prompt to localhost:11434 (Ollama) instead of Groq API.\nOffline Mode: The desktop app creates a local SQLite database (instead of JSON). Supabase data syncs down when online so users can view history offline.\n\ud83d\udd39 PART 10: PROBLEMS, RISKS & FIXES\nImmediate Fixes Required:\n\nRace conditions in \n\nlocal_db.py\n: Writing to a single JSON file synchronously will cause file corruption under moderate traffic.\nBlocking I/O: Reading \n\n.json\n files inside async endpoints without asyncio file adapters can block the event loop.\nFake AI Plagiarism: Currently, if the Groq key is missing, the fallback math generates a random percentage score = (hash_value % 25) + random.uniform(0, 15). This is highly unpredictable and unethical if users are paying for accurate results.\nScalability Risks:\n\nIn-memory logic: Python holding massive documents in memory to parse them will spike RAM on small Vercel/Render instances.\nDeployment: Vercel is meant for Next.js/Serverless Node. Deploying stateful Python (that writes to disk) on Vercel is a bad idea due to serverless ephemeral file systems. Connect a real Postgres DB (Supabase) before deploying!\n\ud83d\udd39 PART 11: CLEAN RECOMMENDED ARCHITECTURE\nYour Roadmap from Phase 1 (Now) to Phase 3 (Scale):\n\nStep 1. Folder Restructure (ASAP):\n\ntext\nbackend/\n\u251c\u2500\u2500 app/\n\u2502   \u251c\u2500\u2500 main.py\n\u2502   \u251c\u2500\u2500 core/           # config.py, auth logic\n\u2502   \u251c\u2500\u2500 database/       # Supabase connections\n\u2502   \u251c\u2500\u2500 routers/        # /ai, /auth, /users (Split main.py up!)\n\u2502   \u251c\u2500\u2500 services/       # ai_model.py (business logic)\n\u2502   \u2514\u2500\u2500 models/         # Pydantic models\nAction: Move endpoints out of \n\nmain.py\n using APIRouter.\n\nStep 2. Database Migration: Rip out the JSON files entirely. Transition strictly to Supabase Postgres. Use asyncpg or Supabase's Python SDK. This completely eliminates race conditions and allows for real relational queries.\n\nStep 3. Deployment:\n\nFrontend: Vercel (Perfect for Next.js).\nBackend: Render or Railway (Do not put the FastAPI app on Vercel, it needs a persistable environment and generous timeout limits for LLM tasks).\nStep 4. Local App Build: Once the web version is flawless, wrap the exact same Next.js code using Tauri, bundle Ollama.exe as a sidecar, and ship it as a .msi Windows installer."
+                        },
+                        "tokens_used": 1694
+                    },
+                    {
+                        "id": "76a21e57-d0f1-4f39-a2ef-aeebd50eea9f",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T22:45:55.662325",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 14.649999999999999,
+                            "is_ai_generated": true,
+                            "ai_confidence": 86.0,
+                            "sources_found": [],
+                            "word_count": 472,
+                            "analysis_time": 4.520087,
+                            "unique_content_percentage": 85.35,
+                            "ai_flagged_segments": [
+                                "\u201cYour task: Refactor and enhance the plagiarism checking pipeline step\u2011by\u2011step WITHOUT breaking existing APIs or frontend contracts.\u201d",
+                                "\u201cFollow the instructions below EXACTLY and implement them sequentially.\u201d",
+                                "\u201cCreate a utility function that: - Converts text to lowercase - Removes extra whitespace - Removes punctuation - Normalizes unicode characters.\u201d",
+                                "\u201cImplement fast local plagiarism heuristics: - Sentence tokenization - N\u2011gram (3\u20135) shingles - Jaccard similarity - TF\u2011IDF cosine similarity.\u201d",
+                                "\u201cIf similarity score < 30%, immediately return: { \u2026 } DO NOT call any external API in this case.\u201d",
+                                "\u201cBefore calling any external API: - Generate SHA256 hash of normalized text - Check local storage/database for an existing result - If found, return cached result immediately.\u201d",
+                                "\u201cOnly if local similarity \u2265 30% AND cache miss: - Split text into logical chunks (max 400\u2013600 tokens) - Send ONLY suspicious chunks to the external LLM API - Never send the full document blindly.\u201d",
+                                "\u201cDO NOT ask the LLM for an exact plagiarism percentage. Instead, prompt the AI to return: - originality_level: High / Medium / Low - similarity_range: (e.g., 40\u201360%) - reasoning (short explanation) - suspected patterns (academic, SEO, paraphrased, copied).\u201d",
+                                "\u201cStandardize API output as: { \u2026 } Ensure backward compatibility with existing frontend fields.\u201d",
+                                "\u201cBefore API calls: - Check user plan limits (daily tokens / words) - If exceeded, block request with HTTP 402 and message: \u2018Daily plagiarism limit reached. Upgrade plan.\u2019\u201d",
+                                "\u201cLog every check: - user_id - text_length - hash - api_used - result_summary - timestamp. Ensure this logging is non\u2011blocking.\u201d"
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Result retrieved from local cache.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false,
+                            "original_text": "You are a senior backend engineer and SaaS product architect.\n\nContext:\nI am building an AI-powered SaaS platform (FastAPI backend + Next.js frontend) that performs plagiarism checking, AI-content detection, and AI text humanization.\n\nCurrently, plagiarism detection is weak and overly dependent on an external LLM API. I want you to upgrade it to a production-grade, cost-optimized, multi-layer plagiarism detection system.\n\nYour task:\nRefactor and enhance the plagiarism checking pipeline step-by-step WITHOUT breaking existing APIs or frontend contracts.\n\nFollow the instructions below EXACTLY and implement them sequentially.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 1: INPUT NORMALIZATION\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCreate a utility function that:\n- Converts text to lowercase\n- Removes extra whitespace\n- Removes punctuation\n- Normalizes unicode characters\n\nThis function must be reusable and run before any plagiarism logic.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 2: LOCAL SIMILARITY HEURISTICS (NO API)\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nImplement fast local plagiarism heuristics:\n- Sentence tokenization\n- N-gram (3\u20135) shingles\n- Jaccard similarity\n- TF-IDF cosine similarity\n\nRules:\n- If similarity score < 30%, immediately return:\n  {\n    \"plagiarism_level\": \"Low\",\n    \"confidence\": \"High\",\n    \"source\": \"Local analysis\",\n    \"api_used\": false\n  }\n\nDO NOT call any external API in this case.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 3: TEXT HASHING & CACHE\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nBefore calling any external API:\n- Generate SHA256 hash of normalized text\n- Check local storage/database for an existing result\n- If found, return cached result immediately\n\nStore:\n- hash\n- original text length\n- plagiarism result\n- timestamp\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 4: CONTROLLED EXTERNAL API CALL\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nOnly if local similarity \u2265 30% AND cache miss:\n- Split text into logical chunks (max 400\u2013600 tokens)\n- Send ONLY suspicious chunks to the external LLM API\n- Never send the full document blindly\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 5: AI PROMPT REWRITE (IMPORTANT)\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nDO NOT ask the LLM for an exact plagiarism percentage.\n\nInstead, prompt the AI to return:\n- originality_level: High / Medium / Low\n- similarity_range: (e.g., 40\u201360%)\n- reasoning (short explanation)\n- suspected patterns (academic, SEO, paraphrased, copied)\n\nThis avoids fake precision and improves trust.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 6: FINAL RESPONSE FORMAT\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nStandardize API output as:\n\n{\n  \"originality_level\": \"...\",\n  \"similarity_range\": \"...\",\n  \"confidence\": \"...\",\n  \"analysis_summary\": \"...\",\n  \"matched_patterns\": [...],\n  \"api_used\": true/false\n}\n\nEnsure backward compatibility with existing frontend fields.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 7: USAGE LIMIT HOOK\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nBefore API calls:\n- Check user plan limits (daily tokens / words)\n- If exceeded, block request with HTTP 402 and message:\n  \"Daily plagiarism limit reached. Upgrade plan.\"\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 8: LOGGING & AUDIT\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nLog every check:\n- user_id\n- text_length\n- hash\n- api_used\n- result_summary\n- timestamp\n\nEnsure this logging is non-blocking.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCONSTRAINTS\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n- Do NOT remove existing endpoints\n- Do NOT introduce breaking changes\n- Code must be clean, modular, and production-ready\n- Avoid circular imports\n- Prefer async-safe operations\n\nGoal:\nReduce external API usage by at least 50% while increasing result credibility and scalability.\n\nProceed step-by-step. Explain code decisions briefly in comments."
+                        },
+                        "tokens_used": 472
+                    },
+                    {
+                        "id": "d4ccc696-9330-49f3-94b1-a76797d879db",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T23:04:00.938018",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 14.649999999999999,
+                            "is_ai_generated": true,
+                            "ai_confidence": 88.0,
+                            "sources_found": [],
+                            "word_count": 472,
+                            "analysis_time": 3.225438,
+                            "unique_content_percentage": 85.35,
+                            "ai_flagged_segments": [
+                                "\"You are a senior backend engineer and SaaS product architect.\"",
+                                "\"Context: I am building an AI\u2011powered SaaS platform (FastAPI backend + Next.js frontend) that performs plagiarism checking, AI\u2011content detection, and AI text humanization.\"",
+                                "\"Currently, plagiarism detection is weak and overly dependent on an external LLM API.\"",
+                                "\"Your task: Refactor and enhance the plagiarism checking pipeline step\u2011by\u2011step WITHOUT breaking existing APIs or frontend contracts.\"",
+                                "\"Follow the instructions below EXACTLY and implement them sequentially.\"",
+                                "\"Create a utility function that: - Converts text to lowercase - Removes extra whitespace - Removes punctuation - Normalizes unicode characters\"",
+                                "\"Implement fast local plagiarism heuristics: - Sentence tokenization - N\u2011gram (3\u20135) shingles - Jaccard similarity - TF\u2011IDF cosine similarity\"",
+                                "\"If similarity score < 30%, immediately return: { \\\"plagiarism_level\\\": \\\"Low\\\", \\\"confidence\\\": \\\"High\\\", \\\"source\\\": \\\"Local analysis\\\", \\\"api_used\\\": false }\"",
+                                "\"Generate SHA256 hash of normalized text - Check local storage/database for an existing result - If found, return cached result immediately\"",
+                                "\"Only if local similarity \u2265 30% AND cache miss: - Split text into logical chunks (max 400\u2013600 tokens) - Send ONLY suspicious chunks to the external LLM API - Never send the full document blindly\"",
+                                "\"DO NOT ask the LLM for an exact plagiarism percentage.\"",
+                                "\"Standardize API output as: { \\\"originality_level\\\": \\\"...\\\", \\\"similarity_range\\\": \\\"...\\\", \\\"confidence\\\": \\\"...\\\", \\\"analysis_summary\\\": \\\"...\\\", \\\"matched_patterns\\\": [...], \\\"api_used\\\": true/false }\"",
+                                "\"Before API calls: - Check user plan limits (daily tokens / words) - If exceeded, block request with HTTP 402 and message: \\\"Daily plagiarism limit reached. Upgrade plan.\\\"\"",
+                                "\"Log every check: - user_id - text_length - hash - api_used - result_summary - timestamp\"",
+                                "\"Code must be clean, modular, and production\u2011ready - Avoid circular imports - Prefer async\u2011safe operations\"",
+                                "\"Goal: Reduce external API usage by at least 50% while increasing result credibility and scalability.\""
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Result retrieved from local cache.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false,
+                            "original_text": "You are a senior backend engineer and SaaS product architect.\n\nContext:\nI am building an AI-powered SaaS platform (FastAPI backend + Next.js frontend) that performs plagiarism checking, AI-content detection, and AI text humanization.\n\nCurrently, plagiarism detection is weak and overly dependent on an external LLM API. I want you to upgrade it to a production-grade, cost-optimized, multi-layer plagiarism detection system.\n\nYour task:\nRefactor and enhance the plagiarism checking pipeline step-by-step WITHOUT breaking existing APIs or frontend contracts.\n\nFollow the instructions below EXACTLY and implement them sequentially.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 1: INPUT NORMALIZATION\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCreate a utility function that:\n- Converts text to lowercase\n- Removes extra whitespace\n- Removes punctuation\n- Normalizes unicode characters\n\nThis function must be reusable and run before any plagiarism logic.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 2: LOCAL SIMILARITY HEURISTICS (NO API)\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nImplement fast local plagiarism heuristics:\n- Sentence tokenization\n- N-gram (3\u20135) shingles\n- Jaccard similarity\n- TF-IDF cosine similarity\n\nRules:\n- If similarity score < 30%, immediately return:\n  {\n    \"plagiarism_level\": \"Low\",\n    \"confidence\": \"High\",\n    \"source\": \"Local analysis\",\n    \"api_used\": false\n  }\n\nDO NOT call any external API in this case.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 3: TEXT HASHING & CACHE\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nBefore calling any external API:\n- Generate SHA256 hash of normalized text\n- Check local storage/database for an existing result\n- If found, return cached result immediately\n\nStore:\n- hash\n- original text length\n- plagiarism result\n- timestamp\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 4: CONTROLLED EXTERNAL API CALL\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nOnly if local similarity \u2265 30% AND cache miss:\n- Split text into logical chunks (max 400\u2013600 tokens)\n- Send ONLY suspicious chunks to the external LLM API\n- Never send the full document blindly\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 5: AI PROMPT REWRITE (IMPORTANT)\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nDO NOT ask the LLM for an exact plagiarism percentage.\n\nInstead, prompt the AI to return:\n- originality_level: High / Medium / Low\n- similarity_range: (e.g., 40\u201360%)\n- reasoning (short explanation)\n- suspected patterns (academic, SEO, paraphrased, copied)\n\nThis avoids fake precision and improves trust.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 6: FINAL RESPONSE FORMAT\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nStandardize API output as:\n\n{\n  \"originality_level\": \"...\",\n  \"similarity_range\": \"...\",\n  \"confidence\": \"...\",\n  \"analysis_summary\": \"...\",\n  \"matched_patterns\": [...],\n  \"api_used\": true/false\n}\n\nEnsure backward compatibility with existing frontend fields.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 7: USAGE LIMIT HOOK\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nBefore API calls:\n- Check user plan limits (daily tokens / words)\n- If exceeded, block request with HTTP 402 and message:\n  \"Daily plagiarism limit reached. Upgrade plan.\"\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nSTEP 8: LOGGING & AUDIT\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nLog every check:\n- user_id\n- text_length\n- hash\n- api_used\n- result_summary\n- timestamp\n\nEnsure this logging is non-blocking.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nCONSTRAINTS\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n- Do NOT remove existing endpoints\n- Do NOT introduce breaking changes\n- Code must be clean, modular, and production-ready\n- Avoid circular imports\n- Prefer async-safe operations\n\nGoal:\nReduce external API usage by at least 50% while increasing result credibility and scalability.\n\nProceed step-by-step. Explain code decisions briefly in comments."
+                        },
+                        "tokens_used": 472
+                    },
+                    {
+                        "id": "44d6aa8d-9363-4ed8-9f85-79cda512b49b",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-25T23:08:01.786388",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 31.960138605029652,
+                            "is_ai_generated": true,
+                            "ai_confidence": 71.0,
+                            "sources_found": [],
+                            "word_count": 169,
+                            "analysis_time": 5.001783,
+                            "unique_content_percentage": 68.03986139497034,
+                            "ai_flagged_segments": [
+                                "Q.1. Match the Following",
+                                "Q.2. Name the Famous Personality",
+                                "a) Britain\u2019s first woman doctor and champion of women\u2019s rights \u2192 Elizabeth Garrett Anderson",
+                                "b) Jamaican nurse who looked after soldiers in the Crimean War \u2192 Mary Seacole",
+                                "c) Prison reformer and pioneer of nurse training \u2192 Florence Nightlight",
+                                "d) Actor known for innocent natural acting and Dadasaheb Phalke Award recipient \u2192 Charlie Chaplin",
+                                "e) Famous comic double act (small thin confused & big fat irritable) \u2192 Laurel and Hardy",
+                                "Q.3. Name the Amazing Places Around the World",
+                                "Statue of Liberty (USA)",
+                                "Great Wall of China",
+                                "Opera House",
+                                "Basils Cathedral",
+                                "Angkor Bayon Temple",
+                                "Q.4. Answer the Following",
+                                "a) Which nutrient is known as the sunshine vitamin? \u2192 Vitamin D",
+                                "b) What creatures make chalk, tubes, stones and shells? \u2192 Coral",
+                                "c) What is the name of an eagle\u2019s nest? \u2192 Eyrie",
+                                "d) Who was the first captain of Independent India\u2019s Olympic football team? \u2192 Talimeren Ao",
+                                "e) Name the youngest and first sportsperson to receive Bharat Ratna \u2192 Sachin Tendulkar"
+                            ],
+                            "originality_level": "Medium",
+                            "similarity_range": "40-60%",
+                            "confidence": "Medium",
+                            "analysis_summary": "The passage is a collection of factual Q&A and matching items that appear in many educational worksheets, indicating moderate similarity to existing sources.",
+                            "matched_patterns": [
+                                "matching question format",
+                                "list of famous personalities with brief descriptions",
+                                "standard factual Q&A pairs"
+                            ],
+                            "api_used": true,
+                            "original_text": " Q.1. Match the Following\n\n Q.2. Name the Famous Personality\na) Britain\u2019s first woman doctor and champion of women\u2019s rights\n\u2192 Elizabeth Garrett Anderson\nb) Jamaican nurse who looked after soldiers in the Crimean War\n\u2192 Mary Seacole\nc) Prison reformer and pioneer of nurse training\n\u2192 Florence Nightingale\nd) Actor known for innocent natural acting and Dadasaheb Phalke Award recipient\n\u2192 Charlie Chaplin\ne) Famous comic double act (small thin confused & big fat irritable)\n\u2192 Laurel and Hardy\n\n Q.3. Name the Amazing Places Around the World\nStatue of Liberty (USA)\nGreat Wall of China\nOpera House\nBasils Cathedral\nAngkor Bayon Temple\n\n Q.4. Answer the Following\na) Which nutrient is known as the sunshine vitamin?\n\u2192 Vitamin D\nb) What creatures make chalk, tubes, stones and shells?\n\u2192 Coral\nc) What is the name of an eagle\u2019s nest?\n\u2192 Eyrie\nd) Who was the first captain of Independent India\u2019s Olympic football team?\n\u2192 Talimeren Ao\ne) Name the youngest and first sportsperson to receive Bharat Ratna\n\u2192 Sachin Tendulkar\n\n"
+                        },
+                        "tokens_used": 169
+                    }
+                ],
+                "humanize_requests": [],
+                "transactions": [],
+                "downloads": [],
+                "user_activity": [
+                    {
+                        "id": "83d2cc12-2b27-45b7-b572-f45495324d91",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:11:41.406653",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "be076efb-10ed-47b9-beeb-d570641d87f9",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:11:41.449598",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "89984c69-86d6-449b-910c-3b0303623b5a",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:40:35.658791",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "d7765e0a-320d-4ec9-ae27-1064e903befe",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:40:35.869116",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "5392265d-a6cf-4114-97ef-6d4d810498d9",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:45:29.789913",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "24b563fa-978b-4c82-b23d-d172db5ffdfd",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:45:29.903092",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "b5bcb41c-78a5-4fe7-8ab0-6a5b25ee3fb2",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:51:39.701495",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "cd55ab66-d133-42d2-ad68-f0eff1d92e1c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:51:39.778202",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "8363b69c-150f-41b0-9a19-84a4b5995d79",
+                        "type": "page_view",
+                        "timestamp": "2026-02-25T22:51:43.667027",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.95.208.198:3000/dashboard"
+                        }
+                    }
+                ]
+            },
+            "usage_today": {
+                "date": "2026-02-25",
+                "plagiarism_count": 7,
+                "humanize_count": 0,
+                "bulk_count": 0
+            }
         }
     }
 }

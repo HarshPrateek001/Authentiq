@@ -1,6 +1,6 @@
 import type React from "react"
 import Link from "next/link"
-import { FileCheck } from "lucide-react"
+import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react"
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -19,10 +19,7 @@ function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <FileCheck className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <span className="text-lg font-semibold">Authentiq*</span>
+          <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -39,8 +36,6 @@ function Header() {
   )
 }
 
-import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react"
-
 function Footer() {
   return (
     <footer className="relative border-t border-border bg-background pt-16 pb-8 overflow-hidden">
@@ -54,11 +49,7 @@ function Footer() {
           {/* Brand & Newsletter Column (Takes up more space) */}
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
             <Link href="/" className="inline-flex items-center gap-3 relative group">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 transition-transform duration-300 group-hover:scale-105">
-                <FileCheck className="h-5 w-5 text-primary-foreground relative z-10" />
-                <div className="absolute inset-0 rounded-xl bg-primary animate-ping opacity-20" />
-              </div>
-              <span className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">Authentiq<span className="text-primary">*</span></span>
+              <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-28 w-auto transition-transform duration-300 group-hover:scale-105" />
             </Link>
             
             <p className="text-muted-foreground leading-relaxed max-w-sm">

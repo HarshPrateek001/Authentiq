@@ -17,14 +17,14 @@ import { LocalDB } from "@/lib/local-db"
 
 const plans = {
     student: {
-        'free': { name: 'Free', monthlyPrice: 0, yearlyPrice: 0, description: 'Perfect for trying' },
-        'student-pro': { name: 'Student Pro', monthlyPrice: 9, yearlyPrice: 7, description: 'Most Popular' },
-        'student-plus': { name: 'Student Plus', monthlyPrice: 15, yearlyPrice: 12, description: 'Unlimited' },
+        'free': { name: 'Free', monthlyPrice: 0, yearlyPrice: 0, description: 'Best for quick testing' },
+        'student-pro': { name: 'Student Pro', monthlyPrice: 149, yearlyPrice: 1499, description: 'Perfect for assignments' },
+        'student-plus': { name: 'Student Plus', monthlyPrice: 299, yearlyPrice: 2999, description: 'Heavy academic work' },
     },
     professional: {
-        'starter': { name: 'Starter', monthlyPrice: 0, yearlyPrice: 0, description: 'Get started' },
-        'pro': { name: 'Pro', monthlyPrice: 29, yearlyPrice: 24, description: 'Most Popular' },
-        'enterprise': { name: 'Enterprise', monthlyPrice: 99, yearlyPrice: 79, description: 'Custom' },
+        'free': { name: 'Free', monthlyPrice: 0, yearlyPrice: 0, description: 'Best for quick testing' },
+        'professional': { name: 'Professional', monthlyPrice: 999, yearlyPrice: 9999, description: 'For content creators' },
+        'enterprise': { name: 'Enterprise', monthlyPrice: 4999, yearlyPrice: 49999, description: 'Full power & privacy' },
     },
 }
 
@@ -282,7 +282,7 @@ const PurchasePage = () => {
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">Amount:</span>
-                                        <span className="font-semibold">${orderDetails.amount}/month</span>
+                                        <span className="font-semibold">₹{orderDetails.amount.toLocaleString()}/{billing === 'yearly' ? 'year' : 'month'}</span>
                                     </div>
                                     <div className="flex justify-between border-t pt-3">
                                         <span className="text-muted-foreground">Date:</span>
@@ -332,7 +332,7 @@ const PurchasePage = () => {
                                                 <h3 className="font-semibold text-lg">{planDetails.name}</h3>
                                                 <p className="text-sm text-muted-foreground">{planDetails.description}</p>
                                             </div>
-                                            <Badge className="text-lg px-3 py-1">${price}/month</Badge>
+                                            <Badge className="text-lg px-3 py-1">₹{price.toLocaleString()}/{billing === 'yearly' ? 'year' : 'month'}</Badge>
                                         </div>
                                         <div className="text-sm text-muted-foreground">
                                             Billing: <span className="font-medium text-foreground">{billing === 'yearly' ? 'Yearly (Renews annually)' : 'Monthly (Renews monthly)'}</span>
@@ -578,18 +578,18 @@ const PurchasePage = () => {
                                             </div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">Price</span>
-                                                <span className="font-medium">${price}</span>
+                                                <span className="font-medium">₹{price.toLocaleString()}</span>
                                             </div>
                                         </div>
 
                                         <div className="border-t pt-4">
                                             <div className="flex justify-between items-center mb-4">
                                                 <span className="font-semibold">Total Due Today</span>
-                                                <span className="text-2xl font-bold text-primary">${price}</span>
+                                                <span className="text-2xl font-bold text-primary">₹{price.toLocaleString()}</span>
                                             </div>
                                             {billing === 'yearly' && (
                                                 <div className="bg-green-50 border border-green-200 rounded p-2 text-xs text-green-800 mb-4">
-                                                    ✓ You save 20% with yearly billing
+                                                    ✓ You save with yearly billing
                                                 </div>
                                             )}
                                             <Button
@@ -598,7 +598,7 @@ const PurchasePage = () => {
                                                 disabled={processing}
                                                 onClick={handlePurchase}
                                             >
-                                                {processing ? 'Processing...' : `Pay $${price}`}
+                                                {processing ? 'Processing...' : `Pay ₹${price.toLocaleString()}`}
                                             </Button>
                                         </div>
 

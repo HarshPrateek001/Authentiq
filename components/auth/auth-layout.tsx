@@ -1,6 +1,6 @@
 import type React from "react"
 import Link from "next/link"
-import { FileCheck } from "lucide-react"
+
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,11 +9,8 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
       <div className="hidden lg:flex lg:w-1/2 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-foreground/10 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/20">
-              <FileCheck className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-semibold text-primary-foreground">Authentiq</span>
+          <Link href="/" className="flex items-center gap-2 bg-white/90 p-2 rounded-xl w-fit">
+            <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
           </Link>
 
           <div className="space-y-6 max-w-md">
@@ -38,10 +35,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex items-center justify-center p-6 md:p-12 bg-background">
         <div className="w-full max-w-md">
           <Link href="/" className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <FileCheck className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-semibold">Authentiq</span>
+            <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
           </Link>
           {children}
         </div>

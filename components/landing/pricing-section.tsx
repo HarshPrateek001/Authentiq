@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
-import { Check } from "lucide-react"
+import { Check, X, Zap, AlertTriangle, Info } from "lucide-react"
 import { SmartAction } from "@/components/ui/smart-action"
 
 const plans = {
@@ -14,86 +14,106 @@ const plans = {
       name: "Free",
       monthlyPrice: 0,
       yearlyPrice: 0,
-      description: "Perfect for trying out Plag Checker",
-      features: ["5 checks per month", "Up to 1,000 words per check", "Basic report", "Web source scanning"],
+      description: "Best for quick testing & casual use. Ideal for: New users, basic checks, demos.",
+      features: [
+        { text: "Plagiarism Check: 5,000 words / month", type: "check" },
+        { text: "AI Content Detection", type: "check" },
+        { text: "AI Humanizer", type: "x" },
+        { text: "Bulk Uploads", type: "x" },
+        { text: "API Access", type: "x" },
+        { text: "File Upload (PDF / DOCX)", type: "x" },
+        { text: "Priority Processing", type: "x" },
+      ],
       cta: "Get Started",
       popular: false,
     },
     {
-      name: "Student Pro",
-      monthlyPrice: 9,
-      yearlyPrice: 7,
-      description: "For students who need more power",
+      name: "Student Plus",
+      monthlyPrice: 299,
+      yearlyPrice: 2999,
+      description: "For heavy academic & research work. Ideal for: Researchers, thesis writers, content-heavy students.",
       features: [
-        "50 checks per month",
-        "Up to 10,000 words per check",
-        "Detailed reports with sources",
-        "Web + academic database",
-        "AI rewriting suggestions",
-        "Export to PDF",
+        { text: "Plagiarism Check: 800,000 words / month", type: "check" },
+        { text: "AI Content Detection", type: "check" },
+        { text: "AI Humanizer: 200,000 words / month", type: "check" },
+        { text: "Bulk Uploads: 10 files / month", type: "check" },
+        { text: "PDF & DOCX Uploads", type: "check" },
+        { text: "API Access", type: "x" },
+        { text: "Faster Processing", type: "zap" },
       ],
       cta: "Start Trial",
       popular: true,
     },
     {
-      name: "Student Plus",
-      monthlyPrice: 15,
-      yearlyPrice: 12,
-      description: "For heavy research needs",
+      name: "Student Pro",
+      monthlyPrice: 149,
+      yearlyPrice: 1499,
+      description: "Perfect for college students & assignments. Ideal for: Students, academic submissions, essays.",
       features: [
-        "Unlimited checks",
-        "Up to 25,000 words per check",
-        "All databases",
-        "Cross-language detection",
-        "Live typing detection",
-        "Priority support",
+        { text: "Plagiarism Check: 300,000 words / month", type: "check" },
+        { text: "AI Content Detection", type: "check" },
+        { text: "AI Humanizer: 50,000 words / month", type: "check" },
+        { text: "Bulk Uploads", type: "x" },
+        { text: "API Access", type: "x" },
+        { text: "File Uploads", type: "x" },
+        { text: "Standard Processing Speed", type: "warn" },
       ],
       cta: "Start Trial",
       popular: false,
     },
   ],
   professional: [
-    {
-      name: "Starter",
+   {
+      name: "Free",
       monthlyPrice: 0,
       yearlyPrice: 0,
-      description: "Try before you commit",
-      features: ["5 checks per month", "Up to 1,000 words per check", "Basic report", "Web source scanning"],
+      description: "Best for quick testing & casual use. Ideal for: New users, basic checks, demos.",
+      features: [
+        { text: "Plagiarism Check: 5,000 words / month", type: "check" },
+        { text: "AI Content Detection", type: "check" },
+        { text: "AI Humanizer", type: "x" },
+        { text: "Bulk Uploads", type: "x" },
+        { text: "API Access", type: "x" },
+        { text: "File Upload (PDF / DOCX)", type: "x" },
+        { text: "Priority Processing", type: "x" },
+      ],
       cta: "Get Started",
       popular: false,
     },
     {
-      name: "Pro",
-      monthlyPrice: 29,
-      yearlyPrice: 24,
-      description: "For professionals and teams",
+      name: "Enterprise",
+      monthlyPrice: 4999,
+      yearlyPrice: 49999,
+      description: "Full power. Full control. Full privacy. Ideal for: Enterprises, universities, legal firms, corporations.",
       features: [
-        "200 checks per month",
-        "Up to 50,000 words per check",
-        "Detailed reports with sources",
-        "All source databases",
-        "AI rewriting + bypass tools",
-        "API access (1000 calls)",
-        "Export to PDF/DOCX",
+        { text: "Unlimited Plagiarism (Fair Use)", type: "check" },
+        { text: "Unlimited AI Humanizer", type: "check" },
+        { text: "Unlimited Bulk Uploads", type: "check" },
+        { text: "Local AI Models (Ollama / LLaMA / Mistral)", type: "check" },
+        { text: "Offline Mode & Desktop App", type: "check" },
+        { text: "Private API Gateway", type: "check" },
+        { text: "Dedicated Support & Custom Rules", type: "check" },
+        { text: "On-Premise / Local Deployment Option", type: "zap" },
       ],
-      cta: "Start Trial",
+      cta: "Contact Sales",
       popular: true,
     },
     {
-      name: "Enterprise",
-      monthlyPrice: 99,
-      yearlyPrice: 79,
-      description: "For organizations at scale",
+      name: "Professional",
+      monthlyPrice: 999,
+      yearlyPrice: 9999,
+      description: "Built for content creators & working professionals. Ideal for: Bloggers, SEO agencies, freelancers, educators.",
       features: [
-        "Unlimited checks",
-        "Up to 100,000 words per check",
-        "Internal matching (student-to-student)",
-        "Team management",
-        "Dedicated support",
-        "Custom integrations",
-        "SLA guarantee",
+        { text: "Plagiarism Check: 2,000,000 words / month", type: "check" },
+        { text: "AI Content Detection", type: "check" },
+        { text: "AI Humanizer: 1,000,000 words / month", type: "check" },
+        { text: "Bulk Uploads: Unlimited", type: "check" },
+        { text: "PDF & DOCX Uploads", type: "check" },
+        { text: "API Access", type: "check" },
+        { text: "High-Speed Processing", type: "zap" },
+        { text: "Usage Analytics Dashboard", type: "check" },
       ],
-      cta: "Contact Sales",
+      cta: "Start Trial",
       popular: false,
     },
   ],
@@ -106,10 +126,20 @@ export function PricingSection() {
   const currentPlans = plans[userType]
 
   return (
-    <section id="pricing" className="py-20 md:py-32">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="pricing" className="py-20 md:py-32 relative overflow-hidden bg-background">
+      {/* Subtle Polka Dot Background matching image */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-5 pointer-events-none" 
+        style={{ 
+          backgroundImage: "radial-gradient(hsl(var(--primary)) 2px, transparent 2px)", 
+          backgroundSize: "32px 32px",
+          backgroundPosition: "center center"
+        }} 
+      />
+      
+      <div className="container relative z-10 mx-auto px-4 md:px-6">
         <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Simple, transparent pricing</h2>
+          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">Simple, transparent pricing</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Choose the plan that fits your needs. All plans include our core plagiarism detection.
           </p>
@@ -152,34 +182,38 @@ export function PricingSection() {
             return (
               <div
                 key={index}
-                className={`relative rounded-2xl border p-6 transition-all duration-300 ${plan.popular
-                  ? "border-primary bg-primary/5 shadow-lg shadow-primary/10 scale-105"
-                  : "border-border bg-card hover:border-primary/50 hover:shadow-md"
+                className={`relative rounded-2xl border p-6 md:p-8 transition-all duration-300 flex flex-col ${plan.popular
+                  ? "border-2 border-emerald-500 bg-gradient-to-b from-emerald-500/10 to-transparent dark:from-emerald-500/15 dark:to-background shadow-2xl shadow-emerald-500/20 lg:scale-105 z-10"
+                  : "border-border bg-card hover:border-emerald-500/30 hover:shadow-md"
                   }`}
               >
                 {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full border border-emerald-500 bg-gradient-to-r from-emerald-500 to-green-500 px-5 py-1.5 text-xs font-bold tracking-wide text-white shadow-sm">
                     Most Popular
                   </span>
                 )}
 
                 <div className="mb-6">
-                  <h3 className="text-xl font-semibold">{plan.name}</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-4xl font-bold">${price}</span>
-                    {price > 0 && <span className="ml-1 text-muted-foreground">/month</span>}
+                  <h3 className="text-2xl font-semibold mb-2">{plan.name}</h3>
+                  <div className="flex items-end mb-2">
+                    <span className="text-5xl font-bold tracking-tight">₹{price.toLocaleString()}</span>
+                    {price > 0 && <span className="ml-2 mb-1 text-lg text-muted-foreground">/month</span>}
                   </div>
                   {isYearly && price > 0 && (
-                    <p className="text-xs text-muted-foreground mt-1">Billed ${price * 12}/year</p>
+                    <p className="text-xs text-muted-foreground mb-4 font-medium">Billed ₹{plan.yearlyPrice.toLocaleString()}/year</p>
                   )}
-                  <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+                  {(price === 0 || !isYearly) && <div className="h-4 mb-4" />}
+                  <p className="text-sm text-muted-foreground">{plan.description}</p>
                 </div>
 
-                <ul className="mb-6 space-y-3">
+                <ul className="mb-8 space-y-4 flex-1">
                   {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-3 text-sm">
-                      <Check className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                      <span>{feature}</span>
+                    <li key={featureIndex} className="flex items-start gap-3">
+                      {feature.type === 'check' && <Check className="h-5 w-5 text-primary shrink-0" strokeWidth={2.5} />}
+                      {feature.type === 'x' && <X className="h-5 w-5 text-muted-foreground/50 shrink-0" strokeWidth={2.5} />}
+                      {feature.type === 'zap' && <Zap className="h-5 w-5 text-amber-500 shrink-0" strokeWidth={2.5} />}
+                      {feature.type === 'warn' && <AlertTriangle className="h-5 w-5 text-orange-400 shrink-0" strokeWidth={2.5} />}
+                      <span className={`text-sm ${feature.type === 'x' ? 'text-muted-foreground/50 line-through decoration-muted-foreground/30' : 'text-muted-foreground'}`}>{feature.text}</span>
                     </li>
                   ))}
                 </ul>
@@ -195,6 +229,20 @@ export function PricingSection() {
               </div>
             )
           })}
+        </div>
+        
+        <div className="mt-16 max-w-3xl mx-auto rounded-lg border border-border bg-muted/40 p-6 flex items-start gap-4">
+          <Info className="h-6 w-6 text-primary shrink-0 mt-0.5" />
+          <div className="text-sm text-muted-foreground space-y-2">
+            <h4 className="font-semibold text-foreground">Important Notes</h4>
+            <ul className="list-disc pl-4 space-y-1">
+              <li>Word limits reset monthly.</li>
+              <li>Fair usage policy applies to Enterprise plan.</li>
+              <li>API usage counted separately from dashboard usage.</li>
+              <li>Local AI mode available only in Enterprise.</li>
+              <li>No credit card required for Free plan.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>

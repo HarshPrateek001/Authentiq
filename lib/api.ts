@@ -13,8 +13,12 @@ export async function checkPlagiarism(text: string, check_ai_content = true) {
     body: JSON.stringify({ text, check_ai_content })
   })
 
-  if (!res.ok) throw new Error("Request failed")
-  return res.json()
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}))
+    throw new Error(errorData.detail || "Request failed")
+  }
+  const raw = await res.json()
+  return raw.data || raw
 }
 
 export async function humanizeText(
@@ -46,7 +50,8 @@ export async function humanizeText(
     const errorData = await res.json().catch(() => ({}))
     throw new Error(errorData.detail || "Humanization failed")
   }
-  return res.json()
+  const raw = await res.json()
+  return raw.data || raw
 }
 
 export async function downloadHumanizedContent(text: string, format: "txt" | "word" | "pdf") {
@@ -91,5 +96,6 @@ export async function checkFilePlagiarism(file: File, language = "en", category 
     const errorData = await res.json().catch(() => ({}))
     throw new Error(errorData.detail || "File check failed")
   }
-  return res.json()
+  const raw = await res.json()
+  return raw.data || raw
 }

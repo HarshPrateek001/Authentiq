@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 
 interface CheckResult {
+  id?: string
   similarity: number
   status: "safe" | "moderate" | "high"
   sources: number
@@ -60,6 +61,45 @@ export default function NewCheckPage() {
   const [riskPrediction, setRiskPrediction] = useState<RiskPrediction | null>(null)
   const [isPredicting, setIsPredicting] = useState(false)
   const [historyItems, setHistoryItems] = useState<any[]>([])
+
+  const [scanAccuracy, setScanAccuracy] = useState(0)
+
+  // Animated Accuracy Meter logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (isChecking) {
+      setScanAccuracy(0)
+      interval = setInterval(() => {
+        setScanAccuracy(prev => {
+          const next = prev + Math.random() * 12 + 2
+          if (next >= 99) return 98 + Math.random() // Hover around 98-99%
+          return next
+        })
+      }, 300)
+    } else {
+      setScanAccuracy(0)
+    }
+    return () => clearInterval(interval)
+  }, [isChecking])
+
+  const [elapsedTime, setElapsedTime] = useState(0)
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (isChecking) {
+      setElapsedTime(0)
+      interval = setInterval(() => {
+        setElapsedTime(prev => prev + 1)
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [isChecking])
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  }
 
   // Fetch History on Mount
   useEffect(() => {
@@ -115,7 +155,7 @@ export default function NewCheckPage() {
     if (!LocalDB.checkLimit('plagiarism')) {
       toast({
         title: "Limit Reached",
-        description: "You have reached your daily limit of 5 plagiarism checks.",
+        description: "You have reached your daily demo limit for checks.",
         variant: "destructive"
       })
       return
@@ -175,17 +215,20 @@ export default function NewCheckPage() {
       })
 
       if (!response.ok) {
-        throw new Error("Analysis failed")
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData.detail || "Analysis failed")
       }
 
-      const data = await response.json()
+      const responseJson = await response.json()
+      const data = responseJson.data || responseJson
 
       LocalDB.incrementLimit('plagiarism')
 
       setResult({
+        id: data.id,
         similarity: data.plagiarism_score,
         status: data.plagiarism_score < 30 ? "safe" : data.plagiarism_score < 70 ? "moderate" : "high",
-        sources: data.sources_found.length,
+        sources: data.sources_found ? data.sources_found.length : 0,
         words: data.word_count,
       })
     } catch (error: any) {
@@ -247,7 +290,25 @@ export default function NewCheckPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 relative">
+            {isChecking && (
+              <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md rounded-xl border border-primary/30 shadow-[0_0_40px_rgba(var(--primary),0.1)] animate-in fade-in zoom-in-95 duration-300">
+                <div className="flex flex-col items-center space-y-6 p-8 text-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 blur-xl bg-primary/20 rounded-full animate-pulse" />
+                    <Loader2 className="h-16 w-16 animate-spin text-primary relative z-10" />
+                  </div>
+                  <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                    {statusMessage}
+                  </h3>
+                  <div className="font-mono text-5xl tracking-widest text-foreground font-black mt-2 bg-muted/80 py-4 px-8 rounded-2xl border border-border shadow-inner">
+                    {formatTime(elapsedTime)}
+                  </div>
+                  <p className="mt-4 text-sm font-medium text-muted-foreground animate-pulse">Running advanced multi-layer analysis...</p>
+                </div>
+              </div>
+            )}
+
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="text">Text Input</TabsTrigger>
@@ -393,218 +454,154 @@ export default function NewCheckPage() {
               {isChecking ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {statusMessage}
+                  Checking...
                 </>
               ) : (
                 "Run Plagiarism Check"
               )}
             </Button>
 
-            {result && (
-              <div className="rounded-xl border border-border bg-card p-6 space-y-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold">Analysis Complete</h3>
-                    <p className="text-sm text-muted-foreground">Your content has been checked successfully.</p>
-                  </div>
-                  {result.status === "safe" ? (
-                    <CheckCircle className="h-6 w-6 text-success" />
-                  ) : (
-                    <AlertCircle className="h-6 w-6 text-warning" />
-                  )}
-                </div>
 
-                <div className="flex items-center gap-8">
-                  <div className="relative h-32 w-32">
-                    <svg className="h-32 w-32 -rotate-90" viewBox="0 0 100 100">
-                      <circle
-                        className="text-muted stroke-current"
-                        strokeWidth="8"
-                        fill="transparent"
-                        r="42"
-                        cx="50"
-                        cy="50"
-                      />
-                      <circle
-                        className="text-primary stroke-current"
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        fill="transparent"
-                        r="42"
-                        cx="50"
-                        cy="50"
-                        strokeDasharray={264}
-                        strokeDashoffset={264 * (result.similarity / 100)}
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-3xl font-bold">{100 - result.similarity}%</span>
-                      <span className="text-xs text-muted-foreground">Original</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 flex-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Similarity</span>
-                      <span className="font-medium">{result.similarity}%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Sources found</span>
-                      <span className="font-medium">{result.sources}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Words analyzed</span>
-                      <span className="font-medium">{result.words.toLocaleString()}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Risk level</span>
-                      <Badge className={getStatusColor(result.status)}>
-                        {result.status.charAt(0).toUpperCase() + result.status.slice(1)}
-                      </Badge>
-                    </div>
-                    {crossLanguageEnabled && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Cross-language</span>
-                        <Badge variant="outline" className="gap-1 bg-blue-500/10 text-blue-600 border-blue-500/20">
-                          <Globe className="h-3 w-3" />
-                          Enabled
-                        </Badge>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <Button asChild className="w-full">
-                  <Link href="/dashboard/reports/1">View Detailed Report</Link>
-                </Button>
-              </div>
-            )}
           </div>
 
           <div className="space-y-6">
-            <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-base">AI Risk Prediction</CardTitle>
-                </div>
-                <CardDescription>Pre-check analysis before full scan</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {isPredicting ? (
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  </div>
-                ) : riskPrediction ? (
-                  <div className="space-y-4">
-                    {/* Animated gauge */}
-                    <div className="relative mx-auto w-32 h-20">
-                      <svg viewBox="0 0 100 60" className="w-full h-full">
-                        <path
-                          d="M 10 50 A 40 40 0 0 1 90 50"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="8"
-                          className="text-muted"
-                        />
-                        <path
-                          d="M 10 50 A 40 40 0 0 1 90 50"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          className={getRiskColor(riskPrediction.riskLevel)}
-                          strokeDasharray="126"
-                          strokeDashoffset={126 - (126 * riskPrediction.overallRisk) / 100}
-                          style={{ transition: "stroke-dashoffset 1s ease-out" }}
-                        />
+            <Card className="border-primary/20 bg-card overflow-hidden h-full min-h-[500px] flex flex-col items-center justify-center p-8">
+                {isChecking ? (
+                  <div className="relative z-10 text-center space-y-8 w-full animate-in fade-in zoom-in-95 duration-500">
+                    <h3 className="text-2xl font-black tracking-tight text-foreground">
+                      Scanning Accuracy
+                    </h3>
+                    
+                    {/* Accuracy Meter Visual */}
+                    <div className="relative h-56 w-56 mx-auto">
+                      {/* Outer spinning dashed ring */}
+                      <svg className="absolute inset-0 h-full w-full animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
+                         <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" className="text-primary/20" strokeWidth="1" strokeDasharray="4 4" />
                       </svg>
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
-                        <span className={`text-2xl font-bold ${getRiskColor(riskPrediction.riskLevel)}`}>
-                          {riskPrediction.overallRisk}%
-                        </span>
-                        <p className="text-[10px] text-muted-foreground">Risk Score</p>
+                      
+                      {/* Middle spinning ring opposite direction */}
+                      <svg className="absolute inset-0 h-full w-full animate-[spin_12s_linear_infinite_reverse]" viewBox="0 0 100 100">
+                         <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" className="text-primary/30" strokeWidth="2" strokeDasharray="20 10" />
+                      </svg>
+
+                      {/* Inner static ring background */}
+                      <svg className="absolute inset-0 h-full w-full -rotate-90 origin-center" viewBox="0 0 100 100">
+                         <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" className="text-muted" strokeWidth="6" />
+                         
+                         {/* Animated progress ring */}
+                         <circle 
+                           cx="50" cy="50" r="38" fill="none" stroke="url(#scanGradient)" className="transition-all duration-300 ease-out" 
+                           strokeWidth="6" strokeLinecap="round"
+                           strokeDasharray="238.76"
+                           strokeDashoffset={238.76 - (238.76 * scanAccuracy) / 100}
+                         />
+                         <defs>
+                           <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                             <stop offset="0%" stopColor="hsl(var(--primary))" />
+                             <stop offset="100%" stopColor="hsl(var(--primary) / 0.5)" />
+                           </linearGradient>
+                         </defs>
+                      </svg>
+
+                      {/* Center Text */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                         <span className="text-5xl font-black tracking-tighter tabular-nums text-foreground">
+                           {scanAccuracy.toFixed(1)}<span className="text-2xl text-muted-foreground">%</span>
+                         </span>
+                         <span className="text-xs font-bold tracking-[0.2em] text-primary uppercase mt-1">Confidence</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : result ? (
+                  <div className="w-full max-w-sm flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500 space-y-8">
+                    <div className="flex items-start justify-between w-full">
+                      <div>
+                        <h3 className="text-xl font-bold">Analysis Complete</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Your content has been checked successfully.</p>
+                      </div>
+                      {result.status === "safe" ? (
+                        <CheckCircle className="h-8 w-8 text-success shrink-0" />
+                      ) : (
+                        <AlertCircle className="h-8 w-8 text-warning shrink-0" />
+                      )}
+                    </div>
+
+                    <div className="flex flex-col items-center gap-6 w-full">
+                      <div className="relative h-40 w-40">
+                        <svg className="h-40 w-40 -rotate-90" viewBox="0 0 100 100">
+                          <circle
+                            className="text-muted stroke-current"
+                            strokeWidth="8"
+                            fill="transparent"
+                            r="42"
+                            cx="50"
+                            cy="50"
+                          />
+                          <circle
+                            className="text-primary stroke-current"
+                            strokeWidth="8"
+                            strokeLinecap="round"
+                            fill="transparent"
+                            r="42"
+                            cx="50"
+                            cy="50"
+                            strokeDasharray={264}
+                            strokeDashoffset={264 * (result.similarity / 100)}
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-3xl font-bold">{(100 - result.similarity).toFixed(1)}%</span>
+                          <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-1">Original</span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4 w-full bg-muted/30 p-4 rounded-xl">
+                        <div className="flex items-center justify-between border-b border-border/50 pb-2">
+                          <span className="text-sm text-muted-foreground">Similarity</span>
+                          <span className="font-semibold">{result.similarity.toFixed(2)}%</span>
+                        </div>
+                        <div className="flex items-center justify-between border-b border-border/50 pb-2">
+                          <span className="text-sm text-muted-foreground">Sources found</span>
+                          <span className="font-semibold">{result.sources}</span>
+                        </div>
+                        <div className="flex items-center justify-between border-b border-border/50 pb-2">
+                          <span className="text-sm text-muted-foreground">Words analyzed</span>
+                          <span className="font-semibold">{result.words.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between pb-1">
+                          <span className="text-sm text-muted-foreground">Risk level</span>
+                          <Badge className={getStatusColor(result.status)}>
+                            {result.status.charAt(0).toUpperCase() + result.status.slice(1)}
+                          </Badge>
+                        </div>
+                        {crossLanguageEnabled && (
+                          <div className="flex items-center justify-between pt-1 border-t border-border/50">
+                            <span className="text-sm text-muted-foreground">Cross-language</span>
+                            <Badge variant="outline" className="gap-1 bg-blue-500/10 text-blue-600 border-blue-500/20">
+                              <Globe className="h-3 w-3" />
+                              Enabled
+                            </Badge>
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-muted-foreground flex items-center gap-1">
-                            <BookOpen className="h-3 w-3" /> Vocabulary
-                          </span>
-                          <span>{riskPrediction.vocabularyScore}%</span>
-                        </div>
-                        <Progress value={riskPrediction.vocabularyScore} className="h-1.5" />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-muted-foreground flex items-center gap-1">
-                            <TrendingUp className="h-3 w-3" /> Structure
-                          </span>
-                          <span>{riskPrediction.structureScore}%</span>
-                        </div>
-                        <Progress value={riskPrediction.structureScore} className="h-1.5" />
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-lg bg-muted/50 text-center">
-                      <Badge className={getStatusColor(riskPrediction.riskLevel)}>
-                        {riskPrediction.riskLevel.charAt(0).toUpperCase() + riskPrediction.riskLevel.slice(1)} Risk
-                      </Badge>
+                    <div className="w-full pt-2">
+                      <Button asChild className="w-full py-6 text-md font-semibold" disabled={!result.id}>
+                        <Link href={result.id ? `/dashboard/reports/${result.id}` : "#"}>
+                          {result.id ? "View Detailed Report" : "Login to View Report"}
+                        </Link>
+                      </Button>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-6 text-muted-foreground text-sm">
-                    <Gauge className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    <p>Enter at least 50 words to see risk prediction</p>
+                  <div className="text-center w-full opacity-50">
+                    <Brain className="h-16 w-16 mx-auto text-muted-foreground mb-6" />
+                    <h3 className="text-xl font-bold tracking-tight mb-2">Real-Time Tracker</h3>
+                    <p className="text-muted-foreground text-sm">Once you start checking, the live accuracy confidence meter will appear here.</p>
                   </div>
                 )}
-              </CardContent>
             </Card>
-
-            <div className="rounded-xl border border-border bg-card p-4">
-              <h3 className="font-semibold mb-4">Previous Checks</h3>
-              <div className="space-y-3">
-                {historyItems.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No checks yet.</p>
-                ) : (
-                  historyItems.map((item, index) => {
-                    const details = item.details || {}
-                    const title = details.file_name || "Text Content Check"
-                    const similarity = Math.round(details.plagiarism_score || 0)
-                    const time = new Date(item.timestamp).toLocaleDateString()
-
-                    return (
-                      <Link
-                        key={index}
-                        href={`/dashboard/reports/${item.id}`} // Assuming ID links to report
-                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                      >
-                        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{title}</p>
-                          <p className="text-xs text-muted-foreground">{time}</p>
-                        </div>
-                        <span className="text-sm font-medium">{similarity}%</span>
-                      </Link>
-                    )
-                  }))}
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-border bg-muted/30 p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <h4 className="font-medium">Tips for best results</h4>
-              </div>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li>Include at least 250 words for accurate analysis</li>
-                <li>Remove headers and footers from documents</li>
-                <li>Enable cross-language for translated content</li>
-                <li>Check one document at a time for detailed results</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

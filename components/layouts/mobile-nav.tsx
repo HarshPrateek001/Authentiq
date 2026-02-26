@@ -6,7 +6,7 @@ import { LocalDB, LocalUser } from "@/lib/local-db"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { FileCheck, Menu, User, LogOut, LayoutDashboard } from "lucide-react"
+import { Menu, User, LogOut, LayoutDashboard } from "lucide-react"
 import {
   Sheet,
   SheetClose,
@@ -58,10 +58,7 @@ export function MobileNav() {
       <SheetContent side="right" className="w-[85vw] max-w-sm flex flex-col">
         <SheetHeader className="mb-8 mt-2 space-y-4">
           <SheetTitle className="text-left flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <FileCheck className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">Authentiq*</span>
+            <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
           </SheetTitle>
         </SheetHeader>
 

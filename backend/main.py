@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Header, Request as FastAPIRequest, Query, Form
+from fastapi import FastAPI, HTTPException, UploadFile, File, Header, Request as FastAPIRequest, Query, Form, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List, Dict, Any
 # from supabase_client import supabase  # REPLACED WITH LOCAL DB
@@ -14,12 +14,17 @@ import io
 from PyPDF2 import PdfReader
 from docx import Document
 from config import config
-from models import (PlagiarismRequest, HumanizeRequest, ChatRequest, PlagiarismResult, HumanizeResult, ChatResponse, DownloadHumanizedRequest, UserCreate, UserLogin, Token, RiskPredictionRequest, RiskPredictionResult, SubscriptionRequest, RefundRequestModel, LogActivityRequest)
+from models import (
+    UserCreate, UserLogin, PlagiarismRequest, PlagiarismResult, HumanizeRequest,
+    HumanizeResult, ChatRequest, ChatResponse, Token, PasswordReset,
+    SubscriptionRequest, RefundRequestModel, DownloadHumanizedRequest, APIResponse,
+    RiskPredictionRequest, RiskPredictionResult, LogActivityRequest
+)
 from ai_model import (
     analyze_with_groq_api, humanize_with_groq_api, chat_with_groq_api,
     calculate_plagiarism_score, detect_ai_content, find_potential_sources,
     apply_humanization_rules, calculate_improvement_score, get_local_chat_response_fallback,
-    moderate_message, generate_humanized_doc, extract_text_from_bytes
+    moderate_message, generate_humanized_doc, extract_text_from_bytes, execute_advanced_plagiarism_check
 )
 
 
@@ -179,120 +184,255 @@ async def request_refund(request: RefundRequestModel):
         print(f"Refund Error: {e}")
         raise HTTPException(status_code=500, detail="Failed to process refund request")
 
-# --- Core API Endpoints (calling ai_model functions) ---
-@app.post("/api/check-plagiarism", response_model=PlagiarismResult)
-async def check_plagiarism_endpoint(request_data: PlagiarismRequest, fastapi_request: FastAPIRequest):
+# --- Helper Hooks for Advanced Pipeline ---
+def check_user_limits(user: dict, action: str, check_cost: int = 1) -> dict:
+    limits_data = local_db.get_user_limits(user["email"])
+    if not limits_data:
+        return {"plan": "free", "limit": 5000, "used_words": 0, "remaining_words": 5000}
+    
+    plan = limits_data["plan"]
+    limits = limits_data["limits"]
+    usage = limits_data["usage"]
+    
+    if action == "plagiarism":
+        used = usage.get("plagiarism_words", 0)
+        limit = limits.get("plagiarism", 5000)
+        if used + check_cost > limit:
+            raise HTTPException(status_code=402, detail=f"Monthly plagiarism word limit reached for {plan.upper()} plan. Upgrade required.")
+        return {"plan": plan, "limit": limit, "used_words": used, "remaining_words": limit - used}
+        
+    elif action == "humanize":
+        used = usage.get("humanize_words", 0)
+        limit = limits.get("humanizer", 0)
+        if limit == 0:
+            raise HTTPException(status_code=403, detail=f"AI Humanizer is not available on your {plan.upper()} plan.")
+        if used + check_cost > limit:
+            raise HTTPException(status_code=402, detail=f"Monthly humanizer word limit reached for {plan.upper()} plan. Upgrade required.")
+        return {"plan": plan, "limit": limit, "used_words": used, "remaining_words": limit - used}
+        
+    return {"plan": plan, "limit": 0, "used_words": 0, "remaining_words": 0}
+
+def log_audit_async(user_id: str, text_length: int, text_hash: str, api_used: bool, result_summary: str):
+    # Log securely to a file in a non-blocking background task (Step 8)
     try:
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "user_id": user_id,
+            "text_length": text_length,
+            "hash": text_hash,
+            "api_used": api_used,
+            "result_summary": result_summary
+        }
+        with open("plagiarism_audit.log", "a") as f:
+            f.write(json.dumps(log_entry) + "\n")
+    except Exception as e:
+        print(f"Failed to write audit log: {e}")
+
+# --- Core API Endpoints (calling ai_model functions) ---
+@app.post("/api/check-plagiarism", response_model=APIResponse[PlagiarismResult])
+async def check_plagiarism_endpoint(
+    request_data: PlagiarismRequest, 
+    fastapi_request: FastAPIRequest,
+    background_tasks: BackgroundTasks
+):
+    try:
+        user = None
+        auth_header = fastapi_request.headers.get("Authorization")
+        if auth_header:
+            token = auth_header.replace("Bearer ", "")
+            user = local_db.get_user_by_token(token)
+            
+        word_count = len(request_data.text.split())
+        
+        usage_meta = {"plan": "anonymous", "limit": 0, "used_words": 0, "remaining_words": 0}
+        # Step 7: Usage limit hook
+        if user:
+            usage_meta = check_user_limits(user, "plagiarism", check_cost=word_count)
+            
         start_time = datetime.now()
-        plagiarism_result = await analyze_with_groq_api(
-            text=request_data.text, 
-            analysis_type="plagiarism",
+        
+        # Step 4, 5, 6: Switch to advanced pipeline
+        adv_plag_result = await execute_advanced_plagiarism_check(
+            text=request_data.text,
             language=request_data.language or "en",
-            cross_language=request_data.cross_language or False,
             content_type=request_data.category or "other"
         )
+        
+        # Keep AI detection as is for backwards compatibility
         ai_detection_result = await analyze_with_groq_api(request_data.text, "ai_detection") if request_data.check_ai_content else {"is_ai": False, "confidence": 0.0}
+        
         processing_time = (datetime.now() - start_time).total_seconds()
-        word_count = len(request_data.text.split())
-        plagiarism_score = plagiarism_result.get("score", 0.0)
+        plagiarism_score = adv_plag_result.get("score", 0.0)
         
         result_obj = PlagiarismResult(
             plagiarism_score=plagiarism_score,
             is_ai_generated=ai_detection_result.get("is_ai", False),
             ai_confidence=ai_detection_result.get("confidence", 0.0),
-            sources_found=plagiarism_result.get("sources", []),
+            sources_found=adv_plag_result.get("sources", []),
             word_count=word_count,
             analysis_time=processing_time,
             unique_content_percentage=100 - plagiarism_score,
-            ai_flagged_segments=ai_detection_result.get("ai_sentences", [])
+            ai_flagged_segments=ai_detection_result.get("ai_sentences", []),
+            
+            # Step 6: Advanced schema fields
+            originality_level=adv_plag_result.get("originality_level"),
+            similarity_range=adv_plag_result.get("similarity_range"),
+            confidence=adv_plag_result.get("confidence"),
+            analysis_summary=adv_plag_result.get("analysis_summary"),
+            matched_patterns=adv_plag_result.get("matched_patterns", []),
+            api_used=adv_plag_result.get("api_used", False)
+        )
+        
+        # Step 8: Logging & Audit (Non-blocking)
+        import hashlib
+        text_hash = hashlib.sha256(request_data.text.encode('utf-8')).hexdigest()
+        user_id = user["email"] if user else "anonymous"
+        background_tasks.add_task(
+            log_audit_async, 
+            user_id, word_count, text_hash, 
+            adv_plag_result.get("api_used", False), 
+            adv_plag_result.get("analysis_summary", "")
         )
 
-        # try:
-        #     # 1) Document insert
-        #     doc_insert = supabase.table("documents").insert({...}).execute()
-        #     ...
-        # except Exception as err:
-        #     print("SUPABASE ERROR (CHECK): ", err)
-        # ===== END Supabase Save =====
-        
-        # ===== Local DB Log Activity =====
-        auth_header = fastapi_request.headers.get("Authorization")
-        if auth_header:
-            token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
-            if user:
-                 local_db.log_activity(user["email"], "plagiarism_check", result_obj.dict())
-        # =================================
+        # Local DB Activity Log
+        if user:
+             details = result_obj.dict()
+             details['original_text'] = request_data.text
+             report_id = local_db.log_activity(user["email"], "plagiarism_check", details)
+             result_obj.id = report_id
 
-        return result_obj
+        return APIResponse(
+            success=True,
+            plan=usage_meta.get("plan", "anonymous"),
+            used_words=usage_meta.get("used_words", 0),
+            remaining_words=usage_meta.get("remaining_words", 0),
+            limit=usage_meta.get("limit", 0),
+            data=result_obj
+        )
     except HTTPException:
         raise
     except Exception as e:
         print(f"CRITICAL ERROR in check_plagiarism_endpoint: {e}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-@app.post("/api/check-file-plagiarism", response_model=PlagiarismResult)
+@app.post("/api/check-file-plagiarism", response_model=APIResponse[PlagiarismResult])
 async def check_file_plagiarism_endpoint(
     fastapi_request: FastAPIRequest,
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     language: Optional[str] = Form("en"),
     category: Optional[str] = Form("other")
 ):
     try:
+        user = None
+        auth_header = fastapi_request.headers.get("Authorization")
+        if auth_header:
+            token = auth_header.replace("Bearer ", "")
+            user = local_db.get_user_by_token(token)
+            
         content = await file.read()
         extracted_text = await extract_text_from_bytes(content, file.content_type)
 
         if not extracted_text.strip():
              raise HTTPException(status_code=400, detail="Could not extract text from file.")
+             
+        word_count = len(extracted_text.split())
+
+        # Step 7: Usage limit hook
+        usage_meta = {"plan": "anonymous", "limit": 0, "used_words": 0, "remaining_words": 0}
+        if user:
+            usage_meta = check_user_limits(user, "plagiarism", check_cost=word_count)
 
         start_time = datetime.now()
-        plagiarism_result = await analyze_with_groq_api(
+        
+        # Step 4, 5, 6: Switch to advanced pipeline
+        adv_plag_result = await execute_advanced_plagiarism_check(
             text=extracted_text, 
-            analysis_type="plagiarism",
             language=language or "en",
-            cross_language=False, 
             content_type=category or "other"
         )
+        
         ai_detection_result = await analyze_with_groq_api(extracted_text, "ai_detection")
         
         processing_time = (datetime.now() - start_time).total_seconds()
-        word_count = len(extracted_text.split())
-        plagiarism_score = plagiarism_result.get("score", 0.0)
+        plagiarism_score = adv_plag_result.get("score", 0.0)
         
         result_obj = PlagiarismResult(
             plagiarism_score=plagiarism_score,
             is_ai_generated=ai_detection_result.get("is_ai", False),
             ai_confidence=ai_detection_result.get("confidence", 0.0),
-            sources_found=plagiarism_result.get("sources", []),
+            sources_found=adv_plag_result.get("sources", []),
             word_count=word_count,
             analysis_time=processing_time,
             unique_content_percentage=100 - plagiarism_score,
-            ai_flagged_segments=ai_detection_result.get("ai_sentences", [])
+            ai_flagged_segments=ai_detection_result.get("ai_sentences", []),
+            
+            # Step 6: Advanced schema fields
+            originality_level=adv_plag_result.get("originality_level"),
+            similarity_range=adv_plag_result.get("similarity_range"),
+            confidence=adv_plag_result.get("confidence"),
+            analysis_summary=adv_plag_result.get("analysis_summary"),
+            matched_patterns=adv_plag_result.get("matched_patterns", []),
+            api_used=adv_plag_result.get("api_used", False)
+        )
+        
+        # Step 8: Logging & Audit (Non-blocking)
+        import hashlib
+        text_hash = hashlib.sha256(extracted_text.encode('utf-8')).hexdigest()
+        user_id = user["email"] if user else "anonymous"
+        background_tasks.add_task(
+            log_audit_async, 
+            user_id, word_count, text_hash, 
+            adv_plag_result.get("api_used", False), 
+            adv_plag_result.get("analysis_summary", "")
         )
         
         # ===== Local DB Log Activity =====
-        auth_header = fastapi_request.headers.get("Authorization")
-        if auth_header:
-            token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
-            if user:
-                 details = result_obj.dict()
-                 details["file_name"] = file.filename
-                 details["file_type"] = file.content_type
-                 local_db.log_activity(user["email"], "plagiarism_check", details)
+        if user:
+             details = result_obj.dict()
+             details["file_name"] = file.filename
+             details["file_type"] = file.content_type
+             details['original_text'] = extracted_text
+             report_id = local_db.log_activity(user["email"], "plagiarism_check", details)
+             result_obj.id = report_id
         # =================================
 
-        return result_obj
+        return APIResponse(
+            success=True,
+            plan=usage_meta.get("plan", "anonymous"),
+            used_words=usage_meta.get("used_words", 0),
+            remaining_words=usage_meta.get("remaining_words", 0),
+            limit=usage_meta.get("limit", 0),
+            data=result_obj
+        )
     except HTTPException:
         raise
     except Exception as e:
         print(f"CRITICAL ERROR in check_file_plagiarism_endpoint: {e}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-@app.post("/api/humanizer", response_model=HumanizeResult)
+@app.get("/api/reports/{report_id}")
+async def get_report_endpoint(report_id: str):
+    report = local_db.get_report_by_id(report_id)
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return report
+
+@app.post("/api/humanizer", response_model=APIResponse[HumanizeResult])
 async def humanize_text_endpoint(request_data: HumanizeRequest, fastapi_request: FastAPIRequest):
-    email = None
     try:
+        user = None
+        auth_header = fastapi_request.headers.get("Authorization")
+        if auth_header:
+            token = auth_header.replace("Bearer ", "")
+            user = local_db.get_user_by_token(token)
+
+        doc_word_count = len(request_data.text.split())
+        usage_meta = {"plan": "anonymous", "limit": 0, "used_words": 0, "remaining_words": 0}
+        
+        if user:
+            usage_meta = check_user_limits(user, "humanize", check_cost=doc_word_count)
+
         start_time = datetime.now()
         humanize_result = await humanize_with_groq_api(
             request_data.text, 
@@ -324,15 +464,18 @@ async def humanize_text_endpoint(request_data: HumanizeRequest, fastapi_request:
         # ===== END Supabase Humanizer Save =====
 
         # ===== Local DB Log Activity =====
-        auth_header = fastapi_request.headers.get("Authorization")
-        if auth_header:
-            token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
-            if user:
-                 local_db.log_activity(user["email"], "humanize_text", result_obj.dict())
+        if user:
+             local_db.log_activity(user["email"], "humanize_text", result_obj.dict())
         # =================================
 
-        return result_obj
+        return APIResponse(
+            success=True,
+            plan=usage_meta.get("plan", "anonymous"),
+            used_words=usage_meta.get("used_words", 0),
+            remaining_words=usage_meta.get("remaining_words", 0),
+            limit=usage_meta.get("limit", 0),
+            data=result_obj
+        )
     except HTTPException:
         raise
     except Exception as e:

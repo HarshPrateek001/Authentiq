@@ -63,10 +63,13 @@ function Sidebar({ collapsed, onToggle, onLinkClick }: { collapsed: boolean; onT
       <div className="flex h-full flex-col">
         <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
-              <FileCheck className="h-4 w-4 text-primary-foreground" />
-            </div>
-            {!collapsed && <span className="text-lg font-semibold">Authentiq</span>}
+            {!collapsed ? (
+              <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
+            ) : (
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
+                <FileCheck className="h-4 w-4 text-primary-foreground" />
+              </div>
+            )}
           </Link>
           <Button
             variant="ghost"

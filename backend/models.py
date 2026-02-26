@@ -1,5 +1,15 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Generic, TypeVar
+
+T = TypeVar('T')
+
+class APIResponse(BaseModel, Generic[T]):
+    success: bool = Field(True, description="Whether the request was successful")
+    plan: str = Field(..., description="The user's current plan")
+    remaining_words: int = Field(..., description="Remaining word quota")
+    used_words: int = Field(..., description="Used word quota")
+    limit: int = Field(..., description="Total word quota limit")
+    data: T = Field(..., description="Actual response data")
 
 # --- Pydantic Models for API Requests and Responses ---
 # These models define the API contract for data flowing in and out of the application.
@@ -22,6 +32,7 @@ class RiskPredictionResult(BaseModel):
     overall_risk: int
 
 class PlagiarismResult(BaseModel):
+    id: Optional[str] = Field(None, description="Unique identifier for the report.")
     plagiarism_score: float = Field(..., ge=0, le=100, description="Percentage of plagiarism detected.")
     is_ai_generated: bool = Field(..., description="True if the content is detected as AI-generated.")
     ai_confidence: float = Field(..., ge=0, le=100, description="Confidence score for AI detection.")
@@ -30,6 +41,14 @@ class PlagiarismResult(BaseModel):
     analysis_time: float = Field(..., ge=0, description="Time taken for analysis in seconds.")
     unique_content_percentage: float = Field(..., ge=0, le=100, description="Percentage of unique content.")
     ai_flagged_segments: List[str] = Field(default_factory=list, description="List of text segments flagged as AI-generated.")
+    
+    # New fields for advanced plagiarism detection (Step 6)
+    originality_level: Optional[str] = Field(None, description="Originality level: High, Medium, Low")
+    similarity_range: Optional[str] = Field(None, description="Similarity range, e.g., '40-60%'")
+    confidence: Optional[str] = Field(None, description="Confidence in the result")
+    analysis_summary: Optional[str] = Field(None, description="Summary reasoning of the analysis")
+    matched_patterns: Optional[List[str]] = Field(default_factory=list, description="Array of matching patterns")
+    api_used: Optional[bool] = Field(None, description="Whether the external API was used")
 
 class HumanizeRequest(BaseModel):
     text: str = Field(..., min_length=1, description="AI-generated text to humanize.")

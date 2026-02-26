@@ -44,7 +44,7 @@ export const LocalDB = {
             LocalDB.saveLimits(limits)
         }
 
-        const max = type === 'plagiarism' ? 5 : type === 'humanizer' ? 5 : 1
+        const max = type === 'plagiarism' ? 500 : type === 'humanizer' ? 500 : 100
         return (limits[type] || 0) < max
     },
 

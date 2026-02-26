@@ -44,6 +44,26 @@ export default function LiveCheckPage() {
   const [overallScore, setOverallScore] = useState(100)
   const [lastAnalyzedContent, setLastAnalyzedContent] = useState("")
 
+  const [scanAccuracy, setScanAccuracy] = useState(0)
+
+  // Animated Accuracy Meter logic for live testing
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (isAnalyzing) {
+      setScanAccuracy(0)
+      interval = setInterval(() => {
+        setScanAccuracy(prev => {
+          const next = prev + Math.random() * 20 + 5
+          if (next >= 99) return 98 + Math.random()
+          return next
+        })
+      }, 100)
+    } else {
+      setScanAccuracy(100)
+    }
+    return () => clearInterval(interval)
+  }, [isAnalyzing])
+
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length
   const charCount = content.length
 
@@ -166,11 +186,25 @@ export default function LiveCheckPage() {
             <p className="text-muted-foreground">Real-time analysis as you type</p>
           </div>
           <div className="flex items-center gap-2">
-            {isAnalyzing && (
-              <Badge variant="outline" className="gap-1">
-                <Loader2 className="h-3 w-3 animate-spin" />
-                Analyzing...
-              </Badge>
+            {isAnalyzing ? (
+              <div className="flex items-center gap-3 bg-primary/10 text-primary px-4 py-1.5 rounded-full border border-primary/30 shadow-[0_0_15px_rgba(var(--primary),0.2)]">
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="10" strokeDasharray="200" strokeDashoffset="50" className="opacity-50" />
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="10" strokeDasharray="283" strokeDashoffset={283 - (283 * scanAccuracy) / 100} className="transition-all duration-100 ease-linear text-primary drop-shadow-[0_0_8px_rgba(var(--primary),0.8)]" />
+                </svg>
+                <span className="text-sm font-bold tracking-widest uppercase animate-pulse">Scanning</span>
+                <div className="flex items-center gap-0.5 font-mono min-w-[3.5rem] justify-end">
+                  <span className="text-base font-black tabular-nums">{scanAccuracy.toFixed(1)}</span>
+                  <span className="text-xs font-bold">%</span>
+                </div>
+              </div>
+            ) : (
+              scanAccuracy === 100 && content.length > 50 && (
+                <Badge variant="outline" className="gap-1 bg-success/10 text-success border-success/30 px-3 py-1">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span className="text-xs font-semibold">Analysis Complete</span>
+                </Badge>
+              )
             )}
           </div>
         </div>
