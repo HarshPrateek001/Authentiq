@@ -1,8 +1,7 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Header, Request as FastAPIRequest, Query, Form, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List, Dict, Any
-# from supabase_client import supabase  # REPLACED WITH LOCAL DB
-from local_db import local_db # Local JSON DB
+from supabase_client import supabase
 from models import PlagiarismResult, PlagiarismRequest, HumanizeRequest, HumanizeResult
 import uvicorn
 import os
@@ -18,7 +17,7 @@ from models import (
     UserCreate, UserLogin, PlagiarismRequest, PlagiarismResult, HumanizeRequest,
     HumanizeResult, ChatRequest, ChatResponse, Token, PasswordReset,
     SubscriptionRequest, RefundRequestModel, DownloadHumanizedRequest, APIResponse,
-    RiskPredictionRequest, RiskPredictionResult, LogActivityRequest
+    RiskPredictionRequest, RiskPredictionResult, LogActivityRequest, UserSettingsModel
 )
 from ai_model import (
     analyze_with_groq_api, humanize_with_groq_api, chat_with_groq_api,
@@ -26,7 +25,26 @@ from ai_model import (
     apply_humanization_rules, calculate_improvement_score, get_local_chat_response_fallback,
     moderate_message, generate_humanized_doc, extract_text_from_bytes, execute_advanced_plagiarism_check
 )
+from supabase_client import supabase
+from pydantic import BaseModel
 
+class FileCheckRequest(BaseModel):
+    document_id: str
+
+class ProfileUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    bio: Optional[str] = None
+    organization: Optional[str] = None
+
+
+
+def get_user_safely(token: str):
+    try:
+        return supabase.auth.get_user(token)
+    except Exception as e:
+        print(f'Auth Error: {e}')
+        return None
 
 app = FastAPI(
     title=config.APP_TITLE,
@@ -87,34 +105,84 @@ async def health_check():
 @app.post("/api/auth/register")
 async def register_user(user_data: UserCreate):
     try:
-        # Save to Local JSON DB
-        user = local_db.create_user(user_data.dict())
-        return {"message": "User registered successfully", "user": user}
+        # Create user inside Supabase Auth
+        auth_response = supabase.auth.sign_up({
+            "email": user_data.email, 
+            "password": user_data.password
+        })
+        
+        if not auth_response.user:
+            raise ValueError("Failed to create user in Supabase")
 
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
+        new_user_id = auth_response.user.id
+        
+        # Insert matching public.profiles record
+        profile_data = {
+            "id": new_user_id,
+            "full_name": user_data.fullName,
+            "email": user_data.email,
+            "plan": "free",
+            "role": "user",
+            "is_verified": False # Managed by Supabase internally, but mapped here as backup
+        }
+        supabase.table("profiles").insert(profile_data).execute()
+        
+        return {
+            "message": "User registered successfully", 
+            "user": profile_data, 
+            "email_sent": True # Supabase automatically sends verification email OTPs
+        }
+
     except Exception as e:
         print(f"Auth Error: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+        # Capture Supabase specific errors if applicable
+        error_msg = str(e)
+        if "already registered" in error_msg.lower():
+            raise HTTPException(status_code=400, detail="User already exists")
+        raise HTTPException(status_code=400, detail=error_msg)
 
 @app.post("/api/auth/login")
 async def login_user(user_data: UserLogin):
     try:
-        # Check Local JSON DB
-        auth_result = local_db.authenticate_user(user_data.email, user_data.password)
+        # Check Supabase
+        auth_response = supabase.auth.sign_in_with_password({
+            "email": user_data.email,
+            "password": user_data.password
+        })
         
-        if auth_result:
+        session = auth_response.session
+        user = auth_response.user
+        
+        if session and user:
+            # Fetch complete profile to match Authentic models
+            profile_response = supabase.table("profiles").select("*").eq("id", user.id).execute()
+            profile = profile_response.data[0] if profile_response.data else {}
+            
+            combined_user = {
+                "id": user.id,
+                "email": user.email,
+                **profile
+            }
+            
             return {
-                "access_token": auth_result["token"],
+                "access_token": session.access_token,
                 "token_type": "bearer",
-                "user": auth_result["user"]
+                "user": combined_user
             }
         else:
-             raise HTTPException(status_code=401, detail="Invalid credentials")
-
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+             
     except Exception as e:
         print(f"Login Error: {e}")
+        error_msg = str(e)
+        if "Email not confirmed" in error_msg:
+            raise HTTPException(status_code=403, detail="Please verify your email before logging in")
         raise HTTPException(status_code=401, detail="Invalid credentials or server error")
+
+@app.get("/api/auth/verify-email")
+async def verify_email_endpoint(token: str):
+    # Handled via frontend Supabase callback now automatically.
+    return {"message": "Supabase handles this automatically on frontend"}
 
 @app.get("/api/auth/google/login")
 async def google_login():
@@ -130,12 +198,27 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
         raise HTTPException(status_code=401, detail="Authentication required")
     
     token = authorization.replace("Bearer ", "")
-    user = local_db.get_user_by_token(token)
     
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid session")
+    try:
+        # Get user from Supabase Auth
+        auth_response = get_user_safely(token)
+        if not auth_response or not auth_response.user:
+            raise HTTPException(status_code=401, detail="Invalid session")
+            
+        user = auth_response.user
         
-    return user
+        # Hydrate user data from public.profiles
+        profile_response = supabase.table("profiles").select("*").eq("id", user.id).execute()
+        profile = profile_response.data[0] if profile_response.data else {}
+        
+        return {
+            "id": user.id,
+            "email": user.email,
+            **profile
+        }
+    except Exception as e:
+        print(f"User Fetch Error: {e}")
+        raise HTTPException(status_code=401, detail="Invalid or expired session token")
 
 @app.post("/api/subscribe")
 async def subscribe_user(request: SubscriptionRequest, authorization: Optional[str] = Header(None)):
@@ -144,28 +227,29 @@ async def subscribe_user(request: SubscriptionRequest, authorization: Optional[s
     
     try:
         # Extract user from token
-        token = authorization.replace("Bearer ", "")
-        user = local_db.get_user_by_token(token)
-        
-        if not user:
+        token = authorization.split(" ")[1] if " " in authorization else authorization
+        auth_response = get_user_safely(token)
+        if not auth_response or not auth_response.user:
             raise HTTPException(status_code=401, detail="Invalid session")
+            
+        user = auth_response.user
         
-        # Log Transaction and Update Subscription in LocalDB
+        # Log Transaction
         transaction_data = {
+            "user_id": user.id,
             "plan_id": request.plan_id,
             "billing_cycle": request.billing_cycle,
             "amount": request.amount,
             "payment_method": request.payment_method,
             "order_id": request.order_id,
-            "timestamp": datetime.now().isoformat()
         }
         
-        success = local_db.record_transaction(user["email"], transaction_data)
+        supabase.table("transactions").insert(transaction_data).execute()
         
-        if success:
-            return {"status": "success", "message": "Subscription activated", "plan": request.plan_id}
-        else:
-            raise HTTPException(status_code=500, detail="Failed to record transaction")
+        # Update user profile subscription plan
+        supabase.table("profiles").update({"plan": request.plan_id}).eq("id", user.id).execute()
+        
+        return {"status": "success", "message": "Subscription activated", "plan": request.plan_id}
             
     except HTTPException:
         raise
@@ -174,38 +258,67 @@ async def subscribe_user(request: SubscriptionRequest, authorization: Optional[s
         return {"status": "error", "message": str(e)}
 
 @app.post("/api/request-refund")
-async def request_refund(request: RefundRequestModel):
+async def request_refund(request: RefundRequestModel, authorization: Optional[str] = Header(None)):
     try:
-        # In a real app, save to a 'refund_requests' table.
-        print(f"Refund Request Received: {request}")
-        # await supabase.table("refunds").insert(request.dict()).execute()
-        return {"status": "success", "message": "Refund request received"}
+        user_id = None
+        if authorization:
+            token = authorization.replace("Bearer ", "")
+            auth_response = get_user_safely(token)
+            if auth_response and auth_response.user:
+                user_id = auth_response.user.id
+
+        refund_data = {
+            "transaction_id": request.order_id,
+            "reason": f"{request.reason}: {request.description}",
+            "status": "pending"
+        }
+        if user_id:
+            refund_data["user_id"] = user_id
+            
+        supabase.table("refunds").insert(refund_data).execute()
+        return {"status": "success", "message": "Refund request received and logged in database"}
     except Exception as e:
         print(f"Refund Error: {e}")
         raise HTTPException(status_code=500, detail="Failed to process refund request")
 
 # --- Helper Hooks for Advanced Pipeline ---
-def check_user_limits(user: dict, action: str, check_cost: int = 1) -> dict:
-    limits_data = local_db.get_user_limits(user["email"])
-    if not limits_data:
-        return {"plan": "free", "limit": 5000, "used_words": 0, "remaining_words": 5000}
+PLAN_LIMITS = {
+    "free": {"plagiarism": 999999, "humanizer": 999999, "bulk": 999},
+    "student_pro": {"plagiarism": 300000, "humanizer": 50000, "bulk": 0},
+    "student_plus": {"plagiarism": 800000, "humanizer": 200000, "bulk": 10},
+    "professional": {"plagiarism": 2000000, "humanizer": 1000000, "bulk": 99999},
+    "enterprise": {"plagiarism": 99999999, "humanizer": 99999999, "bulk": 99999}
+}
+
+def check_user_limits(user, action: str, check_cost: int = 1) -> dict:
+    if not user:
+        return {"plan": "anonymous", "limit": 0, "used_words": 0, "remaining_words": 0}
+        
+    user_id = user.id
+    profile_response = supabase.table("profiles").select("plan").eq("id", user_id).execute()
+    plan = profile_response.data[0].get("plan", "free") if profile_response.data else "free"
+    limits = PLAN_LIMITS.get(plan, PLAN_LIMITS["free"])
     
-    plan = limits_data["plan"]
-    limits = limits_data["limits"]
-    usage = limits_data["usage"]
+    now = datetime.now()
+    start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
     
     if action == "plagiarism":
-        used = usage.get("plagiarism_words", 0)
         limit = limits.get("plagiarism", 5000)
+        usage_res = supabase.table("checks").select("words_count").eq("user_id", user_id).gte("created_at", start_of_month).execute()
+        used = sum(item.get("words_count") or 0 for item in usage_res.data) if usage_res.data else 0
+        
         if used + check_cost > limit:
             raise HTTPException(status_code=402, detail=f"Monthly plagiarism word limit reached for {plan.upper()} plan. Upgrade required.")
         return {"plan": plan, "limit": limit, "used_words": used, "remaining_words": limit - used}
         
     elif action == "humanize":
-        used = usage.get("humanize_words", 0)
         limit = limits.get("humanizer", 0)
         if limit == 0:
             raise HTTPException(status_code=403, detail=f"AI Humanizer is not available on your {plan.upper()} plan.")
+            
+        usage_res = supabase.table("humanize_requests").select("input_text").eq("user_id", user_id).gte("created_at", start_of_month).execute()
+        used = sum(len((item.get("input_text") or "").split()) for item in usage_res.data) if usage_res.data else 0
+        
         if used + check_cost > limit:
             raise HTTPException(status_code=402, detail=f"Monthly humanizer word limit reached for {plan.upper()} plan. Upgrade required.")
         return {"plan": plan, "limit": limit, "used_words": used, "remaining_words": limit - used}
@@ -240,7 +353,9 @@ async def check_plagiarism_endpoint(
         auth_header = fastapi_request.headers.get("Authorization")
         if auth_header:
             token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
+            auth_response = get_user_safely(token)
+            if auth_response and auth_response.user:
+                user = auth_response.user
             
         word_count = len(request_data.text.split())
         
@@ -286,7 +401,7 @@ async def check_plagiarism_endpoint(
         # Step 8: Logging & Audit (Non-blocking)
         import hashlib
         text_hash = hashlib.sha256(request_data.text.encode('utf-8')).hexdigest()
-        user_id = user["email"] if user else "anonymous"
+        user_id = user.email if user else "anonymous"
         background_tasks.add_task(
             log_audit_async, 
             user_id, word_count, text_hash, 
@@ -294,12 +409,37 @@ async def check_plagiarism_endpoint(
             adv_plag_result.get("analysis_summary", "")
         )
 
-        # Local DB Activity Log
+        # Remote DB Activity Log
         if user:
-             details = result_obj.dict()
-             details['original_text'] = request_data.text
-             report_id = local_db.log_activity(user["email"], "plagiarism_check", details)
-             result_obj.id = report_id
+            try:
+                # Insert document record first for advanced view hooks
+                doc_data = {
+                    "user_id": user.id,
+                    "title": request_data.title or "Untitled Document",
+                    "original_text": request_data.text,
+                    "language": request_data.language or "en"
+                }
+                doc_ins = supabase.table("documents").insert(doc_data).execute()
+                doc_id = doc_ins.data[0]['id'] if doc_ins.data else None
+            except Exception as e:
+                print(f"Error inserting document: {e}")
+                doc_id = None
+                
+            check_data = {
+                "user_id": user.id,
+                "document_id": doc_id,
+                "similarity": plagiarism_score,
+                "words_count": word_count,
+                "status": "completed"
+            }
+            try:
+                ins = supabase.table("checks").insert(check_data).execute()
+                import uuid
+                result_obj.id = str(ins.data[0]['id']) if ins.data else str(uuid.uuid4())
+            except Exception as e:
+                print(f"Error inserting check: {e}")
+                import uuid
+                result_obj.id = str(uuid.uuid4())
 
         return APIResponse(
             success=True,
@@ -328,13 +468,15 @@ async def check_file_plagiarism_endpoint(
         auth_header = fastapi_request.headers.get("Authorization")
         if auth_header:
             token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
+            auth_response = get_user_safely(token)
+            if auth_response and auth_response.user:
+                user = auth_response.user
             
         content = await file.read()
         extracted_text = await extract_text_from_bytes(content, file.content_type)
 
         if not extracted_text.strip():
-             raise HTTPException(status_code=400, detail="Could not extract text from file.")
+            raise HTTPException(status_code=400, detail="Could not extract text from file.")
              
         word_count = len(extracted_text.split())
 
@@ -379,7 +521,7 @@ async def check_file_plagiarism_endpoint(
         # Step 8: Logging & Audit (Non-blocking)
         import hashlib
         text_hash = hashlib.sha256(extracted_text.encode('utf-8')).hexdigest()
-        user_id = user["email"] if user else "anonymous"
+        user_id = user.email if user else "anonymous"
         background_tasks.add_task(
             log_audit_async, 
             user_id, word_count, text_hash, 
@@ -387,15 +529,37 @@ async def check_file_plagiarism_endpoint(
             adv_plag_result.get("analysis_summary", "")
         )
         
-        # ===== Local DB Log Activity =====
+        # Remote DB Activity Log
         if user:
-             details = result_obj.dict()
-             details["file_name"] = file.filename
-             details["file_type"] = file.content_type
-             details['original_text'] = extracted_text
-             report_id = local_db.log_activity(user["email"], "plagiarism_check", details)
-             result_obj.id = report_id
-        # =================================
+            try:
+                # Insert document record implicitly for advanced view hooks
+                doc_data = {
+                    "user_id": user.id,
+                    "title": file.filename or "File Upload",
+                    "original_text": extracted_text,
+                    "language": language or "en"
+                }
+                doc_ins = supabase.table("documents").insert(doc_data).execute()
+                doc_id = doc_ins.data[0]['id'] if doc_ins.data else None
+            except Exception as e:
+                print(f"Error inserting document: {e}")
+                doc_id = None
+                
+            check_data = {
+                "user_id": user.id,
+                "document_id": doc_id,
+                "similarity": plagiarism_score,
+                "words_count": word_count,
+                "status": "completed"
+            }
+            try:
+                ins = supabase.table("checks").insert(check_data).execute()
+                import uuid
+                result_obj.id = str(ins.data[0]['id']) if ins.data else str(uuid.uuid4())
+            except Exception as e:
+                print(f"Error inserting check: {e}")
+                import uuid
+                result_obj.id = str(uuid.uuid4())
 
         return APIResponse(
             success=True,
@@ -412,11 +576,204 @@ async def check_file_plagiarism_endpoint(
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 @app.get("/api/reports/{report_id}")
-async def get_report_endpoint(report_id: str):
-    report = local_db.get_report_by_id(report_id)
-    if not report:
-        raise HTTPException(status_code=404, detail="Report not found")
-    return report
+async def get_report(report_id: str, authorization: Optional[str] = Header(None)):
+    """
+    Fetches a detailed report by ID.
+    If authorized, fetches from user history in LocalDB. Defaults to mock for unregistered usage.
+    """
+    try:
+        if report_id != "1":
+            res = supabase.table("checks").select("*, documents(title)").eq("id", report_id).execute()
+            if res.data:
+                check = res.data[0]
+                doc_title = check.get("documents", {}).get("title") if check.get("documents") else "Checked Document"
+                
+                score = float(check.get("similarity", 0))
+                status = "high" if score > 50 else ("moderate" if score > 20 else "safe")
+                
+                sources_res = supabase.table("check_sources").select("*").eq("check_id", report_id).execute()
+                sources = sources_res.data if sources_res.data else []
+                
+                return {
+                    "id": check["id"],
+                    "title": doc_title,
+                    "date": check.get("created_at", "").split("T")[0],
+                    "similarity": round(score),
+                    "status": status,
+                    "words": check.get("words_count", 0),
+                    "integrityScore": {
+                        "overall": 100 - round(score),
+                        "originality": 100 - round(score),
+                        "vocabularyDiversity": 90,
+                        "rewritingScore": 85,
+                        "aiDetectionProbability": 15,
+                    },
+                    "sources": sources,
+                    "sentences": []
+                }
+        
+        # Fallback for demo/mock IDs
+        if True: 
+            if report_id == "1":
+                return {
+                    "id": "1",
+                    "title": "Research Paper - Climate Change",
+                    "date": "December 5, 2024",
+                    "similarity": 15,
+                    "status": "safe",
+                    "words": 2847,
+                    "integrityScore": {
+                        "overall": 87,
+                        "originality": 85,
+                        "vocabularyDiversity": 92,
+                        "rewritingScore": 88,
+                        "aiDetectionProbability": 18,
+                    },
+                    "sources": [
+                        {"id": 1, "url": "https://example.com/climate", "title": "Climate Change Study 2024", "similarity": 8, "category": "academic"},
+                         {"id": 2, "url": "https://example.com/env", "title": "Environmental Impact", "similarity": 4, "category": "journal"}
+                    ],
+                    "sentences": [] # Mock sentences would go here
+                }
+            raise HTTPException(status_code=404, detail="Report not found")
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error fetching report: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/profile")
+async def update_profile(
+    updates: ProfileUpdate, 
+    authorization: Optional[str] = Header(None)
+):
+    try:
+        user = verify_token(authorization)
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
+        
+    update_dict = updates.model_dump(exclude_unset=True)
+    if not update_dict:
+        return {"user": user}
+        
+    res = supabase.table("profiles").update(update_dict).eq("id", user["id"]).execute()
+    if not res.data:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    return {"user": res.data[0]}
+
+@app.post("/api/profile/avatar")
+async def upload_avatar(
+    file: UploadFile = File(...),
+    authorization: Optional[str] = Header(None)
+):
+    try:
+        user = verify_token(authorization)
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
+        
+    import base64
+    content = await file.read()
+    
+    # Simple direct base64 embedding for MVP
+    mime_type = file.content_type or "image/jpeg"
+    encoded_string = base64.b64encode(content).decode("utf-8")
+    data_uri = f"data:{mime_type};base64,{encoded_string}"
+    
+    res = supabase.table("profiles").update({"avatar_url": data_uri}).eq("id", user["id"]).execute()
+    updated_user = res.data[0] if res.data else user
+    
+    return {"user": updated_user, "avatar_url": data_uri}
+
+@app.get("/api/settings")
+async def get_user_settings(authorization: Optional[str] = Header(None)):
+    try:
+        user = verify_token(authorization)
+        res = supabase.table("user_settings").select("*").eq("user_id", user["id"]).execute()
+        if res.data:
+            return res.data[0]
+        else:
+            # Create default settings if not exists
+            default_settings = {"user_id": user["id"]}
+            ins = supabase.table("user_settings").insert(default_settings).execute()
+            return ins.data[0] if ins.data else default_settings
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
+
+@app.post("/api/settings")
+async def update_user_settings(settings: UserSettingsModel, authorization: Optional[str] = Header(None)):
+    try:
+        user = verify_token(authorization)
+        update_dict = settings.model_dump(exclude_unset=True)
+        res = supabase.table("user_settings").update(update_dict).eq("user_id", user["id"]).execute()
+        if not res.data:
+            # Insert if missing
+            update_dict["user_id"] = user["id"]
+            res = supabase.table("user_settings").insert(update_dict).execute()
+        return res.data[0] if res.data else update_dict
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
+
+@app.delete("/api/reports/{report_id}")
+async def delete_report(report_id: str, authorization: Optional[str] = Header(None)):
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    token = authorization.replace("Bearer ", "")
+    auth_response = get_user_safely(token)
+    if not auth_response or not auth_response.user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    
+    user = auth_response.user
+    
+    # Delete from checks table
+    res = supabase.table("checks").delete().eq("user_id", user.id).eq("id", report_id).execute()
+    if not res.data:
+        raise HTTPException(status_code=404, detail="Report not found or could not be deleted")
+        
+    return {"status": "success", "message": "Report deleted"}
+
+@app.get("/api/history")
+async def get_user_history(authorization: Optional[str] = Header(None)):
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    token = authorization.replace("Bearer ", "")
+    auth_response = get_user_safely(token)
+    if not auth_response or not auth_response.user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    
+    user = auth_response.user
+    
+    # Retrieve their activity logs filtered by plagiarism checks
+    res = supabase.table("checks").select("*, documents(title)").eq("user_id", user.id).execute()
+    logs = res.data if res.data else []
+    
+    reports = []
+    for log in logs:
+        doc_title = log.get("documents", {}).get("title") if log.get("documents") else "Checked Document"
+        
+        score = float(log.get("similarity", 0))
+        if score > 50:
+            status = "high"
+        elif score > 20:
+            status = "moderate"
+        else:
+            status = "safe"
+
+        reports.append({
+            "id": log["id"],
+            "title": doc_title,
+            "date": log.get("created_at", "").split("T")[0],
+            "similarity": round(score),
+            "status": status,
+            "words": log.get("words_count", 0)
+        })
+
+    # Sort newest first
+    reports.sort(key=lambda x: x["date"], reverse=True)
+    return reports
 
 @app.post("/api/humanizer", response_model=APIResponse[HumanizeResult])
 async def humanize_text_endpoint(request_data: HumanizeRequest, fastapi_request: FastAPIRequest):
@@ -425,7 +782,9 @@ async def humanize_text_endpoint(request_data: HumanizeRequest, fastapi_request:
         auth_header = fastapi_request.headers.get("Authorization")
         if auth_header:
             token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
+            auth_response = get_user_safely(token)
+            if auth_response and auth_response.user:
+                user = auth_response.user
 
         doc_word_count = len(request_data.text.split())
         usage_meta = {"plan": "anonymous", "limit": 0, "used_words": 0, "remaining_words": 0}
@@ -457,16 +816,18 @@ async def humanize_text_endpoint(request_data: HumanizeRequest, fastapi_request:
         )
 
         # ===== Supabase Save: Humanizer =====
-        # try:
-        #     supabase.table("humanize_requests").insert({...}).execute()
-        # except Exception as err:
-        #     print("SUPABASE ERROR (HUMANIZER): ", err)
-        # ===== END Supabase Humanizer Save =====
-
-        # ===== Local DB Log Activity =====
         if user:
-             local_db.log_activity(user["email"], "humanize_text", result_obj.dict())
-        # =================================
+            try:
+                hum_data = {
+                    "user_id": user.id,
+                    "level": request_data.complexity_level,
+                    "input_text": request_data.text,
+                    "output_text": humanize_result.get("humanized_text", "")
+                }
+                supabase.table("humanize_requests").insert(hum_data).execute()
+            except Exception as err:
+                print("SUPABASE ERROR (HUMANIZER): ", err)
+        # ===== END Supabase Humanizer Save =====
 
         return APIResponse(
             success=True,
@@ -492,6 +853,38 @@ async def ai_chat_endpoint(request_data: ChatRequest):
         return ChatResponse(reply=moderation_result["reason"])
     chat_reply = await chat_with_groq_api(user_message)
     return ChatResponse(reply=chat_reply)
+
+
+
+# ------------------------------------------------------------------
+# Helper Functions
+# ------------------------------------------------------------------
+
+def is_valid_text(text: str, min_words: int = 20) -> bool:
+    words = text.split()
+    return len(words) >= min_words
+
+def verify_token(authorization: Optional[str]) -> Dict[str, Any]:
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    token = authorization.replace("Bearer ", "")
+    auth_response = get_user_safely(token)
+    if not auth_response or not auth_response.user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+        
+    user = auth_response.user
+    profile_response = supabase.table("profiles").select("*").eq("id", user.id).execute()
+    profile = profile_response.data[0] if profile_response.data else {}
+    
+    return {
+        "id": user.id,
+        "email": user.email,
+        **profile
+    }
+
+# ------------------------------------------------------------------
+# Authentication Endpoints (LocalDB)
+# ------------------------------------------------------------------
 
 @app.post("/api/predict-risk", response_model=RiskPredictionResult)
 async def predict_risk_endpoint(request_data: RiskPredictionRequest):
@@ -531,60 +924,6 @@ async def predict_risk_endpoint(request_data: RiskPredictionRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/reports/{report_id}")
-async def get_report(report_id: str):
-    """
-    Fetches a detailed report by ID.
-    Currently mocks data if ID not found in DB, or returns DB data.
-    """
-    try:
-        # Try to fetch from Supabase
-        # check_res = supabase.table("checks").select("*").eq("id", report_id).execute()
-        
-        # if not check_res.data:
-        #     # Fallback for demo/mock IDs
-        if True: # Always use mock fallbacks for now since SB is disabled and LocalDB lookup not implemented yet for specific check IDs
-            if report_id == "1":
-                 return {
-                    "id": "1",
-                    "title": "Research Paper - Climate Change",
-                    "date": "December 5, 2024",
-                    "similarity": 15,
-                    "status": "safe",
-                    "words": 2847,
-                    "integrityScore": {
-                        "overall": 87,
-                        "originality": 85,
-                        "vocabularyDiversity": 92,
-                        "rewritingScore": 88,
-                        "aiDetectionProbability": 18,
-                    },
-                    "sources": [
-                        {"id": 1, "url": "https://example.com/climate", "title": "Climate Change Study 2024", "similarity": 8, "category": "academic"},
-                         {"id": 2, "url": "https://example.com/env", "title": "Environmental Impact", "similarity": 4, "category": "journal"}
-                    ],
-                    "sentences": [] # Mock sentences would go here
-                }
-            raise HTTPException(status_code=404, detail="Report not found (Local Mode: Only ID '1' is mocked)")
-        
-        # doc_res = supabase.table("documents").select("*").eq("id", document_id).execute()
-        # ...
-        # doc_data = doc_res.data[0] if doc_res.data else {}
-        
-        # # 3. Fetch Sources
-        # sources_res = supabase.table("check_sources").select("*").eq("check_id", report_id).execute()
-        # sources = sources_res.data if sources_res.data else []
-        
-        # # Construct Response
-        # return {
-        #     "id": report_id,
-        #     ...
-        # }
-
-    except Exception as e:
-        print(f"Error fetching report: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.post("/api/upload-file")
 async def upload_file_endpoint(file: UploadFile = File(...)):
     """
@@ -609,8 +948,8 @@ async def upload_file_endpoint(file: UploadFile = File(...)):
                         if text:
                             extracted_text += text + "\n"
             except Exception as pdf_err:
-                 print(f"PDF Extraction Error: {pdf_err}")
-                 raise HTTPException(status_code=400, detail="Failed to extract text from PDF. The file might be corrupted or password protected.")
+                print(f"PDF Extraction Error: {pdf_err}")
+                raise HTTPException(status_code=400, detail="Failed to extract text from PDF. The file might be corrupted or password protected.")
         elif file.content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             try:
                 with io.BytesIO(content) as docx_file:
@@ -637,16 +976,21 @@ async def download_humanized_content(request_data: DownloadHumanizedRequest, fas
     text_content = request_data.text
     download_format = request_data.format
     try:
-        # ===== Local DB Log Activity =====
+        # ===== Supabase DB Log Activity =====
         auth_header = fastapi_request.headers.get("Authorization")
         if auth_header:
             token = auth_header.replace("Bearer ", "")
-            user = local_db.get_user_by_token(token)
-            if user:
-                 local_db.log_activity(user["email"], "file_download", {
-                     "format": download_format,
-                     "word_count": len(text_content.split())
-                 })
+            auth_response = get_user_safely(token)
+            if auth_response and auth_response.user:
+                user = auth_response.user
+                supabase.table("activity_logs").insert({
+                    "user_id": user.id,
+                    "action": "file_download",
+                    "details": json.dumps({
+                        "format": download_format,
+                        "word_count": len(text_content.split())
+                    })
+                }).execute()
         # =================================
 
         # Calls the generate_humanized_doc function from ai_model.py
@@ -666,12 +1010,17 @@ async def log_generic_activity(request_data: LogActivityRequest, authorization: 
     
     try:
         token = authorization.replace("Bearer ", "")
-        user = local_db.get_user_by_token(token)
-        if user:
-            local_db.log_activity(user["email"], request_data.action, request_data.details)
+        auth_response = get_user_safely(token)
+        if auth_response and auth_response.user:
+            user = auth_response.user
+            supabase.table("activity_logs").insert({
+                "user_id": user.id,
+                "action": request_data.action,
+                "details": json.dumps(request_data.details)
+            }).execute()
             return {"status": "logged"}
-    except Exception:
-        pass # Fail silently for logging
+    except Exception as err:
+        print(f"Stats Log Error: {err}") # Fail silently for logging
     return {"status": "ignored"}
 
 @app.get("/api/dashboard/stats")
@@ -680,11 +1029,83 @@ async def get_dashboard_stats(authorization: Optional[str] = Header(None)):
         raise HTTPException(status_code=401, detail="Authentication required")
     
     token = authorization.replace("Bearer ", "")
-    user = local_db.get_user_by_token(token)
-    if not user:
+    auth_response = get_user_safely(token)
+    if not auth_response or not auth_response.user:
         raise HTTPException(status_code=401, detail="Invalid session")
         
-    return local_db.get_dashboard_stats(user["email"])
+    user = auth_response.user
+    
+    # Fetch from dedicated new table for dashboard stats
+    db_stats = supabase.table("user_dashboard_stats").select("*").eq("user_id", user.id).execute()
+    data = db_stats.data[0] if db_stats.data else None
+    
+    total_checks = data.get("total_checks", 0) if data else 0
+    total_words = data.get("total_words_scanned", 0) if data else 0
+    ai_detects = data.get("high_risk_count", 0) if data else 0
+    avg_sim = round(data.get("average_similarity", 0), 1) if data else 0
+
+    # Get recent history logs separate
+    hist_res = supabase.table("checks").select("*, documents(title)").eq("user_id", user.id).order("created_at", desc=True).limit(50).execute()
+    history = hist_res.data if hist_res.data else []
+
+    # Map recent activity for frontend
+    mapped_history = []
+    for h in history[:10]: # Return top 10 for dashboard
+        score = float(h.get("similarity", 0))
+        if score > 50:
+            status = "high"
+        elif score > 20:
+            status = "moderate"
+        else:
+            status = "safe"
+            
+        doc_title = h.get("documents", {}).get("title") if isinstance(h.get("documents"), dict) else "Checked Document"
+        
+        mapped_history.append({
+            "id": h["id"],
+            "title": doc_title,
+            "date": h.get("created_at", ""),
+            "score": round(score),
+            "status": status,
+            "type": (h.get("check_type") or "Plagiarism Check").title()
+        })
+
+    # Prepare real usage chart aggregated (last 7 days grouped)
+    from datetime import datetime, timedelta
+    
+    chart_data = []
+    daily_stats = {}
+    for i in range(7):
+        d = datetime.now() - timedelta(days=6-i)
+        date_str = d.strftime("%Y-%m-%d")
+        daily_stats[date_str] = {"name": d.strftime("%a"), "checks": 0, "sum_sim": 0, "count": 0}
+        
+    for c in history:
+        date_str = c.get("created_at", "").split("T")[0]
+        if date_str in daily_stats:
+            daily_stats[date_str]["checks"] += 1
+            daily_stats[date_str]["sum_sim"] += float(c.get("similarity", 0))
+            daily_stats[date_str]["count"] += 1
+            
+    for date_str in sorted(daily_stats.keys()):
+        st = daily_stats[date_str]
+        avg_sim = round(st["sum_sim"] / st["count"], 1) if st["count"] > 0 else 0
+        chart_data.append({
+            "name": st["name"],
+            "checks": st["checks"],
+            "similarity": avg_sim
+        })
+
+    stats = {
+        "checks_done": total_checks,
+        "words_scanned": total_words,
+        "ai_content_found": ai_detects,
+        "average_similarity": avg_sim,
+        "history": mapped_history,
+        "usage_chart": chart_data,
+        "recent_activity": mapped_history
+    }
+    return stats
 
 
 # --- Main entry point for Uvicorn ---

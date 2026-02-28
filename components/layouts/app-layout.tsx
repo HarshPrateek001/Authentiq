@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -50,14 +50,15 @@ const settingsLinks = [
   { href: "/dashboard/security", label: "Security", icon: Shield },
 ]
 
-function Sidebar({ collapsed, onToggle, onLinkClick }: { collapsed: boolean; onToggle: () => void; onLinkClick?: () => void }) {
+function Sidebar({ collapsed, onToggle, onLinkClick, isMobile }: { collapsed: boolean; onToggle: () => void; onLinkClick?: () => void; isMobile?: boolean }) {
   const pathname = usePathname()
 
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-40 h-screen border-r border-border bg-sidebar transition-all duration-300",
+        "fixed left-0 top-0 z-40 h-screen border-r border-border transition-all duration-300",
         collapsed ? "w-16" : "w-64",
+        isMobile ? "bg-background/60 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40 shadow-2xl border-white/10 dark:border-white/5" : "bg-sidebar"
       )}
     >
       <div className="flex h-full flex-col">
@@ -152,14 +153,28 @@ function Sidebar({ collapsed, onToggle, onLinkClick }: { collapsed: boolean; onT
   )
 }
 
+import { LocalDB } from "@/lib/local-db"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 function TopBar({ sidebarCollapsed, onMenuClick }: { sidebarCollapsed: boolean; onMenuClick: () => void }) {
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    setUser(LocalDB.getUser())
+
+    // Listen to custom event for profile updates so TopBar refreshes immediately
+    const handleProfileUpdate = () => {
+        setUser(LocalDB.getUser())
+    }
+    window.addEventListener("profileUpdated", handleProfileUpdate)
+    return () => window.removeEventListener("profileUpdated", handleProfileUpdate)
+  }, [])
+
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 transition-all duration-300",
-        sidebarCollapsed ? "md:pl-20" : "md:pl-68",
+        "sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 transition-all duration-300"
       )}
-      style={{ paddingLeft: sidebarCollapsed ? "5rem" : "17rem" }}
     >
       <Button variant="ghost" size="icon" className="md:hidden" onClick={onMenuClick}>
         <Menu className="h-5 w-5" />
@@ -180,11 +195,18 @@ function TopBar({ sidebarCollapsed, onMenuClick }: { sidebarCollapsed: boolean; 
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="gap-2">
-              <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <User className="h-4 w-4" />
-              </div>
-              <span className="hidden sm:inline-block">John Doe</span>
+            <Button variant="ghost" className="gap-2 px-2 hover:bg-muted/50">
+              <Avatar className="h-8 w-8 rounded-full border border-border">
+                {user?.avatar_url ? (
+                    <AvatarImage src={user.avatar_url} className="object-cover" />
+                ) : null}
+                <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                    {user?.first_name ? user.first_name[0] : <User className="h-4 w-4" />}
+                </AvatarFallback>
+              </Avatar>
+              <span className="hidden sm:inline-block">
+                {user ? `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email.split('@')[0] : "Loading..."}
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
@@ -228,20 +250,22 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="hidden md:block">
+      <div className="hidden md:block print:hidden">
         <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
       </div>
 
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <Sidebar collapsed={false} onToggle={() => setMobileMenuOpen(false)} onLinkClick={() => setMobileMenuOpen(false)} />
+        <div className="fixed inset-0 z-50 md:hidden print:hidden">
+          <div className="fixed inset-0 bg-background/20 backdrop-blur-md transition-opacity" onClick={() => setMobileMenuOpen(false)} />
+          <Sidebar collapsed={false} onToggle={() => setMobileMenuOpen(false)} onLinkClick={() => setMobileMenuOpen(false)} isMobile={true} />
         </div>
       )}
 
-      <div className={cn("transition-all duration-300", sidebarCollapsed ? "md:ml-16" : "md:ml-64")}>
-        <TopBar sidebarCollapsed={sidebarCollapsed} onMenuClick={() => setMobileMenuOpen(true)} />
-        <main className="p-4 md:p-6">{children}</main>
+      <div className={cn("transition-all duration-300 print:ml-0 print:w-full", sidebarCollapsed ? "md:ml-16" : "md:ml-64")}>
+        <div className="print:hidden">
+            <TopBar sidebarCollapsed={sidebarCollapsed} onMenuClick={() => setMobileMenuOpen(true)} />
+        </div>
+        <main className="p-4 md:p-6 print:p-0 print:m-0">{children}</main>
       </div>
     </div>
   )

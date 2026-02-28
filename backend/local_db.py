@@ -61,6 +61,8 @@ class LocalDB:
                 raise ValueError("User already exists")
 
         user_id = str(uuid.uuid4())
+        verification_token = str(uuid.uuid4())
+        token_expiry = (datetime.now() + timedelta(hours=24)).isoformat()
         
         # 1. Create Core User Profile
         new_user = {
@@ -71,6 +73,9 @@ class LocalDB:
             "password_hash": self._hash_password(user_data["password"]),
             "user_type": user_data.get("userType", "student"),
             "created_at": datetime.now().isoformat(),
+            "is_verified": False,
+            "verification_token": verification_token,
+            "token_expiry": token_expiry,
             "subscription": {
                 "plan": "free",
                 "status": "active"
@@ -119,6 +124,10 @@ class LocalDB:
         
         for user in users:
             if user["email"] == email and user.get("password_hash") == hashed:
+                # Check verification if present (allow legacy users by defaulting to True if undefined)
+                if not user.get("is_verified", True):
+                    raise ValueError("EMAIL_NOT_VERIFIED")
+                    
                 token = str(uuid.uuid4())
                 
                 # Save session
@@ -136,6 +145,23 @@ class LocalDB:
                 return {"user": full_user, "token": token}
         
         return None
+        
+    def verify_email(self, token: str) -> bool:
+        users_db = self._read_json(self.users_file)
+        users = users_db.get("users", [])
+        
+        for user in users:
+            if user.get("verification_token") == token:
+                expiry = user.get("token_expiry")
+                if expiry and datetime.fromisoformat(expiry) > datetime.now():
+                    user["is_verified"] = True
+                    user["verification_token"] = None
+                    user["token_expiry"] = None
+                    self._save_json(self.users_file, users_db)
+                    return True
+                else:
+                    raise ValueError("TOKEN_EXPIRED")
+        return False
 
     def get_user_by_token(self, token: str) -> Optional[Dict[str, Any]]:
         users_db = self._read_json(self.users_file)
@@ -152,6 +178,29 @@ class LocalDB:
             
         # Merge with activity data
         return self._merge_user_data(user)
+
+    def update_user(self, email: str, updates: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        users_db = self._read_json(self.users_file)
+        users = users_db.get("users", [])
+        
+        target_user = None
+        for u in users:
+            if u["email"] == email:
+                target_user = u
+                break
+                
+        if not target_user:
+            return None
+            
+        # Update allowed fields
+        allowed_fields = ["first_name", "last_name", "bio", "organization", "avatar_url"]
+        for key in allowed_fields:
+            if key in updates:
+                target_user[key] = updates[key]
+                
+        self._save_json(self.users_file, users_db)
+        
+        return self._merge_user_data(target_user)
 
     def _merge_user_data(self, user: Dict[str, Any]) -> Dict[str, Any]:
         """Combines profile from users DB with activity from activity DB"""
@@ -279,6 +328,59 @@ class LocalDB:
                 if check.get("id") == report_id:
                     return check
         return None
+
+    def delete_report(self, email: str, report_id: str) -> bool:
+        users_db = self._read_json(self.users_file)
+        user = next((u for u in users_db.get("users", []) if u["email"] == email), None)
+        if not user: return False
+
+        activity_db = self._read_json(self.activity_file)
+        if "activities" not in activity_db or user["id"] not in activity_db["activities"]:
+            return False
+
+        user_record = activity_db["activities"][user["id"]]
+        history = user_record.get("history", {})
+        
+        found = False
+        # Remove from plagiarism checks
+        plag_checks = history.get("plagiarism_checks", [])
+        original_len = len(plag_checks)
+        history["plagiarism_checks"] = [c for c in plag_checks if c["id"] != report_id]
+        if len(history["plagiarism_checks"]) < original_len:
+            found = True
+            
+        # Also remove from humanize requests if it was there
+        human_reqs = history.get("humanize_requests", [])
+        original_len = len(human_reqs)
+        history["humanize_requests"] = [c for c in human_reqs if c["id"] != report_id]
+        if len(history["humanize_requests"]) < original_len:
+            found = True
+
+        if found:
+            self._save_json(self.activity_file, activity_db)
+            return True
+            
+        return False
+
+    def get_user_history(self, email: str) -> List[Dict[str, Any]]:
+        users_db = self._read_json(self.users_file)
+        user = next((u for u in users_db.get("users", []) if u["email"] == email), None)
+        if not user: return []
+
+        activity_db = self._read_json(self.activity_file)
+        user_activity = activity_db.get("activities", {}).get(user["id"], {})
+        
+        # Combine all relevant history arrays
+        history = user_activity.get("history", {})
+        all_logs = []
+        for checks in history.get("plagiarism_checks", []):
+            checks["action"] = "plagiarism_check"
+            all_logs.append(checks)
+        for checks in history.get("humanize_requests", []):
+            checks["action"] = "humanize_text"
+            all_logs.append(checks)
+            
+        return all_logs
 
     def get_dashboard_stats(self, email: str) -> Dict[str, Any]:
         users_db = self._read_json(self.users_file)

@@ -4,6 +4,14 @@ export interface LocalUser {
     fullName: string
     avatarUrl?: string
     token: string
+    first_name?: string
+    last_name?: string
+    bio?: string
+    organization?: string
+    avatar_url?: string
+    subscription?: any
+    created_at?: string
+    user_type?: string
 }
 
 export const LocalDB = {
@@ -21,6 +29,29 @@ export const LocalDB = {
             return data ? JSON.parse(data) : null
         } catch {
             return null
+        }
+    },
+
+    setUser: (user: LocalUser) => {
+        LocalDB.saveUser(user)
+    },
+
+    getToken: (): string | null => {
+        const user = LocalDB.getUser()
+        return user ? user.token : null
+    },
+
+    getUserLimits: () => {
+        const limits = LocalDB.getLimits()
+        // Format to match API expectation or default to free limits
+        return {
+            plan: 'free',
+            limits: { plagiarism: 500, humanizer: 500, bulk: 100 },
+            usage: {
+                plagiarism_words: limits.plagiarism || 0,
+                humanize_words: limits.humanizer || 0,
+                bulk_uploads: limits.bulk || 0
+            }
         }
     },
 
@@ -64,6 +95,31 @@ export const LocalDB = {
 
     saveLimits: (limits: any) => {
         localStorage.setItem(LocalDB.LIMITS_KEY, JSON.stringify(limits))
+    },
+
+    getStats: () => {
+        // Safe fallback stats when API is not reachable
+        const user = LocalDB.getUser()
+        const limits = LocalDB.getLimits()
+        const totalUsed = (limits.plagiarism || 0) + (limits.humanizer || 0)
+        
+        return {
+            total_checks: totalUsed,
+            avg_similarity: 0,
+            high_risk_count: 0,
+            remaining_quota: 500 - (limits.plagiarism || 0),
+            usage_chart: [
+                { name: "Mon", calls: 0 },
+                { name: "Tue", calls: 0 },
+                { name: "Wed", calls: 0 },
+                { name: "Thu", calls: 0 },
+                { name: "Fri", calls: 0 },
+                { name: "Sat", calls: 0 },
+                { name: "Sun", calls: totalUsed }
+            ],
+            recent_activity: [],
+            user_name: user?.fullName || "User"
+        }
     },
 
     logView: async (pageName: string) => {

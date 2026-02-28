@@ -751,6 +751,42 @@
                             "page": "dashboard",
                             "url": "http://localhost:3000/dashboard"
                         }
+                    },
+                    {
+                        "id": "e7febceb-0a55-4228-a5bb-82461d14ab95",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T11:56:25.971159",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "8c9da537-8944-4a5c-ad25-c2fb20c54cee",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T11:56:26.262270",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "4ba29ace-9d6d-4aa4-99e0-19bca3ac2fab",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T11:57:03.709926",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "f94e0614-8b83-4d52-a9a3-55e2d5ffdc64",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T11:57:03.891421",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
                     }
                 ]
             },
@@ -1046,6 +1082,58 @@
                             "original_text": " Q.1. Match the Following\n\n Q.2. Name the Famous Personality\na) Britain\u2019s first woman doctor and champion of women\u2019s rights\n\u2192 Elizabeth Garrett Anderson\nb) Jamaican nurse who looked after soldiers in the Crimean War\n\u2192 Mary Seacole\nc) Prison reformer and pioneer of nurse training\n\u2192 Florence Nightingale\nd) Actor known for innocent natural acting and Dadasaheb Phalke Award recipient\n\u2192 Charlie Chaplin\ne) Famous comic double act (small thin confused & big fat irritable)\n\u2192 Laurel and Hardy\n\n Q.3. Name the Amazing Places Around the World\nStatue of Liberty (USA)\nGreat Wall of China\nOpera House\nBasils Cathedral\nAngkor Bayon Temple\n\n Q.4. Answer the Following\na) Which nutrient is known as the sunshine vitamin?\n\u2192 Vitamin D\nb) What creatures make chalk, tubes, stones and shells?\n\u2192 Coral\nc) What is the name of an eagle\u2019s nest?\n\u2192 Eyrie\nd) Who was the first captain of Independent India\u2019s Olympic football team?\n\u2192 Talimeren Ao\ne) Name the youngest and first sportsperson to receive Bharat Ratna\n\u2192 Sachin Tendulkar\n\n"
                         },
                         "tokens_used": 169
+                    },
+                    {
+                        "id": "13a51b02-b2dd-4161-8795-5a727cd50c87",
+                        "type": "plagiarism_check",
+                        "timestamp": "2026-02-26T23:01:03.380475",
+                        "details": {
+                            "id": null,
+                            "plagiarism_score": 25.1,
+                            "is_ai_generated": true,
+                            "ai_confidence": 58.0,
+                            "sources_found": [],
+                            "word_count": 337,
+                            "analysis_time": 3.05711,
+                            "unique_content_percentage": 74.9,
+                            "ai_flagged_segments": [
+                                "\u2705 Plagiarism Check: 5,000 words / month",
+                                "\u2705 AI Content Detection",
+                                "\u274c AI Humanizer",
+                                "\u274c Bulk Uploads",
+                                "\u274c API Access",
+                                "\u274c File Upload (PDF / DOCX)",
+                                "\u274c Priority Processing",
+                                "\u2705 Plagiarism Check: 300,000 words / month",
+                                "\u2705 AI Humanizer: 50,000 words / month",
+                                "\u2705 Plagiarism Check: 800,000 words / month",
+                                "\u2705 AI Humanizer: 200,000 words / month",
+                                "\u2705 Bulk Uploads: 10 files / month",
+                                "\u2705 Plagiarism Check: 2,000,000 words / month",
+                                "\u2705 AI Humanizer: 1,000,000 words / month",
+                                "\u2705 Bulk Uploads: Unlimited",
+                                "\u2705 Unlimited Plagiarism (Fair Use)",
+                                "\u2705 Unlimited AI Humanizer",
+                                "\u2705 Unlimited Bulk Uploads",
+                                "\u2705 Local AI Models (Ollama / LLaMA / Mistral)",
+                                "\u2705 Offline Mode Support",
+                                "\u2705 Desktop App (Windows)",
+                                "\u2705 Private API Gateway",
+                                "\u2705 Dedicated Support",
+                                "\u2705 Custom Usage Rules",
+                                "\u2705 On-Premise / Local Deployment Option"
+                            ],
+                            "originality_level": "High",
+                            "similarity_range": "0-30%",
+                            "confidence": "High",
+                            "analysis_summary": "Passed local heuristic checks. Content seems highly original.",
+                            "matched_patterns": [
+                                "local analysis"
+                            ],
+                            "api_used": false,
+                            "original_text": "Free Plan\nBest for quick testing & casual use\n\u2705 Plagiarism Check: 5,000 words / month\n\u2705 AI Content Detection\n\u274c AI Humanizer\n\u274c Bulk Uploads\n\u274c API Access\n\u274c File Upload (PDF / DOCX)\n\u274c Priority Processing\nPrice: \u20b90 / month\nIdeal for: New users, basic checks, demos\n\ud83c\udf93 Student Pro\nPerfect for college students & assignments\n\u2705 Plagiarism Check: 300,000 words / month\n\u2705 AI Content Detection\n\u2705 AI Humanizer: 50,000 words / month\n\u274c Bulk Uploads\n\u274c API Access\n\u274c File Uploads\n\u26a0\ufe0f Standard Processing Speed\nPrice:\n\u20b9149 / month\n\u20b91,499 / year (save 15%)\nIdeal for: Students, academic submissions, essays\n\ud83c\udf93 Student Plus (Most Popular \u2b50)\nFor heavy academic & research work\n\u2705 Plagiarism Check: 800,000 words / month\n\u2705 AI Content Detection\n\u2705 AI Humanizer: 200,000 words / month\n\u2705 Bulk Uploads: 10 files / month\n\u2705 PDF & DOCX Uploads\n\u274c API Access\n\u26a1 Faster Processing\nPrice:\n\u20b9299 / month\n\u20b92,999 / year (save 20%)\nIdeal for: Researchers, thesis writers, content-heavy students\n\ud83d\udcbc Professional\nBuilt for content creators & working professionals\n\u2705 Plagiarism Check: 2,000,000 words / month\n\u2705 AI Content Detection\n\u2705 AI Humanizer: 1,000,000 words / month\n\u2705 Bulk Uploads: Unlimited\n\u2705 PDF & DOCX Uploads\n\u2705 API Access\n\u26a1 High-Speed Processing\n\ud83d\udcca Usage Analytics Dashboard\nPrice:\n\u20b9999 / month\n\u20b99,999 / year (save 17%)\nIdeal for: Bloggers, SEO agencies, freelancers, educators\n\ud83c\udfe2 Enterprise\nFull power. Full control. Full privacy.\n\u2705 Unlimited Plagiarism (Fair Use)\n\u2705 Unlimited AI Humanizer\n\u2705 Unlimited Bulk Uploads\n\u2705 Local AI Models (Ollama / LLaMA / Mistral)\n\u2705 Offline Mode Support\n\u2705 Desktop App (Windows)\n\u2705 Private API Gateway\n\u2705 Dedicated Support\n\u2705 Custom Usage Rules\n\u2705 On-Premise / Local Deployment Option\nPrice:\n\u20b94,999 / month\n\u20b949,999 / year\nIdeal for: Enterprises, universities, legal firms, corporations\n\ud83d\udd11 IMPORTANT NOTES (SHOW BELOW PRICING)\nWord limits reset monthly\nFair usage policy applies to Enterprise plan\nAPI usage counted separately from dashboard usage\nLocal AI mode available only in Enterprise\nNo credit card required for Free plan"
+                        },
+                        "tokens_used": 337
                     }
                 ],
                 "humanize_requests": [],
@@ -1132,14 +1220,182 @@
                             "page": "dashboard",
                             "url": "http://10.95.208.198:3000/dashboard"
                         }
+                    },
+                    {
+                        "id": "8ab33147-c478-4508-b627-04fe89a13d0d",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:33:17.782355",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "62e155a5-d3cc-4632-81f1-d24e5a8d68e7",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:33:17.847319",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "c48aae67-968c-4ec0-977c-c372145bcab1",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:33:56.736036",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "e2a2f2b4-9641-4452-bbb7-ca5453c0997c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:33:56.784516",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "096c94ed-54e3-4c49-ada4-156ed93995d6",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:38:28.172482",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "bb241f13-7c08-4cac-a121-9411752da073",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:38:28.330356",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "1389f8d8-95e0-4178-afc7-6d831134091c",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:59:58.279336",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "0b7d54e5-e63f-4edd-b881-7c8dff7e8be5",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T22:59:58.444503",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "7373d9a8-0a79-426e-b47b-8620f81d2041",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:02:00.726501",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "e5c379bf-e2b6-42ee-96f1-c4307bbddf7b",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:02:00.774179",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "4531961b-abb4-4c65-9d3f-ddb6a884bfc3",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:05:14.113142",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "6de375fe-6f52-4eef-9138-ef1e1f1a4af4",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:05:28.022858",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "374c7023-97af-4514-ad6e-c41f7098fff3",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:26:54.799272",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "bf85f98f-9f92-49ae-8c52-c648112ee8c5",
+                        "type": "page_view",
+                        "timestamp": "2026-02-26T23:26:55.071731",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://10.194.2.198:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "237f4f17-b2a5-46a0-bd7e-90263e0dc803",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T19:25:10.358036",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "27aa7f25-a1a1-41eb-a8e2-ae5a00d17af5",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T19:25:10.544862",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "8c8b493a-0948-408a-bc75-5d6c45217f46",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T19:25:24.135563",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
+                    },
+                    {
+                        "id": "420d9d30-744e-486c-8e3f-d9f2ebf71846",
+                        "type": "page_view",
+                        "timestamp": "2026-02-27T19:25:24.330208",
+                        "details": {
+                            "page": "dashboard",
+                            "url": "http://localhost:3000/dashboard"
+                        }
                     }
                 ]
             },
             "usage_today": {
-                "date": "2026-02-25",
-                "plagiarism_count": 7,
+                "date": "2026-02-26",
+                "plagiarism_count": 1,
                 "humanize_count": 0,
                 "bulk_count": 0
+            },
+            "usage_monthly": {
+                "month": "2026-02",
+                "plagiarism_words": 337,
+                "humanize_words": 0,
+                "bulk_uploads": 0
             }
         }
     }

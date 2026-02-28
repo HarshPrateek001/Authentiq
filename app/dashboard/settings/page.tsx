@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -8,8 +8,11 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
+import { LocalDB } from "@/lib/local-db"
+import { toast } from "sonner"
 
 export default function SettingsPage() {
+  const [loading, setLoading] = useState(false)
   const [settings, setSettings] = useState({
     language: "en",
     defaultDocType: "assignment",
@@ -21,6 +24,67 @@ export default function SettingsPage() {
     weeklyDigest: false,
     analysisDepth: [75],
   })
+
+  useEffect(() => {
+    LocalDB.logView('settings')
+    const user = LocalDB.getUser()
+    if (!user) return
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/settings`, {
+      headers: { 'Authorization': `Bearer ${user.token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && !data.detail) {
+        setSettings({
+          language: data.language || "en",
+          defaultDocType: data.default_doc_type || "assignment",
+          reportPrivacy: data.report_privacy || "private",
+          emailNotifications: data.email_notifications ?? true,
+          reportReady: data.report_ready ?? true,
+          highRiskAlerts: data.high_risk_alerts ?? true,
+          usageWarnings: data.usage_warnings ?? true,
+          weeklyDigest: data.weekly_digest ?? false,
+          analysisDepth: [data.analysis_depth || 75]
+        })
+      }
+    })
+    .catch(err => console.error("Error fetching settings:", err))
+  }, [])
+
+  const handleSave = async () => {
+    setLoading(true)
+    try {
+      const user = LocalDB.getUser()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/settings`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user?.token}`
+        },
+        body: JSON.stringify({
+          language: settings.language,
+          default_doc_type: settings.defaultDocType,
+          report_privacy: settings.reportPrivacy,
+          email_notifications: settings.emailNotifications,
+          report_ready: settings.reportReady,
+          high_risk_alerts: settings.highRiskAlerts,
+          usage_warnings: settings.usageWarnings,
+          weekly_digest: settings.weeklyDigest,
+          analysis_depth: settings.analysisDepth[0]
+        })
+      })
+      if (res.ok) {
+        toast.success("Settings saved successfully!")
+      } else {
+        toast.error("Failed to save settings.")
+      }
+    } catch (e) {
+      toast.error("An error occurred.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <AppLayout>
@@ -207,7 +271,9 @@ export default function SettingsPage() {
           <Button variant="outline" className="bg-transparent">
             Cancel
           </Button>
-          <Button>Save Settings</Button>
+          <Button onClick={handleSave} disabled={loading}>
+            {loading ? "Saving..." : "Save Settings"}
+          </Button>
         </div>
       </div>
     </AppLayout>

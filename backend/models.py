@@ -80,8 +80,7 @@ class DownloadHumanizedRequest(BaseModel):
 
 # --- Authentication Models ---
 class UserCreate(BaseModel):
-    firstName: str
-    lastName: str
+    fullName: str
     email: str
     password: str
     userType: str
@@ -112,6 +111,17 @@ class RefundRequestModel(BaseModel):
     order_id: str
     reason: str
     description: str
+
+class UserSettingsModel(BaseModel):
+    language: Optional[str] = "en"
+    default_doc_type: Optional[str] = "assignment"
+    report_privacy: Optional[str] = "private"
+    email_notifications: Optional[bool] = True
+    report_ready: Optional[bool] = True
+    high_risk_alerts: Optional[bool] = True
+    usage_warnings: Optional[bool] = True
+    weekly_digest: Optional[bool] = False
+    analysis_depth: Optional[int] = 75
 
 class LogActivityRequest(BaseModel):
     action: str = Field(..., description="Type of action, e.g., 'page_view', 'button_click'")

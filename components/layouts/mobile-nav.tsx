@@ -67,7 +67,7 @@ export function MobileNav() {
           <div className="flex items-center gap-4 mb-8 bg-muted/50 p-4 rounded-xl border border-border/50">
             <Avatar className="h-12 w-12 border-2 border-primary/20">
               <AvatarImage src={user.avatarUrl} alt={user.fullName} />
-              <AvatarFallback className="bg-primary/10 text-primary">{user.fullName.charAt(0)}</AvatarFallback>
+              <AvatarFallback className="bg-primary/10 text-primary">{(user.fullName || user.first_name || user.email || "U").charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col overflow-hidden">
               <span className="font-semibold text-foreground truncate">{user.fullName}</span>

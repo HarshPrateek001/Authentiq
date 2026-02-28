@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { LocalDB } from "@/lib/local-db"
 import { AppLayout } from "@/components/layouts/app-layout"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -61,9 +63,11 @@ const heatmapColors = {
 }
 
 export default function ReportDetailPage() {
+  const router = useRouter()
   // State for report data
   const [report, setReport] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Fetch report data on mount
   useEffect(() => {
@@ -73,7 +77,7 @@ export default function ReportDetailPage() {
 
     const fetchReport = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/reports/${id}`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/reports/${id}`)
         if (response.ok) {
           const data = await response.json()
           const details = data.details || {}
@@ -237,6 +241,31 @@ export default function ReportDetailPage() {
     setTimeout(() => setCopiedIndex(null), 2000)
   }
 
+  const handleDelete = async () => {
+    const user = LocalDB.getUser()
+    if (!user) return
+
+    if (window.confirm("Are you sure you want to delete this report?")) {
+        setIsDeleting(true)
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/reports/${report.id}`, {
+                method: 'DELETE',
+                headers: { "Authorization": `Bearer ${user.token}` }
+            })
+            if (res.ok) {
+                router.push("/dashboard/reports")
+            } else {
+                alert("Failed to delete report. ID might be mock/demo.")
+            }
+        } catch (e) {
+            console.error(e)
+            alert("Error deleting report")
+        } finally {
+            setIsDeleting(false)
+        }
+    }
+  }
+
   const handleRewriteAll = async () => {
     setIsRewritingAll(true)
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -283,29 +312,35 @@ export default function ReportDetailPage() {
     <AppLayout>
       <div className="space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" asChild>
+          <div className="flex items-start sm:items-center gap-4 min-w-0">
+            <Button variant="ghost" size="icon" asChild className="shrink-0 mt-1 sm:mt-0">
               <Link href="/dashboard/reports">
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
-            <div>
-              <h1 className="text-2xl font-bold">{report.title}</h1>
-              <p className="text-muted-foreground">Checked on {report.date}</p>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold truncate">{report.title}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground truncate">Checked on {report.date}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="gap-2 bg-transparent">
-              <Download className="h-4 w-4" />
-              Download PDF
+          <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-0 shrink-0">
+            <Button variant="outline" size="sm" className="gap-2 bg-transparent text-xs sm:text-sm h-8 sm:h-10" onClick={() => window.print()}>
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              PDF
             </Button>
-            <Button variant="outline" className="gap-2 bg-transparent">
-              <Share2 className="h-4 w-4" />
+            <Button variant="outline" size="sm" className="gap-2 bg-transparent text-xs sm:text-sm h-8 sm:h-10">
+              <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
               Share
             </Button>
-            <Button variant="outline" className="gap-2 bg-transparent text-destructive hover:text-destructive">
-              <Trash2 className="h-4 w-4" />
-              Delete
+            <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2 bg-transparent text-destructive hover:text-destructive text-xs sm:text-sm h-8 sm:h-10"
+                onClick={handleDelete}
+                disabled={isDeleting}
+            >
+              {isDeleting ? <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" /> : <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />}
+              Del
             </Button>
           </div>
         </div>
@@ -497,31 +532,33 @@ export default function ReportDetailPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 min-w-0">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList>
-                <TabsTrigger value="content">Content Analysis</TabsTrigger>
-                <TabsTrigger value="heatmap">Sentence Heatmap</TabsTrigger>
-                <TabsTrigger value="suggestions">AI Rewrite</TabsTrigger>
-                <TabsTrigger value="bypass">AI Bypass</TabsTrigger>
-              </TabsList>
+              <div className="w-full overflow-x-auto pb-2 -mb-2 no-scrollbar">
+                <TabsList className="w-max min-w-full justify-start h-auto p-1">
+                  <TabsTrigger value="content" className="whitespace-nowrap">Content Analysis</TabsTrigger>
+                  <TabsTrigger value="heatmap" className="whitespace-nowrap">Sentence Heatmap</TabsTrigger>
+                  <TabsTrigger value="suggestions" className="whitespace-nowrap">AI Rewrite</TabsTrigger>
+                  <TabsTrigger value="bypass" className="whitespace-nowrap">AI Bypass</TabsTrigger>
+                </TabsList>
+              </div>
 
               {/* Content Analysis Tab */}
               <TabsContent value="content" className="mt-4">
                 <div className="rounded-xl border border-border bg-card">
                   {/* Highlight Legend */}
-                  <div className="flex flex-wrap items-center gap-6 p-4 border-b border-border bg-muted/30 rounded-t-xl">
-                    <span className="text-sm font-semibold text-muted-foreground mr-2">Highlight Key:</span>
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 p-4 border-b border-border bg-muted/30 rounded-t-xl">
+                    <span className="text-sm font-semibold text-muted-foreground sm:mr-2">Highlight Key:</span>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-4 h-4 rounded bg-purple-500/20 border border-purple-500 block"></span>
+                      <span className="w-4 h-4 rounded bg-purple-500/20 border border-purple-500 block shrink-0"></span>
                       <span className="font-medium">AI-Generated Content</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-4 h-4 rounded bg-destructive/20 border border-destructive block"></span>
+                      <span className="w-4 h-4 rounded bg-destructive/20 border border-destructive block shrink-0"></span>
                       <span className="font-medium">High Match (Plagiarized)</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="w-4 h-4 rounded bg-warning/20 border border-warning block"></span>
+                      <span className="w-4 h-4 rounded bg-warning/20 border border-warning block shrink-0"></span>
                       <span className="font-medium">Moderate Match (Paraphrased)</span>
                     </div>
                   </div>
@@ -601,17 +638,17 @@ export default function ReportDetailPage() {
                 <div className="space-y-4">
                   <Card>
                     <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-start sm:items-center gap-3">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                             <Sparkles className="h-5 w-5 text-primary" />
                           </div>
                           <div>
-                            <CardTitle>AI Rewrite Assistant</CardTitle>
-                            <CardDescription>Choose rewrite strength and apply suggestions</CardDescription>
+                            <CardTitle className="text-base sm:text-lg">AI Rewrite Assistant</CardTitle>
+                            <CardDescription className="text-xs sm:text-sm">Choose strength and apply suggestions</CardDescription>
                           </div>
                         </div>
-                        <Button onClick={handleRewriteAll} disabled={isRewritingAll} className="gap-2">
+                        <Button onClick={handleRewriteAll} disabled={isRewritingAll} className="gap-2 w-full sm:w-auto">
                           {isRewritingAll ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
@@ -622,16 +659,16 @@ export default function ReportDetailPage() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-lg bg-muted/50">
                         <Label className="text-sm font-medium">Rewrite Strength:</Label>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {(["minimal", "moderate", "full"] as const).map((strength) => (
                             <Button
                               key={strength}
                               variant={rewriteStrength === strength ? "default" : "outline"}
                               size="sm"
                               onClick={() => setRewriteStrength(strength)}
-                              className="capitalize"
+                              className="capitalize flex-1 sm:flex-none"
                             >
                               {strength}
                             </Button>

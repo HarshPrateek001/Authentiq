@@ -26,7 +26,7 @@ export default function DashboardPage() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard/stats`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/dashboard/stats`, {
         headers: { "Authorization": `Bearer ${user.token}` }
       })
 
@@ -39,9 +39,13 @@ export default function DashboardPage() {
       if (res.ok) {
         const data = await res.json()
         setStats(data)
+      } else {
+        // Fallback to local stats if API isn't ready
+        setStats(LocalDB.getStats())
       }
     } catch (e) {
-      console.error("Failed to fetch stats", e)
+      console.error("Failed to fetch stats, falling back to local DB", e)
+      setStats(LocalDB.getStats())
     } finally {
       setLoading(false)
       setRefreshing(false)
@@ -53,6 +57,7 @@ export default function DashboardPage() {
 
     // Check demo mode
     if (typeof window !== "undefined" && localStorage.getItem("demo_mode") === "true") {
+      setStats(LocalDB.getStats())
       setLoading(false)
       return
     }
@@ -75,25 +80,25 @@ export default function DashboardPage() {
   }
 
   // Safe fallback to prevent rendering errors
-  const safeStats = stats || {
-    total_checks: 0,
-    avg_similarity: 0,
-    high_risk_count: 0,
-    remaining_quota: 15,
-    usage_chart: [],
-    recent_activity: [],
-    user_name: "User"
+  const safeStats = {
+    total_checks: stats?.total_checks ?? stats?.checks_done ?? 0,
+    avg_similarity: stats?.avg_similarity ?? stats?.average_similarity ?? 0,
+    high_risk_count: stats?.high_risk_count ?? stats?.ai_content_found ?? 0,
+    remaining_quota: stats?.remaining_quota ?? 15,
+    usage_chart: stats?.usage_chart ?? [],
+    recent_activity: stats?.recent_activity ?? stats?.history ?? [],
+    user_name: stats?.user_name || LocalDB.getUser()?.fullName || "User"
   }
 
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, {safeStats.user_name}! Here&apos;s an overview of your activity.</p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => fetchDashboardStats(true)} disabled={refreshing}>
+          <Button variant="outline" size="sm" onClick={() => fetchDashboardStats(true)} disabled={refreshing} className="w-full sm:w-auto">
             <RefreshCcw className={`mr-2 h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
             {refreshing ? "Syncing..." : "Refresh Data"}
           </Button>

@@ -108,7 +108,7 @@ export default function NewCheckPage() {
       if (!user?.token) return
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/user/me`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/user/me`, {
           headers: { "Authorization": `Bearer ${user.token}` }
         })
         if (res.ok) {
@@ -173,7 +173,7 @@ export default function NewCheckPage() {
         const formData = new FormData()
         formData.append("file", uploadedFile)
 
-        const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/upload-file`, {
+        const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/upload-file`, {
           method: "POST",
           body: formData,
         })
@@ -201,7 +201,7 @@ export default function NewCheckPage() {
         headers["Authorization"] = `Bearer ${user.token}`
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/check-plagiarism`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/check-plagiarism`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({

@@ -310,13 +310,13 @@ export default function SecurityPage() {
         <CardContent>
           <div className="space-y-4">
             {sessions.map((session) => (
-              <div key={session.id} className="flex items-center justify-between rounded-lg border p-4">
+              <div key={session.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border p-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
                     <session.icon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <p className="font-medium">{session.device}</p>
                       {session.current && (
                         <Badge variant="secondary" className="text-xs">
@@ -327,13 +327,13 @@ export default function SecurityPage() {
                     <p className="text-sm text-muted-foreground">
                       {session.browser} • {session.location}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground border-t border-border/50 pt-1 mt-1 sm:border-none sm:pt-0 sm:mt-0">
                       IP: {session.ip} • {session.lastActive}
                     </p>
                   </div>
                 </div>
                 {!session.current && (
-                  <Button variant="ghost" size="sm" className="text-destructive">
+                  <Button variant="ghost" size="sm" className="text-destructive w-full sm:w-auto mt-2 sm:mt-0 bg-destructive/10 sm:bg-transparent">
                     Revoke
                   </Button>
                 )}
