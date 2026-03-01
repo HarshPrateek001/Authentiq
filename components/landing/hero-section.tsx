@@ -9,6 +9,20 @@ import { useTheme } from "next-themes"
 
 const WORDS = ["documents", "content", "essays", "code", "reports"]
 
+function ClientSideTime() {
+  const [time, setTime] = useState<string>("000000")
+  
+  useEffect(() => {
+    setTime(Math.floor(Date.now() / 1000).toString().slice(-6))
+    const interval = setInterval(() => {
+      setTime(Math.floor(Date.now() / 1000).toString().slice(-6))
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+  
+  return <>{time}</>
+}
+
 export function HeroSection() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayText, setDisplayText] = useState("")
@@ -186,7 +200,7 @@ export function HeroSection() {
                 {/* Real-time Document Analysis Tracker */}
                 <div className="border border-border/60 rounded-xl p-5 bg-background shadow-sm flex flex-col justify-between col-span-2 group hover:border-border transition-all duration-300 relative overflow-hidden">
                   
-                  <div className="flex justify-between items-center w-full mb-4 z-20 relative">
+                   <div className="flex justify-between items-center w-full mb-4 z-20 relative">
                      <div className="text-[11px] font-bold tracking-widest text-muted-foreground uppercase flex items-center gap-2">
                        <span className="relative flex h-2 w-2">
                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -195,7 +209,7 @@ export function HeroSection() {
                        Live Document Stream
                      </div>
                      <div className="text-[10px] font-mono font-medium text-foreground bg-muted/40 px-2 py-0.5 rounded border border-border/40">
-                        {Math.floor(Date.now() / 1000).toString().slice(-6)}
+                        <ClientSideTime />
                      </div>
                   </div>
 

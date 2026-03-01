@@ -44,3 +44,7 @@ secret.key
 # OS
 # =====================
 Thumbs.db
+
+# =====================
+# OTHER
+public/videos

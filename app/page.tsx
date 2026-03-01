@@ -2,7 +2,6 @@
 
 import { MainLayout } from "@/components/layouts/main-layout"
 import { HeroSection } from "@/components/landing/hero-section"
-import { DemoVideoSection } from "@/components/landing/demo-video-section"
 import { InteractiveDemo } from "@/components/landing/interactive-demo"
 import { FeaturesSection } from "@/components/landing/features-section"
 import { FeatureShowcase } from "@/components/landing/feature-showcase"
@@ -21,7 +20,6 @@ export default function HomePage() {
       <ParticleBackground />
       <MainLayout>
         <HeroSection />
-        <DemoVideoSection />
         <InteractiveDemo />
         <FeaturesSection />
         <FeatureShowcase />
