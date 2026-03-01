@@ -492,7 +492,7 @@ const PurchasePage = () => {
                                                         placeholder="1234 5678 9012 3456"
                                                         value={formData.cardNumber}
                                                         onChange={handleCardNumberChange}
-                                                        maxLength="19"
+                                                        maxLength={19}
                                                         className={formErrors.cardNumber ? 'border-destructive' : ''}
                                                     />
                                                     {formErrors.cardNumber && <p className="text-xs text-destructive mt-1">{formErrors.cardNumber}</p>}
@@ -506,7 +506,7 @@ const PurchasePage = () => {
                                                             placeholder="MM/YY"
                                                             value={formData.expiryDate}
                                                             onChange={handleExpiryChange}
-                                                            maxLength="5"
+                                                            maxLength={5}
                                                             className={formErrors.expiryDate ? 'border-destructive' : ''}
                                                         />
                                                         {formErrors.expiryDate && <p className="text-xs text-destructive mt-1">{formErrors.expiryDate}</p>}
@@ -518,7 +518,7 @@ const PurchasePage = () => {
                                                             name="cvv"
                                                             type="password"
                                                             placeholder="123"
-                                                            maxLength="4"
+                                                            maxLength={4}
                                                             value={formData.cvv}
                                                             onChange={handleInputChange}
                                                             className={formErrors.cvv ? 'border-destructive' : ''}
