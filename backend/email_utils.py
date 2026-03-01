@@ -2,7 +2,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-from dont_use_config_directly import config # We'll just read os.environ directly to avoid circular imports if any, but let's pass it. actually let's just use os.getenv here so it's clean.
 
 def send_verification_email(to_email: str, token: str, frontend_url: str):
     smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
@@ -73,7 +72,7 @@ def send_contact_emails(name: str, user_email: str, subject: str, message: str):
         # 1. Email to Admin
         admin_msg = MIMEMultipart("alternative")
         admin_msg["Subject"] = f"New Contact Inquiry: {subject}"
-        admin_msg["From"] = smtp_email
+        admin_msg["From"] = f"Authentiq <{smtp_email}>"
         admin_msg["To"] = smtp_email
         
         admin_html = f"""
@@ -96,7 +95,7 @@ def send_contact_emails(name: str, user_email: str, subject: str, message: str):
         # 2. Auto-reply to User
         user_msg = MIMEMultipart("alternative")
         user_msg["Subject"] = "We received your message - Authentiq Support"
-        user_msg["From"] = smtp_email
+        user_msg["From"] = f"Authentiq Support <{smtp_email}>"
         user_msg["To"] = user_email
         
         user_html = f"""
