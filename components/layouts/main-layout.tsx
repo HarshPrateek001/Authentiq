@@ -2,35 +2,39 @@ import type React from "react"
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react"
 
+import { UserNav } from "@/components/auth/user-nav"
+import { MobileNav } from "@/components/layouts/mobile-nav"
+import { Logo } from "@/components/ui/logo"
+
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+    <Link href={href} className="text-sm font-semibold tracking-wide text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full hover:bg-background/80 hover:shadow-sm">
       {children}
     </Link>
   )
 }
 
-import { UserNav } from "@/components/auth/user-nav"
-
-import { MobileNav } from "@/components/layouts/mobile-nav"
-
 function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-30 w-auto" />
-        </Link>
+    <header className="sticky top-4 z-50 w-full px-4 md:px-6 flex justify-center transition-all duration-300">
+      <div className="w-full max-w-6xl flex h-[72px] items-center justify-between rounded-2xl border border-border/50 bg-background/70 backdrop-blur-xl shadow-lg shadow-black/5 dark:shadow-white/5 px-4 md:px-6">
+        
+        {/* Animated Custom Logo */}
+        <Logo className="scale-90 md:scale-100 origin-left" />
 
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Premium Pill Navbar */}
+        <nav className="hidden md:flex items-center gap-1 bg-muted/30 rounded-full p-1 border border-border/60 shadow-inner">
           <NavLink href="/#features">Features</NavLink>
-          <NavLink href="/#how-it-works">How It Works</NavLink>
+          <NavLink href="/#how-it-works">How It</NavLink>
           <NavLink href="/#pricing">Pricing</NavLink>
           <NavLink href="/#faq">FAQ</NavLink>
         </nav>
 
-        <UserNav />
-        <MobileNav />
+        {/* Desktop Buttons */}
+        <div className="flex items-center gap-3">
+          <UserNav />
+          <MobileNav />
+        </div>
       </div>
     </header>
   )
@@ -48,11 +52,9 @@ function Footer() {
           
           {/* Brand & Newsletter Column (Takes up more space) */}
           <div className="lg:col-span-2 xl:col-span-2 space-y-6">
-            <Link href="/" className="inline-flex items-center gap-3 relative group">
-              <img src="/Authentiq_logo.svg" alt="Authentiq Logo" className="h-28 w-auto transition-transform duration-300 group-hover:scale-105" />
-            </Link>
+            <Logo />
             
-            <p className="text-muted-foreground leading-relaxed max-w-sm">
+            <p className="text-muted-foreground leading-relaxed max-w-sm mt-4">
               The world's most advanced AI-powered platform for detecting plagiarism and humanizing AI content seamlessly.
             </p>
 

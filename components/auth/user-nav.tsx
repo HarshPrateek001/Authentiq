@@ -94,11 +94,11 @@ export function UserNav() {
     }
 
     return (
-        <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" asChild>
+        <div className="hidden md:flex items-center gap-3 pl-2">
+            <Button variant="ghost" className="font-semibold hover:bg-muted/50 rounded-full px-5 h-10 transition-all text-muted-foreground hover:text-foreground hover:scale-105" asChild>
                 <Link href="/login?redirect=/">Log in</Link>
             </Button>
-            <Button asChild>
+            <Button className="rounded-full bg-gradient-to-r from-primary to-emerald-500 hover:opacity-90 text-primary-foreground shadow-lg shadow-primary/25 border border-primary/20 px-6 h-10 font-bold tracking-wide transition-all hover:scale-105 hover:shadow-primary/40 active:scale-95" asChild>
                 <Link href="/signup?redirect=/">Get Started</Link>
             </Button>
         </div>

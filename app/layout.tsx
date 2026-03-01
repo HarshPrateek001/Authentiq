@@ -8,26 +8,18 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Plag Checker - AI-Powered Plagiarism Detection",
+  title: "Authentiq - AI-Powered Plagiarism & Content Detection",
   description:
     "Detect copied content, understand originality, and generate clean reports in seconds with our advanced AI plagiarism checker.",
   generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
+        url: "/Authentiq_logo.svg",
         type: "image/svg+xml",
       },
     ],
-    apple: "/apple-icon.png",
+    apple: "/Authentiq_logo.svg",
   },
 }
 
