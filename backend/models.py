@@ -25,6 +25,13 @@ class PlagiarismRequest(BaseModel):
 class RiskPredictionRequest(BaseModel):
     text: str = Field(..., min_length=50, description="Text to analyze for risk prediction (min 50 words).")
 
+class ContactFormRequest(BaseModel):
+    firstName: str
+    lastName: str
+    email: str
+    subject: str
+    message: str
+
 class RiskPredictionResult(BaseModel):
     vocabulary_score: int
     structure_score: int

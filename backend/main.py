@@ -17,7 +17,7 @@ from models import (
     UserCreate, UserLogin, PlagiarismRequest, PlagiarismResult, HumanizeRequest,
     HumanizeResult, ChatRequest, ChatResponse, Token, PasswordReset,
     SubscriptionRequest, RefundRequestModel, DownloadHumanizedRequest, APIResponse,
-    RiskPredictionRequest, RiskPredictionResult, LogActivityRequest, UserSettingsModel
+    RiskPredictionRequest, RiskPredictionResult, LogActivityRequest, UserSettingsModel, ContactFormRequest
 )
 from ai_model import (
     analyze_with_groq_api, humanize_with_groq_api, chat_with_groq_api,
@@ -25,6 +25,7 @@ from ai_model import (
     apply_humanization_rules, calculate_improvement_score, get_local_chat_response_fallback,
     moderate_message, generate_humanized_doc, extract_text_from_bytes, execute_advanced_plagiarism_check
 )
+from email_utils import send_contact_emails
 from supabase_client import supabase
 from pydantic import BaseModel
 
@@ -100,6 +101,35 @@ async def serve_index():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
+# --- Contact Form Endpoint ---
+@app.post("/api/contact")
+async def handle_contact_form(contact_data: ContactFormRequest, background_tasks: BackgroundTasks):
+    try:
+        # 1. Save to Supabase database
+        db_payload = {
+            "first_name": contact_data.firstName,
+            "last_name": contact_data.lastName,
+            "email": contact_data.email,
+            "subject": contact_data.subject,
+            "message": contact_data.message
+        }
+        # Assuming the 'contact_messages' table is created
+        supabase.table("contact_messages").insert(db_payload).execute()
+
+        # 2. Send emails via BackgroundTask so it doesn't block the API response
+        background_tasks.add_task(
+            send_contact_emails,
+            name=f"{contact_data.firstName} {contact_data.lastName}",
+            user_email=contact_data.email,
+            subject=contact_data.subject,
+            message=contact_data.message
+        )
+        return {"success": True, "message": "Your message has been received."}
+    except Exception as e:
+        print(f"Contact form error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to process contact form.")
+
 
 # --- Authentication Endpoints ---
 @app.post("/api/auth/register")

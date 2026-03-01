@@ -63,14 +63,48 @@ const departments = [
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [subject, setSubject] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Placeholder for backend integration
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+    
+    // Grab form fields
+    const target = e.target as typeof e.target & {
+      firstName: { value: string };
+      lastName: { value: string };
+      email: { value: string };
+      message: { value: string };
+    };
+
+    const payload = {
+      firstName: target.firstName.value,
+      lastName: target.lastName.value,
+      email: target.email.value,
+      subject: subject || "general",
+      message: target.message.value
+    };
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+
+    try {
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+
+      if (response.ok) {
+        setIsSubmitted(true)
+      } else {
+        alert("Failed to send message. Please try again.")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("An error occurred. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -123,7 +157,7 @@ export default function ContactPage() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="subject">Subject</Label>
-                      <Select>
+                      <Select onValueChange={setSubject} value={subject}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a topic" />
                         </SelectTrigger>
