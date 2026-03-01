@@ -40,8 +40,8 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
               key={i}
               className="absolute w-1.5 h-1.5 bg-primary/30 rounded-full"
               initial={{
-                x: Math.random() * window.innerWidth * 0.5,
-                y: Math.random() * window.innerHeight,
+                x: `${Math.random() * 50}vw`,
+                y: `${Math.random() * 100}vh`,
                 opacity: Math.random() * 0.5 + 0.2,
               }}
               animate={{
