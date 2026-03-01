@@ -97,99 +97,127 @@ export function HeroSection() {
               <code className="text-[15px] font-mono font-medium text-foreground tracking-tight">$ authentiq scan app</code>
             </div>
 
-            {/* Vercel-style App Dashboard layout */}
-            <div className="absolute top-[20%] left-0 right-0 bottom-[5%] bg-card/80 backdrop-blur-xl border border-border shadow-2xl shadow-foreground/5 dark:shadow-black/50 overflow-hidden flex flex-col translate-x-12 translate-y-4 rounded-tl-xl rounded-bl-xl rounded-tr-md rounded-br-md">
+            {/* Authentiq-style App Dashboard layout */}
+            <div className="absolute top-[20%] left-0 right-0 bottom-[5%] bg-card/80 backdrop-blur-xl border border-border shadow-2xl shadow-foreground/5 dark:shadow-primary/10 overflow-hidden flex flex-col translate-x-12 translate-y-4 rounded-tl-xl rounded-bl-xl rounded-tr-md rounded-br-md">
               
               {/* Fake Dashboard Header */}
               <div className="h-12 border-b border-border/60 flex items-center px-5 gap-3 bg-muted/20">
                 <div className="flex gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <div className="w-3 h-3 rounded-full bg-red-400/50" />
+                  <div className="w-3 h-3 rounded-full bg-amber-400/50" />
+                  <div className="w-3 h-3 rounded-full bg-green-400/50" />
                 </div>
                 <div className="ml-4 text-[10px] sm:text-xs font-bold tracking-widest text-muted-foreground uppercase opacity-70">
-                  Production Overview
+                  Authentiq Engine Overview
                 </div>
               </div>
               
               {/* Metric Layout Grid inside */}
-              <div className="p-6 grid grid-cols-2 gap-4 flex-1 overflow-hidden">
+              <div className="p-6 grid grid-cols-2 gap-4 flex-1 overflow-hidden relative">
                 
-                {/* Metric Card 1: Backend */}
-                <div className="border border-border/60 rounded-lg p-5 bg-background shadow-xs flex flex-col justify-between group transition-colors hover:border-primary/50">
+                {/* Background scanning line effect for the whole widget */}
+                <div className="absolute left-0 top-0 w-full h-[2px] bg-primary/20 blur-[1px] shadow-[0_0_15px_rgba(13,148,136,0.6)] animate-[scan_3s_ease-in-out_infinite]" />
+
+                {/* Metric Card 1: AI Engine */}
+                <div className="border border-border/60 rounded-lg p-5 bg-background/50 backdrop-blur-sm shadow-xs flex flex-col justify-between group transition-all duration-300 hover:border-primary/50 hover:shadow-primary/10">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-sm font-semibold text-foreground flex items-center gap-2">
-                      <Terminal className="w-4 h-4 text-muted-foreground" />
-                      doc-backend
+                    <span className="text-sm font-bold text-foreground flex items-center gap-2">
+                      <Terminal className="w-4 h-4 text-primary" />
+                      humanizer-model
                     </span>
-                    <span className="flex items-center gap-1.5 text-[11px] text-foreground font-medium px-2.5 py-1 rounded-full border border-border/80 bg-muted/40 group-hover:bg-primary/5 transition-colors">
+                    <span className="flex items-center gap-1.5 text-[11px] text-foreground font-medium px-2.5 py-1 rounded-full border border-primary/30 bg-primary/10">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
                       </span>
-                      Deploying
+                      Running
                     </span>
                   </div>
                   <div>
-                    <div className="text-[10px] text-muted-foreground font-mono mb-2 tracking-wider">ACCURACY/CPU</div>
-                    {/* Fake line chart using purely CSS and SVG lines to look premium */}
-                    <div className="h-10 w-full relative">
-                      <div className="absolute bottom-0 w-full h-[1px] bg-border/40" />
-                      <div className="absolute bottom-0 w-full h-full border-l border-border/40 pl-[1px]">
-                         <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 100 30" className="opacity-90">
-                           <path d="M0,25 Q15,10 30,22 T60,15 T100,5" fill="none" stroke="currentColor" className="text-primary" strokeWidth="2.5" strokeLinecap="round" />
-                           <path d="M0,25 Q15,10 30,22 T60,15 T100,5 L100,30 L0,30 Z" fill="currentColor" className="text-primary" opacity="0.1" />
-                         </svg>
-                      </div>
+                    <div className="text-[10px] text-muted-foreground font-mono mb-2 tracking-wider flex justify-between">
+                      <span>PROCESSING LOAD</span>
+                      <span className="text-primary font-bold">98.4%</span>
+                    </div>
+                    {/* Fake text block scanning animation */}
+                    <div className="space-y-1.5 relative overflow-hidden h-10 w-full rounded-md bg-muted/20 p-1.5">
+                       <div className="h-1.5 w-[85%] bg-muted-foreground/30 rounded-full" />
+                       <div className="h-1.5 w-[90%] bg-muted-foreground/30 rounded-full" />
+                       <div className="h-1.5 w-[65%] bg-primary/40 rounded-full" />
+                       <div className="h-1.5 w-[75%] bg-muted-foreground/30 rounded-full" />
+                       {/* Scanner overlay */}
+                       <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-[shimmer_2s_infinite]" />
                     </div>
                   </div>
                 </div>
 
-                {/* Metric Card 2: Frontend */}
-                <div className="border border-border/60 rounded-lg p-5 bg-background shadow-xs flex flex-col justify-between group transition-colors hover:border-blue-500/50">
+                {/* Metric Card 2: Plagiarism Engine */}
+                <div className="border border-border/60 rounded-lg p-5 bg-background/50 backdrop-blur-sm shadow-xs flex flex-col justify-between group transition-all duration-300 hover:border-blue-500/50 hover:shadow-blue-500/10">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-sm font-semibold text-foreground flex items-center gap-2 relative">
-                      <div className="w-3.5 h-3.5 rounded-sm bg-blue-500/20 flex flex-col gap-[2px] items-center justify-center p-[2px]">
-                         <div className="w-full h-[2px] bg-blue-500 rounded-full" />
-                         <div className="w-full h-[2px] bg-blue-500 rounded-full" />
+                    <span className="text-sm font-bold text-foreground flex items-center gap-2 relative">
+                      <div className="w-4 h-4 rounded-full bg-blue-500/20 flex items-center justify-center">
+                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
                       </div>
-                      app-frontend
+                      plagiarism-scanner
                     </span>
-                    <span className="flex items-center gap-1.5 text-[11px] text-foreground font-medium px-2.5 py-1 rounded-full border border-border/80 bg-muted/40">
+                    <span className="flex items-center gap-1.5 text-[11px] text-foreground font-medium px-2.5 py-1 rounded-full border border-border/80 bg-muted/40 group-hover:bg-blue-500/10 transition-colors">
                       <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                      Available
+                      Ready
                     </span>
                   </div>
                   <div>
-                    <div className="text-[10px] text-muted-foreground font-mono mb-2 tracking-wider">BANDWIDTH</div>
+                    <div className="text-[10px] text-muted-foreground font-mono mb-2 tracking-wider">DETECTION ACCURACY</div>
                     <div className="h-10 w-full relative">
                       <div className="absolute bottom-0 w-full h-[1px] bg-border/40" />
                       <div className="absolute bottom-0 w-full h-full border-l border-border/40 pl-[1px]">
                          <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 100 30" className="opacity-90">
-                           <path d="M0,15 L20,15 L35,5 L45,18 L60,12 L80,22 L100,10" fill="none" stroke="currentColor" className="text-blue-500" strokeWidth="2" strokeLinecap="round" />
+                           <path d="M0,25 L15,22 L30,10 L45,15 L60,5 L80,12 L100,5" fill="none" stroke="url(#blue-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_2px_4px_rgba(59,130,246,0.3)]"/>
+                           <defs>
+                             <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                               <stop offset="0%" stopColor="#3b82f6" />
+                               <stop offset="100%" stopColor="#60a5fa" />
+                             </linearGradient>
+                           </defs>
                          </svg>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Database Row Placeholder */}
-                <div className="border border-border/60 rounded-lg p-5 bg-background shadow-xs flex items-center justify-between col-span-2 group hover:border-border transition-colors">
-                  <div className="flex gap-4 w-full">
-                     <div className="space-y-1.5 flex-[0.7]">
-                       <div className="h-2.5 w-24 bg-muted-foreground/20 rounded-full" />
-                       <div className="h-2 w-32 bg-muted rounded-full" />
-                       <div className="h-2 w-28 bg-muted rounded-full" />
+                {/* Real-time Document Analysis Tracker */}
+                <div className="border border-border/60 rounded-lg p-5 bg-background/50 backdrop-blur-sm shadow-xs flex flex-col justify-between col-span-2 group hover:border-border transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10" />
+                  
+                  <div className="flex justify-between items-center w-full mb-3 z-20 relative">
+                     <div className="text-[11px] font-bold tracking-widest text-muted-foreground uppercase flex items-center gap-2">
+                       <span className="relative flex h-2 w-2">
+                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                       </span>
+                       Live Document Stream
                      </div>
-                     <div className="flex-1 flex gap-1 h-full items-end pb-1 opacity-60">
-                       <div className="flex-1 bg-primary/20 h-[30%] rounded-sm" />
-                       <div className="flex-1 bg-primary/40 h-[60%] rounded-sm" />
-                       <div className="flex-1 bg-primary border-t-[2px] border-primary h-[40%] rounded-sm shadow-[0_0_10px_rgba(13,148,136,0.5)]" />
-                       <div className="flex-1 bg-primary/30 h-[80%] rounded-sm" />
-                       <div className="flex-1 bg-primary/60 h-[50%] rounded-sm" />
-                       <div className="flex-1 bg-primary/20 h-[70%] rounded-sm" />
-                       <div className="flex-1 bg-primary/80 h-[90%] rounded-sm" />
-                       <div className="flex-1 bg-primary/30 h-[60%] rounded-sm" />
+                     <div className="text-xs font-mono font-medium text-foreground bg-muted/50 px-2 py-0.5 rounded border border-border/50">
+                        {Math.floor(Date.now() / 1000).toString().slice(-6)}
+                     </div>
+                  </div>
+
+                  <div className="flex gap-4 w-full relative z-0">
+                     <div className="flex-1 flex flex-col justify-end h-16 gap-[3px] opacity-80">
+                       <div className="w-full bg-primary/20 h-[30%] rounded-sm hover:h-[35%] transition-all" />
+                       <div className="w-full bg-blue-500/20 h-[60%] rounded-sm hover:h-[65%] transition-all" />
+                       <div className="w-full bg-primary h-[85%] rounded-sm shadow-[0_0_10px_rgba(13,148,136,0.4)] transition-all z-10" />
+                       <div className="w-full bg-primary/40 h-[40%] rounded-sm hover:h-[45%] transition-all" />
+                     </div>
+                      <div className="flex-1 flex flex-col justify-end h-16 gap-[3px] opacity-80">
+                       <div className="w-full bg-primary/30 h-[50%] rounded-sm" />
+                       <div className="w-full bg-primary/20 h-[70%] rounded-sm" />
+                       <div className="w-full bg-blue-500/80 h-[90%] rounded-sm shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                       <div className="w-full bg-primary/40 h-[60%] rounded-sm" />
+                     </div>
+                       <div className="flex-1 flex flex-col justify-end h-16 gap-[3px] opacity-30">
+                       <div className="w-full bg-secondary h-[40%] rounded-sm" />
+                       <div className="w-full bg-secondary h-[30%] rounded-sm" />
+                       <div className="w-full bg-secondary h-[60%] rounded-sm" />
+                       <div className="w-full bg-secondary h-[20%] rounded-sm" />
                      </div>
                   </div>
                 </div>
@@ -197,14 +225,11 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Bottom Accent Decorator Blocks (Vercel Grid Art style) */}
-            <div className="absolute -bottom-8 left-12 w-32 h-32 border-4 border-background dark:border-background flex flex-col bg-background overflow-hidden translate-z-10 shadow-lg group">
-              <div className="flex-1 bg-primary opacity-90 group-hover:bg-primary/70 transition-colors" />
-              <div className="flex-1 bg-blue-500 opacity-90 group-hover:bg-blue-400 transition-colors" />
-              <div className="flex-1 flex">
-                 <div className="flex-1 bg-purple-500" />
-                 <div className="flex-1 bg-indigo-500" />
-              </div>
+            {/* Bottom Accent Decorator Blocks (Authentiq Color Array) */}
+            <div className="absolute -bottom-8 left-12 w-32 h-32 border-[6px] border-background dark:border-background flex flex-col bg-background overflow-hidden translate-z-10 shadow-2xl group rounded-xl">
+              <div className="flex-1 bg-gradient-to-r from-primary to-emerald-400 opacity-90 group-hover:opacity-100 transition-opacity" />
+              <div className="flex-1 bg-gradient-to-r from-blue-600 to-blue-400 opacity-90 group-hover:opacity-100 transition-opacity" />
+              <div className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-90 group-hover:opacity-100 transition-opacity" />
             </div>
             
           </div>
