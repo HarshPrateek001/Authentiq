@@ -61,41 +61,61 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center space-y-4 mb-12">
-          <Badge variant="secondary">Testimonials</Badge>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Loved by Thousands</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join educators, writers, and professionals who trust Plag Checker for their originality needs
+    <section className="py-24 relative overflow-hidden bg-muted/30">
+      {/* Background Decor */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[300px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+
+      <div className="container mx-auto px-4 md:px-6 mb-16">
+        <div className="text-center space-y-4">
+          <Badge variant="outline" className="px-3 py-1 bg-background border-border shadow-sm text-sm">
+            Wall of Love
+          </Badge>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+            Trusted by <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">Professionals</span>
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            See what educators, content creators, and SEO experts have to say about Authentiq's groundbreaking AI tools.
           </p>
         </div>
+      </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-none shadow-md hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-                  ))}
+      {/* Infinite Auto-Slider Container */}
+      <div className="relative w-full max-w-screen-2xl mx-auto overflow-hidden">
+        {/* Left & Right Fade Masks for a premium look */}
+        <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-muted/30 to-transparent z-10 pointer-events-none md:w-64" />
+        <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-muted/30 to-transparent z-10 pointer-events-none md:w-64" />
+
+        <div className="flex w-max animate-marquee hover:pause-animation gap-6 px-6">
+          {/* Double the array to create a seamless infinite loop effect */}
+          {[...testimonials, ...testimonials].map((testimonial, index) => (
+            <Card key={index} className="w-[350px] md:w-[450px] shrink-0 border-border/60 bg-background/80 backdrop-blur-md shadow-xl hover:border-primary/30 transition-all duration-300">
+              <CardContent className="p-8 h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1 mb-6">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400 drop-shadow-sm" />
+                    ))}
+                  </div>
+
+                  <div className="relative mb-8">
+                    <Quote className="absolute -top-4 -left-3 h-10 w-10 text-primary/10 -rotate-6" />
+                    <p className="text-base text-foreground/90 leading-relaxed font-medium relative z-10">"{testimonial.content}"</p>
+                  </div>
                 </div>
 
-                <div className="relative mb-4">
-                  <Quote className="absolute -top-2 -left-2 h-8 w-8 text-primary/10" />
-                  <p className="text-sm text-muted-foreground leading-relaxed pl-4">{testimonial.content}</p>
-                </div>
-
-                <div className="flex items-center gap-3 pt-4 border-t">
-                  <img
-                    src={testimonial.avatar || "/placeholder.svg"}
-                    alt={testimonial.name}
-                    className="h-12 w-12 rounded-full object-cover bg-muted"
-                  />
+                <div className="flex items-center gap-4 pt-4 border-t border-border/50">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary to-blue-500 rounded-full opacity-20 blur-sm" />
+                    <img
+                      src={testimonial.avatar || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      className="h-12 w-12 rounded-full object-cover border-2 border-background shadow-sm relative z-10"
+                    />
+                  </div>
                   <div>
-                    <p className="font-semibold text-sm">{testimonial.name}</p>
-                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                    <Badge variant="outline" className="mt-1 text-[10px] px-1.5 py-0">
+                    <p className="font-bold text-foreground text-sm">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{testimonial.role}</p>
+                    <Badge variant="secondary" className="mt-2 text-[10px] px-2 py-0 bg-primary/5 text-primary hover:bg-primary/10 border-none">
                       {testimonial.institution}
                     </Badge>
                   </div>
