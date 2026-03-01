@@ -1,4 +1,4 @@
-import { PlayCircle, ShieldCheck, Sparkles } from "lucide-react"
+import { ShieldCheck, Sparkles } from "lucide-react"
 
 interface VideoCardProps {
   src: string
@@ -28,11 +28,6 @@ function VideoCard({ src, title, description, ThemeIcon, gradientClass, borderCl
           <source src={src} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        
-        {/* Play Icon Overlay (Decorative) */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-          <PlayCircle className="w-16 h-16 text-white drop-shadow-xl" />
-        </div>
       </div>
       
       {/* Text Info */}
