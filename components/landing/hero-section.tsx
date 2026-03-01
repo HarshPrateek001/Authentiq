@@ -225,11 +225,42 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Bottom Accent Decorator Blocks (Authentiq Color Array) */}
-            <div className="absolute -bottom-8 left-12 w-32 h-32 border-[6px] border-background dark:border-background flex flex-col bg-background overflow-hidden translate-z-10 shadow-2xl group rounded-xl">
-              <div className="flex-1 bg-gradient-to-r from-primary to-emerald-400 opacity-90 group-hover:opacity-100 transition-opacity" />
-              <div className="flex-1 bg-gradient-to-r from-blue-600 to-blue-400 opacity-90 group-hover:opacity-100 transition-opacity" />
-              <div className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-90 group-hover:opacity-100 transition-opacity" />
+            {/* Top-Right Accent Decorator Block (Real-time Inference) */}
+            <div className="absolute -top-6 -right-6 w-40 h-[104px] border border-border/80 bg-card/90 backdrop-blur-md rounded-xl shadow-2xl flex flex-col p-3 z-30 transition-transform hover:scale-105 duration-300">
+               <div className="flex items-center gap-2 mb-2">
+                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Inference</span>
+               </div>
+               <div className="flex-1 flex items-end gap-1 opacity-80">
+                  <div className="w-full bg-primary/20 h-[30%] rounded-sm animate-[pulse_1s_infinite]" />
+                  <div className="w-full bg-primary/40 h-[50%] rounded-sm animate-[pulse_1.5s_infinite]" />
+                  <div className="w-full bg-blue-500/60 h-[90%] rounded-sm animate-[pulse_2s_infinite]" />
+                  <div className="w-full bg-primary/30 h-[70%] rounded-sm animate-[pulse_1.2s_infinite]" />
+                  <div className="w-full bg-primary/20 h-[40%] rounded-sm animate-[pulse_1.8s_infinite]" />
+                  <div className="w-full bg-primary/50 h-[80%] rounded-sm animate-[pulse_1.4s_infinite]" />
+               </div>
+            </div>
+
+            {/* Bottom-Left Accent Decorator Block (API Stream) */}
+            <div className="absolute -bottom-8 left-6 w-[220px] h-[130px] border border-border/80 bg-background/95 backdrop-blur-xl rounded-xl shadow-2xl flex flex-col p-4 z-30 transition-transform hover:-translate-y-2 hover:shadow-primary/20 duration-300">
+              <div className="text-[10px] font-mono text-muted-foreground mb-3 flex items-center justify-between">
+                <span>POST /v1/analyze</span>
+                <span className="text-emerald-500">200 OK</span>
+              </div>
+              <div className="space-y-2">
+                 <div className="flex justify-between items-center bg-muted/30 p-1.5 rounded text-[10px] font-mono">
+                    <span className="text-muted-foreground">Tokens</span>
+                    <span className="text-foreground">1,024</span>
+                 </div>
+                 <div className="flex justify-between items-center bg-muted/30 p-1.5 rounded text-[10px] font-mono">
+                    <span className="text-muted-foreground">AI Prob</span>
+                    <span className="text-primary font-bold">1.2%</span>
+                 </div>
+                 <div className="flex justify-between items-center bg-muted/30 p-1.5 rounded text-[10px] font-mono">
+                    <span className="text-muted-foreground">Latency</span>
+                    <span className="text-blue-500">24ms</span>
+                 </div>
+              </div>
             </div>
             
           </div>
